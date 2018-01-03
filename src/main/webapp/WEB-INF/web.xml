@@ -9,7 +9,6 @@
 	</welcome-file-list>
 	
 	<!-- display-name -> Project Name -->
-	<display-name>yourtour</display-name>
 	
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>

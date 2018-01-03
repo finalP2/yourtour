@@ -176,16 +176,7 @@ public class ScheduleService implements ScheduleDao{
 	}
 	
 	//댓글 리스트 불러오기
-	@Override
-	public List<SchCommentModel> sch_comList(int s_no) {
-		return sqlSessionTemplate.selectList("schedule.schCommentList", s_no);
-	}
 
-	//댓글 쓰기
-	@Override
-	public void schComment(SchCommentModel schCommentModel) {
-		sqlSessionTemplate.insert("schedule.schCommentWrite", schCommentModel);
-	}
 
 	//댓글 삭제
 	@Override
@@ -231,17 +222,6 @@ public class ScheduleService implements ScheduleDao{
 		
 	}
 
-	//다른사람 일정디테일 내 일정으로 저장하기
-	@Override
-	public void schDownDetail(List<ScheduleModel> schDetailList, int ss_no) {
-		
-		for(int i=0; i<schDetailList.size(); i++){
-			ScheduleModel scheduleModel = schDetailList.get(i);
-			scheduleModel.setS_no(ss_no);
-			
-			sqlSessionTemplate.insert("schedule.schDownDetail", scheduleModel);
-		}
-	}
 
 	//지도에 마커로 표시할 여행지 리스트 불러오기
 	@Override
@@ -271,6 +251,12 @@ public class ScheduleService implements ScheduleDao{
 	@Override
 	public void deleteSchedule(int s_no) {
 		sqlSessionTemplate.delete("schedule.deleteSchedule", s_no);
+	}
+
+	@Override
+	public void schDownDetail(List<ScheduleModel> schDetailList, int ss_no) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

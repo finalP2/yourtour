@@ -2,7 +2,7 @@ package net.nigne.yourtour.schedule;
 
 import java.util.List;
 
-import com.gokkiri.schedule.ScheduleModel;
+import net.nigne.yourtour.schedule.ScheduleModel;
 
 public interface ScheduleDao {
 	
@@ -65,10 +65,9 @@ public interface ScheduleDao {
 	public int sch_commCount(int s_no);
 	
 	//댓글 리스트 가져오기
-	public List<SchCommentModel> sch_comList(int s_no);
+
 	
-	//댓글 쓰기
-	public void schComment(SchCommentModel schCommentModel);
+
 	
 	//댓글 삭제
 	public void schCommentDelete(int s_no);
