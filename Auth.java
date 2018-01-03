@@ -1,4 +1,4 @@
-package net.madvirus.spring4.chap08.auth;
+package net.madvirus.spring4.chap08.auth;tvtfvtfvtfvtfvtfvt
 
 public class Auth {
 
