@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="schedule">
+
+	<resultMap type="schedule" id="scheduleRes">
+		<!-- SCH 테이블 -->
+		<result property="email" column="email" />
+		<result property="no" column="no" />
+		<result property="name" column="name"/>
+		<result property="start_date" column="start_date" />
+		<result property="end_date" column="end_date" />
+		<result property="like1" column="like1"/>
+		<result property="hit" column="hit"/>
+		<result property="private" column="private"/>
+		<result property="content" column="content" />
+		<result property="period" column="period" />
+		<result property="season" column="season" />
+		<result property="cost" column="cost" />
+		<result property="theme" column="theme" />
+	</resultMap>
+		
+<!-- 
+		SCH_DETAIL 테이블
+		<result property="s_detail_no" column="s_detail_no" />
+		<result property="s_detail_memo" column="s_detail_memo" />
+		<result property="s_idx" column="s_idx" />
+		<result property="s_detail_turn" column="s_detail_turn"/>
+		
+		<result property="a_name" column="a_name"/> 
+
+
+	
+	<resultMap type="schComment" id="schCommentRes">
+		<result property="s_no" column="s_no" />
+		<result property="m_email" column="m_email" />
+		<result property="s_co_no" column="s_co_no" />
+		<result property="s_co_con" column="s_co_con" />
+		<result property="s_co_date" column="s_co_date" />
+	</resultMap> -->
+	
+	
+	<!-- 일정 게시판 ↓↓↓↓ -->
+	<!-- 공통으로 사용할 select절 정의 -->
+	<sql id="select-all-list">
+		SELECT * FROM SCH 
+	</sql>
+	
+	<!-- 일정 게시판 리스트 보기 -->
+	<select id="scheduleList" resultMap="scheduleRes">
+		<include refid="select-all-list" />
+		ORDER BY NO DESC
+	</select>
+	
+
+	
+
+ </mapper>
