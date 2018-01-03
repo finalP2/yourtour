@@ -1,5 +1,5 @@
-
 package net.madvirus.spring4.chap08.auth;
+
 public class Auth {
 
 	private String id;
