@@ -27,7 +27,7 @@ public class MainController {
 	@Resource(name="tipService")
 	private TipService tipService;*/
 	
-	@RequestMapping(value="/main.do")
+	@RequestMapping(value="/main.go")
 	public ModelAndView main(){
 		
 /*		List<ScheduleModel> scheduleList = scheduleService.scheduleHitList();
