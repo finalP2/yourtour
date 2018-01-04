@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="end_date" column="end_date" />
 		<result property="like1" column="like1"/>
 		<result property="hit" column="hit"/>
-		<result property="private" column="private"/>
+		<result property="private1" column="private1"/>
 		<result property="content" column="content" />
 		<result property="period" column="period" />
 		<result property="season" column="season" />
