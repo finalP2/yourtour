@@ -53,7 +53,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="select-all-list" />
 		ORDER BY NO DESC
 	</select>
-	
+	<!-- 일정 게시판 글 쓰기 -->
+	<insert id="scheduleWrite" parameterType="schedule">
+		INSERT INTO SCH(NO, EMAIL, name, start_date, end_date, period, season,cost,theme) 
+		VALUES(sch_NO_SEQ.NEXTVAL, #{EMAIL},#{name}, TO_DATE(#{start_date}, 'yyyy-mm-dd'), TO_DATE(#{end_date}, 'yyyy-mm-dd'), #{period}, #{season},#{cost},#{theme})
+	</insert>
 
 	
 

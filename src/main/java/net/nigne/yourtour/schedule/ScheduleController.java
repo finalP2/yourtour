@@ -46,59 +46,32 @@ public class ScheduleController {
 	public ModelAndView scheduleWriteForm(HttpServletRequest request, HttpSession session) throws Exception{
 		
 		
-			mav.setViewName("scheduleWriteForm");
+			mav.setViewName("schedule/scheduleWriteForm");
 			return mav;
 		
 	}
-	/*
+	
 	@RequestMapping("scheduleState.go")
 	public ModelAndView scheduleState(HttpServletRequest request, ScheduleModel scheduleModel, HttpSession session) throws Exception{
         		
-		scheduleModel.setM_email((String)session.getAttribute("session_m_email"));
+		/*scheduleModel.setEmail((String)session.getAttribute("session_m_email"));*/
 		
-		if(request.getParameter("s_no") == null && request.getParameter("keyword") == null){
 			scheduleService.scheduleWrite(scheduleModel);
-			
-			if(request.getParameter("s_together") != ""){
-				String together = request.getParameter("s_together");
-				String[] toArr = together.split(" / ");
-				for (int i = 0; i < toArr.length; i++) {
-					scheduleService.scheduleShare(toArr[i]);
-				}
-			}
-			
-			scheduleModel = scheduleService.scheduleLastWrite((String)session.getAttribute("session_m_email"));
-			
-		}else if (request.getParameter("s_no") == null && request.getParameter("keyword") != null) {
-			scheduleModel = scheduleService.scheduleLastWrite((String)session.getAttribute("session_m_email"));
-			
-			String keyword = request.getParameter("keyword");
-			List<StateModel> stateSearchList = stateService.stateSearchList(keyword);
-			mav.addObject("stateSearchList", stateSearchList);
-			
-		}else if (request.getParameter("s_no") != null && request.getParameter("keyword") == null) {
-			scheduleModel.setS_no(Integer.parseInt(request.getParameter("s_no")));
-			scheduleModel = scheduleService.scheduleWriteSelect(scheduleModel);
-			
-		}else if (request.getParameter("s_no") != null && request.getParameter("keyword") != null) {
-			scheduleModel.setS_no(Integer.parseInt(request.getParameter("s_no")));
-			scheduleModel = scheduleService.scheduleWriteSelect(scheduleModel);
-			
-			String keyword = request.getParameter("keyword");
-			List<StateModel> stateSearchList = stateService.stateSearchList(keyword);
-			mav.addObject("stateSearchList", stateSearchList);
-		}
-		
-		List<StateModel> stateList = stateService.StateList();
 
-		mav.addObject("sch", scheduleModel);
-		mav.addObject("stateList",stateList);
-		mav.setViewName("scheduleState");
+			/*scheduleModel = scheduleService.scheduleLastWrite((String)session.getAttribute("session_email"));*/
+			
+		
+		
+	/*	List<StateModel> stateList = stateService.StateList();*/
+
+		/*mav.addObject("sch", scheduleModel);
+		mav.addObject("stateList",stateList);*/
+		mav.setViewName("schedule/scheduleState");
 		
 		return mav;
 	}
 	
-
+	/*
 	@RequestMapping("scheduleArea.go")
 	public ModelAndView scheduleArea(HttpServletRequest request, HttpSession session, ScheduleModel scheduleModel1, ScheduleModel scheduleModel2) throws Exception{
 		

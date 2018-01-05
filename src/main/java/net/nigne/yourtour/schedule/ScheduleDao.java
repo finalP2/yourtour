@@ -29,7 +29,7 @@ public interface ScheduleDao {
 	
 	public void deleteArea(ScheduleModel scheduleModel);
 	
-	public void scheduleWrite(ScheduleModel scheduleModel);
+	;
 	
 	public ScheduleModel scheduleLastWrite(String m_email);
 	
@@ -39,7 +39,7 @@ public interface ScheduleDao {
 	//���� �Խ��ǡ����
 	//�����Խ��� ����Ʈ ����
 	public List<ScheduleModel> scheduleList();
-	
+	public void scheduleWrite(ScheduleModel scheduleModel);
 	/*//�����Խ��� ����������� �˻��ؼ� ����Ʈ ����
 	public List<ScheduleModel> scheduleSearchList(String state_name);
 	
