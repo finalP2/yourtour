@@ -5,6 +5,7 @@
 	<groupId>net.nigne</groupId>
 	<artifactId>yourtour</artifactId>
 	<name>yourtour</name>
+	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>1.6</java-version>
