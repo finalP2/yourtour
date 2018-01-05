@@ -18,43 +18,43 @@ import org.springframework.web.servlet.ModelAndView;
 
 import net.nigne.yourtour.member.MemberModel;
 import net.nigne.yourtour.member.MemberService;
-/*
-import com.gokkiri.push.PushService;
-import com.gokkiri.schedule.ScheduleModel;
-*/
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
-	/*
+	
 	@Resource(name="memberService")
 	private MemberService memberService;
-	*/
 	/*
 	@Resource(name="pushService")
 	private PushService pushService;
 	*/
-	
 	ModelAndView mav = new ModelAndView();
 	
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
-	@RequestMapping(value="/joinForm.go", method=RequestMethod.GET)
+	//È¸¿ø°¡ÀÔ Æû
+	@RequestMapping("joinForm.go")
 	public String joinForm(){
-		return "joinForm";
+		return "member/joinForm";
 	}
 	
+	 @RequestMapping("loginpage.go")
+	    public String login(){
+	        return "member/login";    // views/member/login.jsp·Î Æ÷¿öµå
+	    }
 	
-	
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	@RequestMapping(value="/join.go", method=RequestMethod.POST)
+	//È¸¿ø°¡ÀÔ
+	@RequestMapping(value="/join.go", method=RequestMethod.GET)
 	public ModelAndView join(@ModelAttribute("member") MemberModel member, HttpServletRequest request) throws Exception {
 		
 		 int joinError;
 		 
-		 String m_email = (String)request.getParameter("m_email");
-		 String m_pw = (String)request.getParameter("m_pw");
-		 String m_name = (String)request.getParameter("m_name");
-		 
+		 String email = (String)request.getParameter("email");
+		 String pw = (String)request.getParameter("pw");
+		 String name = (String)request.getParameter("name");
+		 String nickname = (String)request.getParameter("nickname");
+		
+		 System.out.println(email + " " + pw + " " + name + " " + nickname);
+		 /*
 		 Random rnd = new Random();
 		 StringBuffer buf = new StringBuffer();
 			for(int i=0;i<10;i++){
@@ -65,60 +65,20 @@ public class MemberController {
 			    }
 			}
 			String m_auth = buf.toString();
+		*/
 			
-			String message  = "<center>"
-					+"<table cellspacing=\"0\" cellpadding=\"0\" width=\"620\" border=\"0\">"
-					+"<!--title-->"
-					+"<tbody><tr><td height=\"25\"></td></tr>"
-					+"<tr><td align=\"left\" style=\"border-bottom:2px solid #0545b1;\"><a href=\"http://localhost:8080/gokkiri/main.go\" target=\"_blank\"><img src=\"http://postfiles7.naver.net/MjAxNzAxMTNfMzQg/MDAxNDg0Mjc3MDU4NTM3.gBL_URIIpmpwGlXyXlyB75w2E20AX8wrZKfnaxDGhAkg.6os_tlqs7Axoot-zwVg4J_46I2AR9VtnQjCG7K5Uixwg.JPEG.powart1992/welcome.jpg?type=w2\" style=\"height: 240px; width: 620px;\"></a></td></tr>"
-					 +"<tr><td height=\"25\"></td></tr>"
-					 +"<tr><td align=\"center\">"	
-							+"<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"620\">"
-							+"<tbody><tr><td height=\"20\"></td></tr>"
-							+"<tr><td align=\"center\" valign=\"top\" style=\"text-align:center\"><img src=\"http://entrystatic.afreecatv.com/ems/1/img/join_welcome.gif\" border=\"0\" alt=\"ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¯ï¿½ï¿½ ï¿½Õ´Ï´ï¿½.\"></td></tr>"
-							+"<tr><td height=\"20\"></td></tr>"
-							+"<tr align=\"center\" valign=\"top\"><td style=\"font-size:15px;color:#000000;font-family:ï¿½ï¿½ï¿½ï¿½,dotum;line-height:1.4em;text-align:center;\"><b>ï¿½È³ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.</b> <font color=\"#46484a\"><b><font color=\"#0054e2\">"+m_name+"</font> ï¿½ï¿½ï¿½ï¿½!<br>"
-							+"Goï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½Ö¼Å¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.<br>"
-							+ "ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ã¸ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½Ö¼Ò°ï¿½ <font color=\"#46484a\"><b><font color=\"#0054e2\">"+m_email+"</font> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.</b></font></td></tr>"
-							+"<tr align=\"center\" valign=\"top\"><td style=\"font-size:15px;color:#000000;font-family:ï¿½ï¿½ï¿½ï¿½,dotum;line-height:1.4em;text-align:center;\"><a href=http://localhost:8080/gokkiri/member/emailAuth.go?m_email="+m_email+"&m_auth="+buf.toString()+">"
-			    			+"<strong>ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½</strong></font></a></td></tr>"
-							+"<tr><td height=\"40\"></td></tr>"
-							+"<tr><td height=\"50\"></td></tr>"
-							+"<tr><td align=\"center\" style=\"font-size:12px;color:#777;font-family:ï¿½ï¿½ï¿½ï¿½,dotum;line-height:18px;text-align:center;\">Goï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½ï¿½ï¿½Å©Å¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¹ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ô´Ï´ï¿½.<br>"
-							+"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½, ï¿½Ù·ï¿½ Goï¿½ï¿½ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.<br>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô²ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ñ½º¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½å¸± ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½, ï¿½×»ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Goï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç°Ú½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.</td></tr>"
-							+"</tbody></table>"
-							+"<map name=\"join_service\">"
-							+"</map>"
-						+"</td></tr>"
-					+"<!--footer-->"
-					+"<tr><td height=\"55\" bgcolor=\"#ffffff\"></td></tr>"
-					+"<tr><td height=\"15\" bgcolor=\"#f1f1f1\"></td></tr>"
-					+"<tr><td align=\"center\" height=\"64\" bgcolor=\"#f1f1f1\">"
-							+"<table cellspacing=\"0\" cellpadding=\"0\" width=\"580\">"
-							+"<tbody><tr valign=\"top\" bgcolor=\"#f1f1f1\"><td align=\"left\" width=\"10\"><img src=\"http://www.afreecatv.com/images/mail/common/bul1.gif\" alt=\"\"></td><td align=\"left\" width=\"570\" style=\"font-weight:bold;color:#333;font-size:12px;font-family:ï¿½ï¿½ï¿½ï¿½,dotum\">ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ ï¿½äº¯ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.</td></tr>"
-							+"<tr><td colspan=\"2\" height=\"5\"></td></tr>"
-							+"<tr valign=\"top\" bgcolor=\"#f1f1f1\"><td align=\"left\" width=\"10\" style=\"padding-top:5px;\"><img src=\"http://www.afreecatv.com/images/mail/common/ico_dot2.gif\" alt=\"\"></td><td align=\"left\" width=\"570\" style=\"color:#333;font-size:11px;letter-spacing:-1px;font-family:ï¿½ï¿½ï¿½ï¿½,dotum\">ï¿½Ã±ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ <span style=\"letter-spacing:0;\">010-4425-0511</span> ï¿½Ç´ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½(powart1992@naver.com)ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½Ã±ï¿½ ï¿½Ù¶ï¿½ï¿½Ï´ï¿½.</td></tr>"
-							+"</tbody></table>"
-						+"</td></tr>"
-					+"<tr><td height=\"4\" bgcolor=\"#cbcbcb\"></td></tr>"
-					+"</tbody></table>"
-					+"</center>";
-			
-			//new sendEmail(m_email, message);
-		
-			
-		//ï¿½Ì¸ï¿½ï¿½ï¿½, ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½Ô¾ÈµÇµï¿½ï¿½ï¿½	
+		//ÀÌ¸ÞÀÏ, ´Ð³×ÀÓ Áßº¹µÇ¸é °¡ÀÔ¾ÈµÇµµ·Ï	
+		 /*
 		MemberModel emailChk = memberService.getEmailDuplChk(m_email);
 		MemberModel nameChk = memberService.getNameDuplChk(m_name);
-		  	
-		if(emailChk==null && nameChk==null){
+		*/
 		
-		memberService.insertMember(m_email, m_pw, m_name, m_auth);
+		memberService.insertMember(email, pw, name, nickname);
 		
-		mav.setViewName("join");
+		mav.setViewName("member/login");
 		 return mav;
 	    
-	    
+	    /*
 		} else if(emailChk != null && nameChk==null){ 
 			joinError =1;
 			mav.addObject("joinError",joinError);
@@ -142,10 +102,7 @@ public class MemberController {
 		    return mav;
 		   
 		}
-		
-		
-		 return mav;
-	   
+		*/
 				
 	}
 	
@@ -156,11 +113,11 @@ public class MemberController {
 		String m_email = request.getParameter("m_email");
 		int auth = memberService.emailAuth(m_email, m_auth);
 		
-		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		//ÀÎÁõ ½ÇÆÐ
 		if (auth == 0) {
 			System.out.println("1111");
 			mav.setViewName("member/emailAuthFail");
-		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	
+		//ÀÎÁõµÊ	
 		}else if (auth == 1) {
 			Random rnd = new Random();
 			StringBuffer buf = new StringBuffer();
@@ -179,7 +136,7 @@ public class MemberController {
 		return mav;
 	}
 		
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ßºï¿½Ã¼Å©
+	//È¸¿ø°¡ÀÔ½Ã ÀÌ¸ÞÀÏ Áßº¹Ã¼Å©
 	@RequestMapping("/duplChk.go")
 	public ModelAndView emailDuplChk(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 
@@ -190,7 +147,7 @@ public class MemberController {
 		  		
 		  		if (member == null) {
 		  			
-		  			memberEmailChk = 0; //ï¿½ï¿½ë°¡ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
+		  			memberEmailChk = 0; //»ç¿ë°¡´É ÀÌ¸ÞÀÏ
 		  			mav.addObject("member", member);
 		  			mav.addObject("memberEmailChk", memberEmailChk);
 		  			mav.setViewName("member/idChk");
@@ -198,8 +155,8 @@ public class MemberController {
 
 		  		} else {
 		  			
-		  			memberEmailChk = 1; // ï¿½ï¿½ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
-		  			/*System.out.println("ï¿½ï¿½ï¿½Ò°ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½");*/
+		  			memberEmailChk = 1; // »ç¿ëºÒ°¡´É ÀÌ¸ÞÀÏ
+		  			/*System.out.println("»ç¿ëºÒ°¡´ÉÀÌ¸ÞÀÏ");*/
 		  			mav.addObject("member", member);
 		  			mav.addObject("memberEmailChk", memberEmailChk);
 		  			mav.setViewName("member/idChk");
@@ -207,7 +164,7 @@ public class MemberController {
 		  		}
 		  	}
 	
-	//ï¿½Ì¸ï¿½(ï¿½Ð³ï¿½ï¿½ï¿½)ï¿½ßºï¿½Ã¼Å©
+	//ÀÌ¸§(´Ð³×ÀÓ)Áßº¹Ã¼Å©
 	@RequestMapping("/nameDuplChk.go")
 	public ModelAndView getEmailDuplChk(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 		
@@ -218,7 +175,7 @@ public class MemberController {
 			  		
 			  		if (member == null) {
 			  			
-			  			memberNameChk = 0; //ï¿½ï¿½ë°¡ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
+			  			memberNameChk = 0; //»ç¿ë°¡´É ´Ð³×ÀÓ
 			  			mav.addObject("member", member);
 			  			mav.addObject("memberNameChk", memberNameChk);
 			  			mav.setViewName("member/nameChk");
@@ -226,8 +183,8 @@ public class MemberController {
 
 			  		} else {
 			  			
-			  			memberNameChk = 1; // ï¿½ï¿½ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
-			  			System.out.println("ï¿½ï¿½ï¿½Ò°ï¿½ï¿½É´Ð³ï¿½ï¿½ï¿½");
+			  			memberNameChk = 1; // »ç¿ëºÒ°¡´É ´Ð³×ÀÓ
+			  			System.out.println("»ç¿ëºÒ°¡´É´Ð³×ÀÓ");
 			  			mav.addObject("member", member);
 			  			mav.addObject("memberNameChk", memberNameChk);
 			  			mav.setViewName("member/nameChk");
@@ -237,104 +194,48 @@ public class MemberController {
 	
 	
 	
-	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½- ï¿½ï¿½Þ·ï¿½ï¿½ï¿½
+	//·Î±×ÀÎ Æû- ¸ð´Þ·ÎÇÔ
 	/*@RequestMapping(value="/loginForm.go", method=RequestMethod.GET)
 	public String loginForm() {
 	     return "";
 	  }*/
 
-	 //ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	 //·Î±×ÀÎµ¿ÀÛ ¹× ¼¼¼Ç »ý¼º
 	 @RequestMapping(value="/login.go", method=RequestMethod.POST)
 	 public ModelAndView memberLogin(HttpServletRequest request, MemberModel member) throws Exception{
 		 
+		 
 		  int memberLoginChk;
-	      MemberModel result = memberService.memberLogin(member);
+		  String email = member.getEmail();
+		  String pw = member.getPw();
+		  MemberModel result = null;
+	      result = memberService.memberLogin(member);
 	      
 	      if(result==null){
-	    	  memberLoginChk=3;
-				
-				mav.addObject("memberLoginChk",memberLoginChk);
-				mav.setViewName("login");
+	    	  	memberLoginChk=3;
+				mav.addObject("msg", "failure");
+				mav.setViewName("member/login");
 			    return mav;
 			    
-	      } else{
-	      String m_email = result.getM_email();
-	      /*String m_email = (String)request.getParameter("m_email");*/
-	      System.out.println("m_email : "+m_email);
-	      String m_auth = result.getM_auth();
-	      System.out.println("m_auth : "+m_auth);
-	      
-	      
-	      //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ°ï¿½ï¿½ admin=1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
-	      memberService.emailAuth(m_email, m_auth);
-	      
-	      int m_admin = result.getM_admin();
-	      System.out.println("m_admin : "+m_admin);
-
-	      if(result!=null && m_admin==1) { //È¸ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	      } else if(result!=null){//È¸¿øÀÌ°í ÀÌ¸ÞÀÏÀÎÁõ ÇÔ
 	         
-	    	 memberLoginChk = 0; //ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-	         HttpSession session = request.getSession();        
-	   
-	         
+	    	 memberLoginChk = 0; //·Î±×ÀÎ ¼º°ø
+	         HttpSession session = request.getSession();     
 	         session.setAttribute("member", result);
-	         session.setAttribute("session_m_email", result.getM_email());
-	         session.setAttribute("session_m_name", result.getM_name());
+	         session.setAttribute("session_m_email", result.getEmail());
+	         session.setAttribute("session_m_name", result.getName());
+	         session.setAttribute("session_m_nickname", result.getNickname());
 	    	
-	         
-	         //-------------------------ï¿½Ë¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½----------------------------//
-	    
-	         List<ScheduleModel> pushList = pushService.pushList(m_email); // ï¿½Ë¸ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-			 int pushCount = pushService.pushListCount(m_email);
-	         
-	         session.setAttribute("session_pushList", pushList);
-	         session.setAttribute("session_pushCount", pushCount);
-	         
-	         
-		     
-		     
-		     
 
-	        
-	         //-------------------------ï¿½Ë¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½----------------------------//
-	         
-	        
-	         
-	                 
-	         mav.addObject("memberLoginChk", memberLoginChk);
-	         mav.setViewName("login");
+	         mav.addObject("msg", "success");
+	         mav.setViewName("member/main");
 	         return mav;
 	         
-	      } else if(result != null && m_admin==0){ //È¸ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-	    	  	memberLoginChk =1;
-				mav.addObject("memberLoginChk",memberLoginChk);
-			    mav.setViewName("login");
-			    return mav;
-			  
-			    
-			} else if(result != null && m_admin==2) { //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-				memberLoginChk=2;
-				mav.addObject("memberLoginChk",memberLoginChk);
-				mav.setViewName("login");
-			    return mav;
-			   
-			}
 	      }
-			
-			
-			
-			 return mav;
-	      
-	      
-	      
-	      
-
-
-
-	         
-	   }
+	      return mav;
+	 }
 	 
-	  //ï¿½Î±×¾Æ¿ï¿½
+	  //·Î±×¾Æ¿ô
 	  @RequestMapping("/logout.go")
 	  public ModelAndView memberLogout(HttpServletRequest request, MemberModel member){
 	      
@@ -344,19 +245,20 @@ public class MemberController {
 	         session.invalidate();
 	      }
 	      mav.addObject("member", new MemberModel());
-	      mav.setViewName("logout");
+	      mav.addObject("msg","logout");
+	      mav.setViewName("member/login");
 	      return mav;
 	   }
       
 	 
-	 //ï¿½Ì¸ï¿½ï¿½ï¿½/ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½ ï¿½ï¿½
+	 //ÀÌ¸ÞÀÏ/ºñ¹Ð¹øÈ£ Ã£±â Æû
 	 @RequestMapping(value = "/findForm.go", method = RequestMethod.GET)
 	 public ModelAndView memberFindForm() {
 	  		mav.setViewName("emailpwFindForm");
 	  		return mav;
 	  	}
 	
-	 //ï¿½Ì¸ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
+	 //ÀÌ¸ÞÀÏ Ã£±â
 	 @RequestMapping(value = "/emailFind.go", method = RequestMethod.POST)
 	 public ModelAndView memberEmailFind(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 
@@ -364,7 +266,7 @@ public class MemberController {
 	  		member = memberService.emailFindByName(member);
 	  		
 	  		if (member == null) {
-	  			memberFindChk = 0; // ï¿½ï¿½È¸ï¿½ï¿½;
+	  			memberFindChk = 0; // ºñÈ¸¿ø;
 	  			mav.addObject("memberFindChk", memberFindChk);
 	  			mav.setViewName("findError");
 	  			return mav;
@@ -378,14 +280,14 @@ public class MemberController {
 	  	}
 	 
 	 
-	/* //ï¿½ï¿½Ð¹ï¿½È£Ã£ï¿½ï¿½ ï¿½ï¿½
+	/* //ºñ¹Ð¹øÈ£Ã£±â Æû
 	 @RequestMapping(value = "/pwFindForm.go", method = RequestMethod.GET)
 	 public ModelAndView memberPwFindForm() {
 	  		mav.setViewName("emailpwFindForm");
 	  		return mav;
 	  	}*/
 	 
-	 //ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½
+	 //ºñ¹Ð¹øÈ£ Ã£±â
 	 @RequestMapping(value = "/pwFind.go", method = RequestMethod.POST)
 	 public ModelAndView memberPwFind(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 
@@ -393,21 +295,21 @@ public class MemberController {
 	  		member = memberService.pwFindByEmail(member);
 	  		
 	  		if (member== null) {
-	  			memberFindChk = 0; // ï¿½ï¿½È¸ï¿½ï¿½;
+	  			memberFindChk = 0; // ºñÈ¸¿ø;
 	  			mav.addObject("memberFindChk", memberFindChk);
 	  			mav.setViewName("findError");
 	  			return mav;
 
 	  		} else {
 	  			
-	  			if (member.getM_name().equals(member.getM_name()) || member.getM_email().equals(member.getM_email())) {
-	  				memberFindChk = 1; // È¸ï¿½ï¿½, ï¿½Ì¸ï¿½/ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+	  			if (member.getEmail().equals(member.getName()) || member.getEmail().equals(member.getEmail())) {
+	  				memberFindChk = 1; // È¸¿ø, ÀÌ¸§/ÀÌ¸ÞÀÏ ÀÏÄ¡
 	  				mav.addObject("member", member);
 	  				mav.addObject("memberFindChk", memberFindChk);
 	  				mav.setViewName("pwFind");
 	  				return mav;
 	  			} else {
-	  				memberFindChk = -1; // ï¿½Ì¸ï¿½/ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡
+	  				memberFindChk = -1; // ÀÌ¸§/ÀÌ¸ÞÀÏ ºÒÀÏÄ¡
 	  				mav.addObject("memberFindChk", memberFindChk);
 	  				mav.setViewName("findError");
 	  				return mav;
@@ -417,7 +319,7 @@ public class MemberController {
 	  	
 	 
 	 
-	 //È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	 //È¸¿øÁ¤º¸¼öÁ¤ Æû
 	 @RequestMapping("/memberModifyForm.go")
 	 public ModelAndView memberModifyForm(HttpSession session) {
 		 
@@ -438,7 +340,7 @@ public class MemberController {
 	  		}
 	  	}
 
-	 //È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
+	 //È¸¿øÁ¤º¸ ¼öÁ¤ ¿Ï·á
 	 @RequestMapping("/memberModify.go")
 	 public ModelAndView memberModify(HttpServletRequest request, HttpSession session,@ModelAttribute("member") MemberModel member) {
 		 
@@ -449,16 +351,16 @@ public class MemberController {
 		String m_pw = (String) request.getParameter("m_pw");
 		String m_name = (String) request.getParameter("m_name");
 
-		//ï¿½Ì¸ï¿½ï¿½ï¿½, ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½Ô¾ÈµÇµï¿½ï¿½ï¿½	
+		//ÀÌ¸ÞÀÏ, ´Ð³×ÀÓ Áßº¹µÇ¸é °¡ÀÔ¾ÈµÇµµ·Ï	
 		MemberModel nameChk = memberService.getNameDuplChk(m_name);
 				  	
 			if(nameChk==null){
-				//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+				//È¸¿øÁ¤º¸ ¼öÁ¤
 				memberService.memberModify(m_email, m_pw, m_name);
 				
-				// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½Ù²îµµï¿½ï¿½.
+				// È¸¿øÁ¤º¸ ¼öÁ¤ ÈÄ Çì´õÀÇ ¼¼¼Ç ÀÌ¸§ ¹Ù²îµµ·Ï.
 				MemberModel result = memberService.memberLogin(member);
-				session.setAttribute("session_m_name", result.getM_name());
+				session.setAttribute("session_m_name", result.getName());
 				
 				mav.setViewName("memberModify");
 				 return mav;
@@ -474,7 +376,7 @@ public class MemberController {
 				}
 		
 		 } else{
-				mav.setViewName("loginConfirm"); //ï¿½Î±ï¿½ï¿½ï¿½x
+				mav.setViewName("loginConfirm"); //·Î±×ÀÎx
 				return mav;
 		 }
 
@@ -482,42 +384,42 @@ public class MemberController {
 	 
 	 
 	 
-	 //È¸ï¿½ï¿½ Å»ï¿½ï¿½ ï¿½ï¿½
+	 //È¸¿ø Å»Åð Æû
 	 @RequestMapping("/memberDeleteForm.go")
 		public ModelAndView memberDeleteForm(){
 		 	mav.setViewName("memberDeleteForm");
 			return mav;
 		}
 	 
-	 //È¸ï¿½ï¿½ Å»ï¿½ï¿½
+	 //È¸¿ø Å»Åð
 	 @RequestMapping("/memberDelete.go")
   	 public ModelAndView memberDelete(@ModelAttribute("member") MemberModel member, BindingResult result, HttpSession session, HttpServletRequest request) {
 		
 		
-  		MemberModel memberModel; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼
+  		MemberModel memberModel; // Äõ¸® °á°ú °ªÀ» ÀúÀåÇÒ °´Ã¼
   		
   		String m_email;
   		String m_pw;
   		m_pw = request.getParameter("m_pw");
   		int deleteCheck;
   		
-  		//ï¿½Ø´ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½
+  		//ÇØ´ç ÀÌ¸ÞÀÏÀÇ Á¤º¸¸¦ °¡Á®¿Â´Ù
   		m_email = session.getAttribute("session_m_email").toString();
   		memberModel = (MemberModel) memberService.getMember(m_email);
   		
   		
   		if(session.getAttribute("session_m_email") != null) { 
-  		if(memberModel.getM_pw().equals(m_pw)) {
+  		if(memberModel.getPw().equals(m_pw)) {
   			
-  			deleteCheck = 1; //ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+  			deleteCheck = 1; //ÆÐ½º¿öµå ÀÏÄ¡
   			
-  			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  			//»èÁ¦ Äõ¸® ¼öÇà
   			memberService.memberDelete(m_email);
   			session.removeAttribute("session_m_email");
   			session.removeAttribute("session_m_name");
   		
   		} else {
-  			deleteCheck = -1; //ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡
+  			deleteCheck = -1; //ÆÐ½º¿öµå ºÒÀÏÄ¡
   		}
   		
   		mav.addObject("deleteCheck", deleteCheck);
@@ -526,7 +428,7 @@ public class MemberController {
   	}
   		else {
 
-			mav.setViewName("loginConfirm"); //ï¿½Î±ï¿½ï¿½ï¿½x
+			mav.setViewName("loginConfirm"); //·Î±×ÀÎx
 			return mav;
 	}
 	  	

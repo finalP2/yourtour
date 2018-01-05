@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<wb-module deploy-name="yourtour">
 =======
 	<wb-module deploy-name="yourtour-1.0.0-BUILD-SNAPSHOT">
 >>>>>>> joeun
+=======
+	<wb-module deploy-name="yourtour-1.0.0-BUILD-SNAPSHOT">
+>>>>>>> 8b5d5b9e01605c321e3fb4e3f3c5e28b23bbc40c
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
 		<wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+<<<<<<< HEAD
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
+=======
+>>>>>>> 8b5d5b9e01605c321e3fb4e3f3c5e28b23bbc40c
 		<property name="java-output-path" value="target/classes"/>
         <property name="context-root" value="yourtour"/>
 	</wb-module>

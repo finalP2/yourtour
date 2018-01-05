@@ -5,42 +5,42 @@ import java.util.List;
 
 public interface MemberDao {
 	
-	//ï¿½Î±ï¿½ï¿½ï¿½
+	//·Î±×ÀÎ
 	public MemberModel memberLogin(MemberModel member);
 	
-	//ï¿½Ì¸ï¿½ï¿½Ï»Ì¾Æ¿ï¿½ï¿½ï¿½
+	//ÀÌ¸ÞÀÏ»Ì¾Æ¿À±â
 	public MemberModel getMember(String email);
 	
-	//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ßºï¿½Ã¼Å©
+	//ÀÌ¸ÞÀÏ Áßº¹Ã¼Å©
 	public MemberModel getEmailDuplChk(String email);
 	
 
 	
-	//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
+	//ÀÌ¸ÞÀÏ °Ë»ö
 	public MemberModel getEmail(MemberModel member);
 	
-	//ï¿½Ì¸ï¿½(ï¿½Ð³ï¿½ï¿½ï¿½) ï¿½ßºï¿½Ã¼Å©
+	//ÀÌ¸§(´Ð³×ÀÓ) Áßº¹Ã¼Å©
 	public MemberModel getNameDuplChk(String name);
 	
 	
-	//ï¿½Ì¸ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
+	//ÀÌ¸ÞÀÏ Ã£±â
 	public MemberModel emailFindByName(MemberModel member);
 	
-	//ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½
+	//ºñ¹Ð¹øÈ£ Ã£±â
 	public MemberModel pwFindByEmail(MemberModel member);
 	
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//È¸¿ø°¡ÀÔ
 	public Object insertMember(String m_email, String m_pw, String m_name, String m_auth);
 	
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//È¸¿øÁ¤º¸¼öÁ¤
 	public void memberModify(String m_email, String m_pw, String m_name);
 	
-	//È¸ï¿½ï¿½Å»ï¿½ï¿½
+	//È¸¿øÅ»Åð
 	public void memberDelete(String email);
 	
-	//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//ÀÌ¸ÞÀÏ ÀÎÁõ
 	public int emailAuth(String m_email,String m_auth);
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½
+	//ÀÎÁõ¹øÈ£ º¯°æ
 	public int changeAuth(String m_auth, String m_email);
 	
 }
