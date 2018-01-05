@@ -208,37 +208,32 @@ public class MemberController {
 		  int memberLoginChk;
 		  String email = member.getEmail();
 		  String pw = member.getPw();
-		  
-	      MemberModel result = memberService.memberLogin(member);
+		  MemberModel result = null;
+	      result = memberService.memberLogin(member);
 	      
 	      if(result==null){
-	    	  memberLoginChk=3;
-				
+	    	  	memberLoginChk=3;
 				mav.addObject("msg", "failure");
-				mav.setViewName("login");
+				mav.setViewName("member/login");
 			    return mav;
 			    
-	      } else{
-	     
-	      
-	      if(result!=null) { //회원이고 이메일인증 함
+	      } else if(result!=null){//회원이고 이메일인증 함
 	         
 	    	 memberLoginChk = 0; //로그인 성공
 	         HttpSession session = request.getSession();     
 	         session.setAttribute("member", result);
 	         session.setAttribute("session_m_email", result.getEmail());
 	         session.setAttribute("session_m_name", result.getName());
+	         session.setAttribute("session_m_nickname", result.getNickname());
 	    	
 
 	         mav.addObject("msg", "success");
-	         mav.setViewName("home");
+	         mav.setViewName("member/main");
 	         return mav;
 	         
 	      }
-			return mav;
-	      }
-	         
-	   }
+	      return mav;
+	 }
 	 
 	  //로그아웃
 	  @RequestMapping("/logout.go")
@@ -250,7 +245,8 @@ public class MemberController {
 	         session.invalidate();
 	      }
 	      mav.addObject("member", new MemberModel());
-	      mav.setViewName("logout");
+	      mav.addObject("msg","logout");
+	      mav.setViewName("member/login");
 	      return mav;
 	   }
       
