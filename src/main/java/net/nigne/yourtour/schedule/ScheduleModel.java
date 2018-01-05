@@ -17,7 +17,6 @@ public class ScheduleModel {
 	private String season;
 	private String cost;
 	private String theme;
-	
 	public String getEmail() {
 		return email;
 	}
