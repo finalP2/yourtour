@@ -31,7 +31,7 @@ public class MemberController {
 	*/
 	ModelAndView mav = new ModelAndView();
 	
-	//È¸¿ø°¡ÀÔ Æû
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	@RequestMapping("joinForm.go")
 	public String joinForm(){
 		return "member/joinForm";
@@ -39,10 +39,10 @@ public class MemberController {
 	
 	 @RequestMapping("loginpage.go")
 	    public String login(){
-	        return "member/login";    // views/member/login.jsp·Î Æ÷¿öµå
+	        return "member/login";    // views/member/login.jspï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	    }
 	
-	//È¸¿ø°¡ÀÔ
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/join.go", method=RequestMethod.GET)
 	public ModelAndView join(@ModelAttribute("member") MemberModel member, HttpServletRequest request) throws Exception {
 		
@@ -67,7 +67,7 @@ public class MemberController {
 			String m_auth = buf.toString();
 		*/
 			
-		//ÀÌ¸ÞÀÏ, ´Ð³×ÀÓ Áßº¹µÇ¸é °¡ÀÔ¾ÈµÇµµ·Ï	
+		//ï¿½Ì¸ï¿½ï¿½ï¿½, ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½Ô¾ÈµÇµï¿½ï¿½ï¿½	
 		 /*
 		MemberModel emailChk = memberService.getEmailDuplChk(m_email);
 		MemberModel nameChk = memberService.getNameDuplChk(m_name);
@@ -113,11 +113,11 @@ public class MemberController {
 		String m_email = request.getParameter("m_email");
 		int auth = memberService.emailAuth(m_email, m_auth);
 		
-		//ÀÎÁõ ½ÇÆÐ
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (auth == 0) {
 			System.out.println("1111");
 			mav.setViewName("member/emailAuthFail");
-		//ÀÎÁõµÊ	
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	
 		}else if (auth == 1) {
 			Random rnd = new Random();
 			StringBuffer buf = new StringBuffer();
@@ -136,7 +136,7 @@ public class MemberController {
 		return mav;
 	}
 		
-	//È¸¿ø°¡ÀÔ½Ã ÀÌ¸ÞÀÏ Áßº¹Ã¼Å©
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ßºï¿½Ã¼Å©
 	@RequestMapping("/duplChk.go")
 	public ModelAndView emailDuplChk(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 
@@ -147,7 +147,7 @@ public class MemberController {
 		  		
 		  		if (member == null) {
 		  			
-		  			memberEmailChk = 0; //»ç¿ë°¡´É ÀÌ¸ÞÀÏ
+		  			memberEmailChk = 0; //ï¿½ï¿½ë°¡ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
 		  			mav.addObject("member", member);
 		  			mav.addObject("memberEmailChk", memberEmailChk);
 		  			mav.setViewName("member/idChk");
@@ -155,8 +155,8 @@ public class MemberController {
 
 		  		} else {
 		  			
-		  			memberEmailChk = 1; // »ç¿ëºÒ°¡´É ÀÌ¸ÞÀÏ
-		  			/*System.out.println("»ç¿ëºÒ°¡´ÉÀÌ¸ÞÀÏ");*/
+		  			memberEmailChk = 1; // ï¿½ï¿½ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
+		  			/*System.out.println("ï¿½ï¿½ï¿½Ò°ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½");*/
 		  			mav.addObject("member", member);
 		  			mav.addObject("memberEmailChk", memberEmailChk);
 		  			mav.setViewName("member/idChk");
@@ -164,7 +164,7 @@ public class MemberController {
 		  		}
 		  	}
 	
-	//ÀÌ¸§(´Ð³×ÀÓ)Áßº¹Ã¼Å©
+	//ï¿½Ì¸ï¿½(ï¿½Ð³ï¿½ï¿½ï¿½)ï¿½ßºï¿½Ã¼Å©
 	@RequestMapping("/nameDuplChk.go")
 	public ModelAndView getEmailDuplChk(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 		
@@ -175,7 +175,7 @@ public class MemberController {
 			  		
 			  		if (member == null) {
 			  			
-			  			memberNameChk = 0; //»ç¿ë°¡´É ´Ð³×ÀÓ
+			  			memberNameChk = 0; //ï¿½ï¿½ë°¡ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
 			  			mav.addObject("member", member);
 			  			mav.addObject("memberNameChk", memberNameChk);
 			  			mav.setViewName("member/nameChk");
@@ -183,8 +183,8 @@ public class MemberController {
 
 			  		} else {
 			  			
-			  			memberNameChk = 1; // »ç¿ëºÒ°¡´É ´Ð³×ÀÓ
-			  			System.out.println("»ç¿ëºÒ°¡´É´Ð³×ÀÓ");
+			  			memberNameChk = 1; // ï¿½ï¿½ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
+			  			System.out.println("ï¿½ï¿½ï¿½Ò°ï¿½ï¿½É´Ð³ï¿½ï¿½ï¿½");
 			  			mav.addObject("member", member);
 			  			mav.addObject("memberNameChk", memberNameChk);
 			  			mav.setViewName("member/nameChk");
@@ -194,13 +194,13 @@ public class MemberController {
 	
 	
 	
-	//·Î±×ÀÎ Æû- ¸ð´Þ·ÎÇÔ
+	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½- ï¿½ï¿½Þ·ï¿½ï¿½ï¿½
 	/*@RequestMapping(value="/loginForm.go", method=RequestMethod.GET)
 	public String loginForm() {
 	     return "";
 	  }*/
 
-	 //·Î±×ÀÎµ¿ÀÛ ¹× ¼¼¼Ç »ý¼º
+	 //ï¿½Î±ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 @RequestMapping(value="/login.go", method=RequestMethod.POST)
 	 public ModelAndView memberLogin(HttpServletRequest request, MemberModel member) throws Exception{
 		 
@@ -217,9 +217,9 @@ public class MemberController {
 				mav.setViewName("member/login");
 			    return mav;
 			    
-	      } else if(result!=null){//È¸¿øÀÌ°í ÀÌ¸ÞÀÏÀÎÁõ ÇÔ
+	      } else if(result!=null){//È¸ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	         
-	    	 memberLoginChk = 0; //·Î±×ÀÎ ¼º°ø
+	    	 memberLoginChk = 0; //ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	         HttpSession session = request.getSession();     
 	         session.setAttribute("member", result);
 	         session.setAttribute("session_m_email", result.getEmail());
@@ -235,7 +235,7 @@ public class MemberController {
 	      return mav;
 	 }
 	 
-	  //·Î±×¾Æ¿ô
+	  //ï¿½Î±×¾Æ¿ï¿½
 	  @RequestMapping("/logout.go")
 	  public ModelAndView memberLogout(HttpServletRequest request, MemberModel member){
 	      
@@ -251,43 +251,44 @@ public class MemberController {
 	   }
       
 	 
-	 //ÀÌ¸ÞÀÏ/ºñ¹Ð¹øÈ£ Ã£±â Æû
+	 //ï¿½Ì¸ï¿½ï¿½ï¿½/ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½ ï¿½ï¿½
 	 @RequestMapping(value = "/findForm.go", method = RequestMethod.GET)
 	 public ModelAndView memberFindForm() {
-	  		mav.setViewName("emailpwFindForm");
+	  		mav.setViewName("member/emailpwFindform");
 	  		return mav;
 	  	}
 	
-	 //ÀÌ¸ÞÀÏ Ã£±â
+	 //ï¿½Ì¸ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
 	 @RequestMapping(value = "/emailFind.go", method = RequestMethod.POST)
 	 public ModelAndView memberEmailFind(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 
 	  		int memberFindChk;
 	  		member = memberService.emailFindByName(member);
 	  		
+	  		
 	  		if (member == null) {
-	  			memberFindChk = 0; // ºñÈ¸¿ø;
+	  			memberFindChk = 0; // ï¿½ï¿½È¸ï¿½ï¿½;
 	  			mav.addObject("memberFindChk", memberFindChk);
-	  			mav.setViewName("findError");
+	  			mav.setViewName("member/emailpwFindform");
 	  			return mav;
 
 	  		} else {
 	  		
 	  				mav.addObject("member", member);
-	  				mav.setViewName("emailFind");
+	  				mav.setViewName("member/emailFind");
 	  				return mav;
 	  		}
 	  	}
 	 
 	 
-	/* //ºñ¹Ð¹øÈ£Ã£±â Æû
+	/* //ï¿½ï¿½Ð¹ï¿½È£Ã£ï¿½ï¿½ ï¿½ï¿½
 	 @RequestMapping(value = "/pwFindForm.go", method = RequestMethod.GET)
 	 public ModelAndView memberPwFindForm() {
 	  		mav.setViewName("emailpwFindForm");
 	  		return mav;
 	  	}*/
 	 
-	 //ºñ¹Ð¹øÈ£ Ã£±â
+	 //ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½
 	 @RequestMapping(value = "/pwFind.go", method = RequestMethod.POST)
 	 public ModelAndView memberPwFind(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 
@@ -295,31 +296,23 @@ public class MemberController {
 	  		member = memberService.pwFindByEmail(member);
 	  		
 	  		if (member== null) {
-	  			memberFindChk = 0; // ºñÈ¸¿ø;
+	  			memberFindChk = 0; // ï¿½ï¿½È¸ï¿½ï¿½;
 	  			mav.addObject("memberFindChk", memberFindChk);
-	  			mav.setViewName("findError");
+	  			mav.setViewName("member/emailpwFindForm");
 	  			return mav;
 
 	  		} else {
-	  			
-	  			if (member.getEmail().equals(member.getName()) || member.getEmail().equals(member.getEmail())) {
-	  				memberFindChk = 1; // È¸¿ø, ÀÌ¸§/ÀÌ¸ÞÀÏ ÀÏÄ¡
+	  				memberFindChk = 1; // È¸ï¿½ï¿½, ï¿½Ì¸ï¿½/ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	  				mav.addObject("member", member);
 	  				mav.addObject("memberFindChk", memberFindChk);
-	  				mav.setViewName("pwFind");
-	  				return mav;
-	  			} else {
-	  				memberFindChk = -1; // ÀÌ¸§/ÀÌ¸ÞÀÏ ºÒÀÏÄ¡
-	  				mav.addObject("memberFindChk", memberFindChk);
-	  				mav.setViewName("findError");
+	  				mav.setViewName("member/pwFind");
 	  				return mav;
 	  			}
 	  		}
-	  	}
 	  	
 	 
 	 
-	 //È¸¿øÁ¤º¸¼öÁ¤ Æû
+	 //È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	 @RequestMapping("/memberModifyForm.go")
 	 public ModelAndView memberModifyForm(HttpSession session) {
 		 
@@ -340,7 +333,7 @@ public class MemberController {
 	  		}
 	  	}
 
-	 //È¸¿øÁ¤º¸ ¼öÁ¤ ¿Ï·á
+	 //È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
 	 @RequestMapping("/memberModify.go")
 	 public ModelAndView memberModify(HttpServletRequest request, HttpSession session,@ModelAttribute("member") MemberModel member) {
 		 
@@ -351,14 +344,14 @@ public class MemberController {
 		String m_pw = (String) request.getParameter("m_pw");
 		String m_name = (String) request.getParameter("m_name");
 
-		//ÀÌ¸ÞÀÏ, ´Ð³×ÀÓ Áßº¹µÇ¸é °¡ÀÔ¾ÈµÇµµ·Ï	
+		//ï¿½Ì¸ï¿½ï¿½ï¿½, ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½Ô¾ÈµÇµï¿½ï¿½ï¿½	
 		MemberModel nameChk = memberService.getNameDuplChk(m_name);
 				  	
 			if(nameChk==null){
-				//È¸¿øÁ¤º¸ ¼öÁ¤
+				//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				memberService.memberModify(m_email, m_pw, m_name);
 				
-				// È¸¿øÁ¤º¸ ¼öÁ¤ ÈÄ Çì´õÀÇ ¼¼¼Ç ÀÌ¸§ ¹Ù²îµµ·Ï.
+				// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½Ù²îµµï¿½ï¿½.
 				MemberModel result = memberService.memberLogin(member);
 				session.setAttribute("session_m_name", result.getName());
 				
@@ -376,7 +369,7 @@ public class MemberController {
 				}
 		
 		 } else{
-				mav.setViewName("loginConfirm"); //·Î±×ÀÎx
+				mav.setViewName("loginConfirm"); //ï¿½Î±ï¿½ï¿½ï¿½x
 				return mav;
 		 }
 
@@ -384,26 +377,26 @@ public class MemberController {
 	 
 	 
 	 
-	 //È¸¿ø Å»Åð Æû
+	 //È¸ï¿½ï¿½ Å»ï¿½ï¿½ ï¿½ï¿½
 	 @RequestMapping("/memberDeleteForm.go")
 		public ModelAndView memberDeleteForm(){
 		 	mav.setViewName("memberDeleteForm");
 			return mav;
 		}
 	 
-	 //È¸¿ø Å»Åð
+	 //È¸ï¿½ï¿½ Å»ï¿½ï¿½
 	 @RequestMapping("/memberDelete.go")
   	 public ModelAndView memberDelete(@ModelAttribute("member") MemberModel member, BindingResult result, HttpSession session, HttpServletRequest request) {
 		
 		
-  		MemberModel memberModel; // Äõ¸® °á°ú °ªÀ» ÀúÀåÇÒ °´Ã¼
+  		MemberModel memberModel; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼
   		
   		String m_email;
   		String m_pw;
   		m_pw = request.getParameter("m_pw");
   		int deleteCheck;
   		
-  		//ÇØ´ç ÀÌ¸ÞÀÏÀÇ Á¤º¸¸¦ °¡Á®¿Â´Ù
+  		//ï¿½Ø´ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½
   		m_email = session.getAttribute("session_m_email").toString();
   		memberModel = (MemberModel) memberService.getMember(m_email);
   		
@@ -411,15 +404,15 @@ public class MemberController {
   		if(session.getAttribute("session_m_email") != null) { 
   		if(memberModel.getPw().equals(m_pw)) {
   			
-  			deleteCheck = 1; //ÆÐ½º¿öµå ÀÏÄ¡
+  			deleteCheck = 1; //ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
   			
-  			//»èÁ¦ Äõ¸® ¼öÇà
+  			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
   			memberService.memberDelete(m_email);
   			session.removeAttribute("session_m_email");
   			session.removeAttribute("session_m_name");
   		
   		} else {
-  			deleteCheck = -1; //ÆÐ½º¿öµå ºÒÀÏÄ¡
+  			deleteCheck = -1; //ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡
   		}
   		
   		mav.addObject("deleteCheck", deleteCheck);
@@ -428,7 +421,7 @@ public class MemberController {
   	}
   		else {
 
-			mav.setViewName("loginConfirm"); //·Î±×ÀÎx
+			mav.setViewName("loginConfirm"); //ï¿½Î±ï¿½ï¿½ï¿½x
 			return mav;
 	}
 	  	

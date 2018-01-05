@@ -7,13 +7,14 @@
 <title>Main Page </title>
 </head>
 <body>
+<%@ include file="../member/menu.jsp" %>
     <h2>회원 전용 페이지</h2>
     ${session_m_email}님으로 로그인 하셨습니다.<br>
     ${session_m_name}님 환영합니다<br>
     닉네임 : ${session_m_nickname}<br>   
     <input type="button" value="로그아웃" onclick="logout.go">  
-    <a href="${path}/logout.go">로그아웃</a>
-    <input type="button" value="회원수정페이지" onclick="location.href='memberUpdateForm.do'">
+    <a href="/yourtour/member/logout.go">로그아웃</a>
+    <input type="button" value="회원수정페이지" onclick="location.href='joinform.do'">
     
 </body>
 </html>
