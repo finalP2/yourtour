@@ -8,9 +8,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.ko.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
@@ -94,16 +91,12 @@ function check(){
     	<div class="input-group">
     		<span class="input-group-addon">출발일</span>
     		<input type=text id=start_date name=start_date size=12 placeholder="출발일 선택">
-     
-      		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true" id="start_date" style="cursor:pointer;"></span></span>
     	</div>
     </div>
     <div class="col-sm-3"> 
       	<div class="input-group">
       		<span class="input-group-addon">종료일</span>
-      		<input type=text id=end_date name=end_date size=12 placeholder="종료일 선택" >
- 
-      		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true" id="end_date" style="cursor:pointer;"></span></span>
+      		<input type=text id=end_date name=end_date size=12 placeholder="종료일 선택" >	
     	</div>
     </div>
     	<input type="hidden" name=period id=period >
