@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-asdasd
+<a href="schedule/scheduleWriteForm.go" >일정만들기</a><br/>
+<a href="member/joinForm.go" >회원가입</a><br/>
+<a href="member/loginpage.go" >로그인</a><br/>
+
 </body>
 </html>

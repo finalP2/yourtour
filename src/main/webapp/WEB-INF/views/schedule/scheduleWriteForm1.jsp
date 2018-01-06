@@ -1,32 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
+	
 function check(){
 	
 	var write = document.sForm;	   
 	if(write.name.value==""){
-		alert("ì¼ì • ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+		alert("ÀÏÁ¤ ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 		write.name.focus();
 		return false;
 	}
 	else if(write.start_date.value==""){
-		alert("ì¶œë°œì¼ì„ ì„¤ì •í•´ì£¼ì„¸ìš”.");
+		alert("Ãâ¹ßÀÏÀ» ¼³Á¤ÇØÁÖ¼¼¿ä.");
 		write.start_date.focus();
 		return false;
 	}
 	else if(write.end_date.value==""){
-		alert("ì¢…ë£Œì¼ì„ ì„¤ì •í•´ì£¼ì„¸ìš”.");
+		alert("Á¾·áÀÏÀ» ¼³Á¤ÇØÁÖ¼¼¿ä.");
 		write.end_date.focus();
 		return false;
 	}
@@ -49,38 +51,52 @@ function check(){
             }
         }
     }
+
+
 </script>
+
 </head>
 <body>
+<!-- »ó´Ü ÀÌ¹ÌÁö -->
+<div class="jumbotron text-center">
+  <form class="form-inline">
+  	<p><font color="#ffffff" size="10"><b>³ª¸¸ÀÇ ¿©Çà ÀÏÁ¤À» ¸¸µå¼¼¿ä!</b></font></p>
+  	<p><font color="#ffffff" size="3">³» ¿©Çà ÀÏÁ¤À» °øÀ¯ÇÒ ¼ö ÀÖ°í ´Ù¸¥ »ç¶÷ÀÌ ¸¸µç ¿©Çà ÀÏÁ¤À» º¼ ¼ö ÀÖ½À´Ï´Ù.</font></p>
+    <div class="input-group">
+ 		<a class="btn btn-default" href="/yourtour/schedule/scheduleList.go?currentPage=1" role="button">º¸·¯°¡±â</a>
+    </div>
+  </form>
+</div>
+
 <table width="100%">
 <tr>
 <td>
 <form:form commandName="scheduleModel" name="sForm" class="form-horizontal" action="scheduleState.go" method="post" onsubmit="return check();">
   <div class="form-group">
-    <label class="control-label col-sm-2">ì¼ì • ì´ë¦„:</label>
+    <label class="control-label col-sm-2">ÀÏÁ¤ ÀÌ¸§:</label>
     <div class="col-sm-6">
       <input type="text" 
       		class="form-control" 
       		name="name" 
       		data-placement="bottom"
       		data-toggle="tooltip" 
-      		title="í•„ìˆ˜ì…ë ¥ í•­ëª© ì…ë‹ˆë‹¤." 
-      		placeholder="ì¼ì • ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”."/>
+      		title="ÇÊ¼öÀÔ·Â Ç×¸ñ ÀÔ´Ï´Ù." 
+      		placeholder="ÀÏÁ¤ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä."/>
     </div>
   </div>
   <div class="form-group">
-    <label class="control-label col-sm-2">ë‚ ì§œ ì„¤ì •:</label>
+    <label class="control-label col-sm-2">³¯Â¥ ¼³Á¤:</label>
     
     <div class="col-sm-3"> 
     	<div class="input-group">
-    		<span class="input-group-addon">ì¶œë°œì¼</span>
-    		<input type=text id=start_date name=start_date size=12 placeholder="ì¶œë°œì¼ ì„ íƒ">
+    		<span class="input-group-addon">Ãâ¹ßÀÏ</span>
+    		<input type=text id=start_date name=start_date size=12 placeholder="Ãâ¹ßÀÏ ¼±ÅÃ">
     	</div>
     </div>
     <div class="col-sm-3"> 
       	<div class="input-group">
-      		<span class="input-group-addon">ì¢…ë£Œì¼</span>
-      		<input type=text id=end_date name=end_date size=12 placeholder="ì¢…ë£Œì¼ ì„ íƒ" >	
+      		<span class="input-group-addon">Á¾·áÀÏ</span>
+      		<input type=text id=end_date name=end_date size=12 placeholder="Á¾·áÀÏ ¼±ÅÃ" >	
     	</div>
     </div>
     	<input type="hidden" name=period id=period >
@@ -91,12 +107,12 @@ function check(){
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
       <div class="checkbox">
-     <span class="input-group-addon">ê³„ì ˆ</span>
-        <label data-toggle="tooltip" title="ê³„ì ˆì„ ì„ íƒí•´ ì£¼ì„¸ìš”.">
-        	<input type="checkbox" name="season" value="1" onclick="check_only(this)"/>ë´„
-        	<input type="checkbox" name="season" value="2" onclick="check_only(this)"/>ì—¬ë¦„
-        	<input type="checkbox" name="season" value="3" onclick="check_only(this)"/>ê°€ì„
-        	<input type="checkbox" name="season" value="4" onclick="check_only(this)"/>ê²¨ìš¸
+     <span class="input-group-addon">°èÀı</span>
+        <label data-toggle="tooltip" title="°èÀıÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä.">
+        	<input type="checkbox" name="season" value="1" onclick="check_only(this)"/>º½
+        	<input type="checkbox" name="season" value="2" onclick="check_only(this)"/>¿©¸§
+        	<input type="checkbox" name="season" value="3" onclick="check_only(this)"/>°¡À»
+        	<input type="checkbox" name="season" value="4" onclick="check_only(this)"/>°Ü¿ï
         	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;
         </label>
       </div>
@@ -105,35 +121,35 @@ function check(){
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
       <div class="checkbox">
-      <span class="input-group-addon">í…Œë§ˆ</span>
-        <label data-toggle="tooltip" title="ì—¬í–‰ í…Œë§ˆë¥¼ ì„ íƒí•´ ì£¼ì„¸ìš”.">
-        	<input type="checkbox" name="theme" value="1" onclick="check_only1(this)"/>í™€ë¡œ
-        	<input type="checkbox" name="theme" value="2" onclick="check_only1(this)"/>ì»¤í”Œ
-        	<input type="checkbox" name="theme" value="3" onclick="check_only1(this)"/>ì¹œêµ¬
-        	<input type="checkbox" name="theme" value="4" onclick="check_only1(this)"/>ê°€ì¡±
+      <span class="input-group-addon">Å×¸¶</span>
+        <label data-toggle="tooltip" title="¿©Çà Å×¸¶¸¦ ¼±ÅÃÇØ ÁÖ¼¼¿ä.">
+        	<input type="checkbox" name="theme" value="1" onclick="check_only1(this)"/>È¦·Î
+        	<input type="checkbox" name="theme" value="2" onclick="check_only1(this)"/>Ä¿ÇÃ
+        	<input type="checkbox" name="theme" value="3" onclick="check_only1(this)"/>Ä£±¸
+        	<input type="checkbox" name="theme" value="4" onclick="check_only1(this)"/>°¡Á·
         	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;
         </label>
       </div>
     </div>
   </div>
   <div class="form-group">
-    <label class="control-label col-sm-2">ì´ ì—¬í–‰ ê²½ë¹„:</label>
+    <label class="control-label col-sm-2">ÃÑ ¿©Çà °æºñ:</label>
     <div class="col-sm-6">
       <input type="text" 
       		class="form-control" 
       		name="s_name" 
       		data-placement="bottom"
       		data-toggle="tooltip" 
-      		placeholder="ì—¬í–‰ ê²½ë¹„ë¥¼ ì…ë ¥í•˜ì„¸ìš”."/>
+      		placeholder="¿©Çà °æºñ¸¦ ÀÔ·ÂÇÏ¼¼¿ä."/>
     </div>
   </div>
   
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
       <div class="checkbox">
-        <label data-toggle="tooltip" title="ì²´í¬í•  ì‹œ ì¼ì • ê²Œì‹œíŒì— ë‚˜íƒ€ë‚˜ì§€ ì•ŠìŠµë‹ˆë‹¤.">
+        <label data-toggle="tooltip" title="Ã¼Å©ÇÒ ½Ã ÀÏÁ¤ °Ô½ÃÆÇ¿¡ ³ªÅ¸³ªÁö ¾Ê½À´Ï´Ù.">
         	<input type="checkbox" name="private1" value="1"/>
-        	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;ë¹„ë°€ê¸€
+        	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;ºñ¹Ğ±Û
         </label>
       </div>
     </div>
@@ -141,7 +157,7 @@ function check(){
   
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="button"><span>ë§Œë“¤ê¸°</span></button>
+      <button type="submit" class="button"><span>¸¸µé±â</span></button>
     </div>
   </div>
 
@@ -153,12 +169,13 @@ function check(){
 
 $(function() {
 	  $( "#start_date" ).datepicker({
-	    dateFormat: 'yy-mm-dd'
+	    dateFormat: 'yyyy-mm-dd'
 	  });
 	  $( "#end_date" ).datepicker({
-		    dateFormat: 'yy-mm-dd'
+		    dateFormat: 'yyyy-mm-dd'
 		  });
 	});
 </script>
+<br><br><br><br><br>
 </body>
 </html>

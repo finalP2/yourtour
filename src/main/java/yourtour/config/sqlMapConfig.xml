@@ -17,7 +17,7 @@ PUBLIC " - //mybatis.org//DTD Config 3.0//EN"
 	</settings>
 	
 	<typeAliases>
-		<!-- <typeAlias alias="member" type="com.gokkiri.member.MemberModel" /> -->
+		<typeAlias alias="member" type="net.nigne.yourtour.member.MemberModel" />
 		<typeAlias alias="schedule" type="net.nigne.yourtour.schedule.ScheduleModel" />
 		<!-- <typeAlias alias="schComment" type="com.gokkiri.schedule.SchCommentModel" /> -->
 <!-- 		<typeAlias alias="state" type="com.gokkiri.state.StateModel"/>
@@ -31,8 +31,8 @@ PUBLIC " - //mybatis.org//DTD Config 3.0//EN"
 	<!-- SQL 정의한 xml문서 Mapping -->
 	<mappers>
 	    <!-- <mapper resource="gokkiri/config/pushSQL.xml" />
-	    <mapper resource="gokkiri/config/memSQL.xml" />
 	    <mapper resource="gokkiri/config/mypageSQL.xml" /> -->
+	    <mapper resource="yourtour/config/memberSQL.xml" />
 	    <mapper resource="yourtour/config/schSQL.xml" />
 <!-- 	    <mapper resource="gokkiri/config/stateSQL.xml" />
 	    <mapper resource="gokkiri/config/citySQL.xml" />

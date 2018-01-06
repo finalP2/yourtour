@@ -13,6 +13,11 @@ public class ScheduleService implements ScheduleDao{
 	
 	@Resource(name="sqlSessionTemplate")
 	private SqlSessionTemplate sqlSessionTemplate;
+	
+	@Override
+	public void scheduleWrite(ScheduleModel scheduleModel) {
+		sqlSessionTemplate.insert("schedule.scheduleWrite", scheduleModel);
+	}
 	/*
 	@Override
 	public List<ScheduleModel> scheduleAreaList(ScheduleModel scheduleModel) {
@@ -31,10 +36,7 @@ public class ScheduleService implements ScheduleDao{
 		sqlSessionTemplate.delete("schedule.deleteArea", scheduleModel);
 	}
 	
-	@Override
-	public void scheduleWrite(ScheduleModel scheduleModel) {
-		sqlSessionTemplate.insert("schedule.scheduleWrite", scheduleModel);
-	}
+	
 	
 	@Override
 	public ScheduleModel scheduleWriteSelect(ScheduleModel scheduleModel) {
