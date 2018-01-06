@@ -321,14 +321,15 @@ public class MemberController {
 	  		if (session.getAttribute("session_m_email") != null) {
 	  			String m_email = (String) session.getAttribute("session_m_email");
 	  			MemberModel member = memberService.getMember(m_email);
-
+	  			session.setAttribute("session_m_email", member.getEmail());
+		        session.setAttribute("session_m_nickname", member.getNickname());
 	  			mav.addObject("member", member);
-	  			mav.setViewName("memberModifyForm");
+	  			mav.setViewName("member/memberModifyForm");
 	  			return mav;
 	  			
 	  		} else {
 
-	  			mav.setViewName("loginConfirm");
+	  			mav.setViewName("member/main");
 	  			return mav;
 	  		}
 	  	}
@@ -340,36 +341,36 @@ public class MemberController {
 		if(session.getAttribute("session_m_email") != null) { 
 			
 		/*String m_email = (String) request.getParameter("m_email");*/
-		String m_email = (String) session.getAttribute("session_m_email");
-		String m_pw = (String) request.getParameter("m_pw");
-		String m_name = (String) request.getParameter("m_name");
+		String email = (String) session.getAttribute("session_m_email");
+		String pw = (String) request.getParameter("pw");
+		String name = (String) request.getParameter("name");
+		String name2 = member.getName();
+		
 
-		//�̸���, �г��� �ߺ��Ǹ� ���Ծȵǵ���	
-		MemberModel nameChk = memberService.getNameDuplChk(m_name);
-				  	
-			if(nameChk==null){
 				//ȸ������ ����
-				memberService.memberModify(m_email, m_pw, m_name);
+				MemberModel result2 = memberService.getMember(email);
 				
-				// ȸ������ ���� �� ����� ���� �̸� �ٲ��.
-				MemberModel result = memberService.memberLogin(member);
-				session.setAttribute("session_m_name", result.getName());
+				memberService.memberModify(email, pw, name);
+				MemberModel result = memberService.getMember(email);
 				
-				mav.setViewName("memberModify");
-				 return mav;
-			    
-			    
-				} else {
-					int joinError=2;
-					mav.addObject("joinError",joinError);
-					mav.addObject("m_name",m_name);
-				    mav.setViewName("member/joinError");
+				if(result2.getName().equals(result.getName())) {
+					session.setAttribute("session_m_email", result2.getEmail());
+			        session.setAttribute("session_m_name", result2.getName());
+			        session.setAttribute("session_m_nickname", result2.getNickname());
+				    mav.setViewName("member/memberModifyForm");
 				    return mav;
-				   
+				}
+				 else {
+						session.setAttribute("session_m_email", result.getEmail());
+				        session.setAttribute("session_m_name", result.getName());
+				        session.setAttribute("session_m_nickname", result.getNickname());
+						// ȸ������ ���� �� ����� ���� �̸� �ٲ��.
+						mav.setViewName("member/main");
+						 return mav;		   
 				}
 		
 		 } else{
-				mav.setViewName("loginConfirm"); //�α���x
+				mav.setViewName("member/loginpage"); //�α���x
 				return mav;
 		 }
 
@@ -380,7 +381,7 @@ public class MemberController {
 	 //ȸ�� Ż�� ��
 	 @RequestMapping("/memberDeleteForm.go")
 		public ModelAndView memberDeleteForm(){
-		 	mav.setViewName("memberDeleteForm");
+		 	mav.setViewName("member/memberDeleteForm");
 			return mav;
 		}
 	 
@@ -393,7 +394,7 @@ public class MemberController {
   		
   		String m_email;
   		String m_pw;
-  		m_pw = request.getParameter("m_pw");
+  		m_pw = request.getParameter("pw");
   		int deleteCheck;
   		
   		//�ش� �̸����� ������ �����´�
@@ -410,18 +411,16 @@ public class MemberController {
   			memberService.memberDelete(m_email);
   			session.removeAttribute("session_m_email");
   			session.removeAttribute("session_m_name");
+  			session.removeAttribute("session_m_nickname");
+  			mav.setViewName("member/login");
   		
-  		} else {
-  			deleteCheck = -1; //�н����� ����ġ
   		}
   		
-  		mav.addObject("deleteCheck", deleteCheck);
-  		mav.setViewName("memberDelete");
+  		mav.setViewName("member/login");
   		return mav;
   	}
   		else {
-
-			mav.setViewName("loginConfirm"); //�α���x
+			mav.setViewName("member/memberDeleteForm"); //�α���x
 			return mav;
 	}
 	  	

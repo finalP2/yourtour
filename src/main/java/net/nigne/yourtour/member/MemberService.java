@@ -15,51 +15,51 @@ public class MemberService implements MemberDao{
 	@Resource(name="sqlSessionTemplate")
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-	//·Î±×ÀÎ
+	//ï¿½Î±ï¿½ï¿½ï¿½
 	@Override
 	public MemberModel memberLogin(MemberModel member) {
 		return sqlSessionTemplate.selectOne("member.login", member);
 	}
 	
-	//ÀÌ¸ÞÀÏ »Ì¾Æ¿À±â
+	//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ì¾Æ¿ï¿½ï¿½ï¿½
 	@Override
 	public MemberModel getMember(String email) {
 		return sqlSessionTemplate.selectOne("member.getMember", email);
 	}
 	
-	//ÀÌ¸ÞÀÏ Áßº¹Ã¼Å©
+	//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ßºï¿½Ã¼Å©
 	@Override
 	public MemberModel getEmailDuplChk(String email){
 		return sqlSessionTemplate.selectOne("member.emailCheck", email);
 	}
 	
-	//ÀÌ¸§(´Ð³×ÀÓ) Áßº¹Ã¼Å©
+	//ï¿½Ì¸ï¿½(ï¿½Ð³ï¿½ï¿½ï¿½) ï¿½ßºï¿½Ã¼Å©
 	@Override
 	public MemberModel getNameDuplChk(String name){
 		return sqlSessionTemplate.selectOne("member.nameCheck", name);
 	}
 	
 	
-	//ÀÌ¸ÞÀÏ °Ë»ö
+	//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	@Override
 	public MemberModel getEmail(MemberModel member){
 		return sqlSessionTemplate.selectOne("member.searchEamil", member);
 	}
 	
-	//ÀÌ¸ÞÀÏ Ã£±â
+	//ï¿½Ì¸ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
 	@Override
 	public MemberModel emailFindByName(MemberModel member) {
 		return sqlSessionTemplate.selectOne("member.emailFind", member);
 	}
 	
-	//ºñ¹Ð¹øÈ£ Ã£±â
+	//ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½
 	@Override
 	public MemberModel pwFindByEmail(MemberModel member) {
 		return sqlSessionTemplate.selectOne("member.pwFind", member);
 	}
 	
 
-	//È¸¿ø°¡ÀÔ
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public Object insertMember(String email, String pw, String name, String nickname) {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
@@ -70,23 +70,23 @@ public class MemberService implements MemberDao{
 		return sqlSessionTemplate.insert("member.insertMem", hm);
 	}
 	
-	//È¸¿øÁ¤º¸ ¼öÁ¤
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public void memberModify(String m_email, String m_pw, String m_name) {
 		HashMap<String, String> hm = new HashMap<String, String>();
-		hm.put("m_email", m_email);
-		hm.put("m_pw", m_pw);
-		hm.put("m_name", m_name);
+		hm.put("email", m_email);
+		hm.put("pw", m_pw);
+		hm.put("name", m_name);
 		sqlSessionTemplate.update("member.updateMem", hm);
 	}
 	
-	//È¸¿øÅ»Åð
+	//È¸ï¿½ï¿½Å»ï¿½ï¿½
 	@Override
 	public void memberDelete(String email) {
 		sqlSessionTemplate.delete("member.deleteMem", email);
 	}
 	
-		//ÀÌ¸ÞÀÏ ÀÎÁõ
+		//ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		@Override
 		public int emailAuth(String m_email, String m_auth) {
 			HashMap<String, String> map = new HashMap<String, String>();
@@ -96,7 +96,7 @@ public class MemberService implements MemberDao{
 			return sqlSessionTemplate.update("member.emailAuth", map);
 		}
 		@Override
-		//ÀÎÁõ¹øÈ£ º¯°æ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½
 		public int changeAuth(String m_email,String m_auth) {
 			// TODO Auto-generated method stub
 			HashMap<String, String> map = new HashMap<String, String>();

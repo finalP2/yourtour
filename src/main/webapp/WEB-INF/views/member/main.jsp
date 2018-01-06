@@ -12,9 +12,9 @@
     ${session_m_email}님으로 로그인 하셨습니다.<br>
     ${session_m_name}님 환영합니다<br>
     닉네임 : ${session_m_nickname}<br>   
-    <input type="button" value="로그아웃" onclick="logout.go">  
-    <a href="/yourtour/member/logout.go">로그아웃</a>
-    <input type="button" value="회원수정페이지" onclick="location.href='joinform.do'">
+    <input type="button" value="로그아웃" onclick="location.href='logout.go'">  
+    <input type="button" value="회원수정" onclick="location.href='memberModifyForm.go'">
+    <input type="button" value="회원탈퇴" onclick="location.href='memberDeleteForm.go'">
     
 </body>
 </html>

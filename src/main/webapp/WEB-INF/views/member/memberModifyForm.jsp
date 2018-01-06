@@ -4,17 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>회원가입</title>
+<title>회원정보수정</title>
 </head>
 <body>
     <center>
-        <h1>회원가입 페이지</h1>
+        <h1>회원정보수정 페이지</h1>
  
-        <form action="join.go">
+        <form action="memberModify.go">
             <table>
                 <tr>
                     <td>이메일</td>
-                    <td><input type="text" name="email" ></td>
+                    <td>${session_m_email}</td>
                 </tr>
                 <tr>
                     <td>비밀번호</td>
@@ -29,13 +29,13 @@
                     <td><input type="text" name="name" ></td>
                 </tr>
                 <tr>
-                    <td>닉네임</td>
-                    <td><input type="text" name="nickname" ></td>
+                    <td>닉네임 : ${session_m_nickname}</td>
                 </tr>
  
                 <tr>
-                    <td colspan="2" align="center"><input type="submit" value="가입하기"><input type="reset" value="다시작성"><a href="/yourtour/member/loginpage.go">로그인</a></td>
-                    
+                    <td colspan="2" align="center"><input type="submit" value="수정하기">
+                    <button type="reset" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;다시작성</button>
+                    </td>
                 </tr>
             </table>
  
