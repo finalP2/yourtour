@@ -1,6 +1,8 @@
 package net.nigne.yourtour.schedule;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -54,18 +56,45 @@ public class ScheduleController {
 	@RequestMapping("scheduleState.go")
 	public ModelAndView scheduleState(HttpServletRequest request, ScheduleModel scheduleModel, HttpSession session) throws Exception{
         		
-		/*scheduleModel.setEmail((String)session.getAttribute("session_m_email"));*/
+		scheduleModel.setEmail("csw");
 		
-			scheduleService.scheduleWrite(scheduleModel);
+		
+		String date1 = scheduleModel.getStart_date();
+	    String date2 = scheduleModel.getEnd_date();
+	 
+	    
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+        // date1, date2 �� ��¥�� parse()�� ���� Date������ ��ȯ.
+        Date FirstDate = format.parse(date1);
+        Date SecondDate = format.parse(date2);
+        
+        // Date�� ��ȯ�� �� ��¥�� ����� �� �� ���ϰ����� long type ������ �ʱ�ȭ �ϰ� �ִ�.
+        // ������ -950400000. long type ���� return �ȴ�.
+        long calDate = FirstDate.getTime() - SecondDate.getTime(); 
+        
+        // Date.getTime() �� �ش糯¥�� ��������1970�� 00:00:00 ���� �� �ʰ� �귶������ ��ȯ���ش�. 
+        // ���� 24*60*60*1000(�� �ð����� ���� ������) �� �����ָ� �ϼ��� ���´�.
+        long calDateDays = calDate / ( 24*60*60*1000); 
+ 
+        calDateDays = Math.abs(calDateDays);
+        
 
-			/*scheduleModel = scheduleService.scheduleLastWrite((String)session.getAttribute("session_email"));*/
-			
-		
-		
-	/*	List<StateModel> stateList = stateService.StateList();*/
 
-		/*mav.addObject("sch", scheduleModel);
-		mav.addObject("stateList",stateList);*/
+        scheduleModel.setPeriod((int) calDateDays+1);
+    
+        
+        
+		scheduleService.scheduleWrite(scheduleModel);
+
+		//scheduleModel = scheduleService.scheduleLastWrite("csw");
+		
+		
+		
+		//List<StateModel> stateList = stateService.StateList();
+
+	
+		//mav.addObject("stateList",stateList);
+		mav.addObject("sch", scheduleModel);
 		mav.setViewName("schedule/scheduleState");
 		
 		return mav;
@@ -97,7 +126,7 @@ public class ScheduleController {
 
 		if(request.getParameter("a_cate") != null){
 			int a_cate = Integer.parseInt(request.getParameter("a_cate"));
-			//占쏙옙커 占쏙옙占쏙옙 占쏙옙占쏙옙트
+
 			List<AreaModel> areaCateList = areaService.markerAreaCateList(c_no, a_cate, s_no, s_idx);
 			mav.addObject("areaCateList", areaCateList);
 			
@@ -214,7 +243,7 @@ public class ScheduleController {
 		return mav;
 	}
 	
-	//占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
+
 		@RequestMapping("turnUp.go")
 		public ModelAndView turnUp(HttpServletRequest request, ScheduleModel scheduleModel){
 			
@@ -245,7 +274,7 @@ public class ScheduleController {
 			return mav;
 		}
 		
-		//占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
+
 		@RequestMapping("turnDown.go")
 		public ModelAndView turnDown(HttpServletRequest request, ScheduleModel scheduleModel){
 			
@@ -276,7 +305,7 @@ public class ScheduleController {
 			return mav;
 		}
 		
-		//占쏙옙占쏙옙 占쌨몌옙
+
 		@RequestMapping("writeMemo.go")
 		public ModelAndView writeMemo(HttpServletRequest request, ScheduleModel scheduleModel){
 			
@@ -304,14 +333,13 @@ public class ScheduleController {
 		MemberModel member = new MemberModel();
 		
 		member = memberService.getEmailDuplChk(request.getParameter("emailExist"));
-		
-		//占쏙옙占싱듸옙 占쏙옙占쏙옙
+
 		if(member==null){
 			chk = 0;
 			mav.addObject("chk", chk);
 			mav.setViewName("schedule/emailExist");
 			return mav;
-		//占쏙옙占싱듸옙 占쏙옙占쏙옙
+	
 		}else{
 			chk = 1;
 			mav.addObject("chk", chk);
@@ -320,7 +348,7 @@ public class ScheduleController {
 		}
 	}
 	
-	//占쏙옙占쏙옙占쌉쏙옙占쏙옙 占쏙옙 占쏢세븝옙占쏙옙
+
 	@RequestMapping("scheduleDetail.go")
 	public ModelAndView scheduleDetail0(HttpServletRequest request, HttpSession session){
 	
@@ -328,43 +356,40 @@ public class ScheduleController {
 		int s_cate = Integer.parseInt(request.getParameter("s_cate"));
 		int zzim = 0;
 		
-		//占쏙옙占쏙옙占쏙옙 占쏙옙占쌩댐옙占쏙옙 占쏙옙占쌩댐옙占쏙옙 占쏙옙占쏙옙占쌍깍옙占쏙옙占쏙옙
-		if(session.getAttribute("session_m_email") != null){
+		
 			String m_email = (String)session.getAttribute("session_m_email");
 			zzim = (Integer)(scheduleService.zzimCheck(m_email, s_no));
 		}
 		
 			
-		//占쏙옙占쏙옙트占쏙옙占쏙옙 占쏢세븝옙占쏙옙占� 占쏙옙占쏙옙占쏙옙 占쏙옙회占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占실달깍옙
-		//占쏙옙占쏙옙카占쌓곤옙(占쏢세븝옙占쏙옙/占쏙옙占쏙옙표/占쌘몌옙트) 占싱듸옙占시울옙占쏙옙 占쏙옙회占쏙옙 占시띰옙占쏙옙 占십듸옙占쏙옙
-		//s_count 占쏙옙 占쏙옙占쏙옙트占쏙옙 0 占싱곤옙, 1占싹뗰옙占쏙옙 占쏙옙회占쏙옙 占쏙옙占�
+
 		int s_count = 0;
 		if(request.getParameter("s_count") != null){
 			s_count = Integer.parseInt(request.getParameter("s_count"));
 		}
 		
-		//占쏙옙占쏙옙觀占�
+	
 		ScheduleModel scheduleModel = scheduleService.scheduleDetail(s_no);
 		int areaCount = scheduleService.areaCount(s_no);
 		int sch_commCount = scheduleService.sch_commCount(s_no);
 		ScheduleModel s_idx = scheduleService.selectS_idx(s_no);
 		ScheduleModel state_city = scheduleService.selectStateCity(s_no);
 		
-		//占쏢세븝옙占쏙옙 占싹띰옙
+		
 		if(s_cate == 0){
-			//占쏙옙占쏙옙트->占쏢세븝옙占쏙옙 占싹띰옙 占쏙옙회占쏙옙 占시몌옙占쏙옙
+			
 			if(s_count == 0){
 				scheduleService.scheduleUpdateReadhit(s_no);
 			}
 			s_count = 1;
 			
-			//占쏢세븝옙占쏙옙/Day
+			
 			List<ScheduleModel> schDetailDay = scheduleService.schDetail(s_no);
 			mav.addObject("schDetailDay", schDetailDay);
 			
 			List<Object> dayList = new ArrayList<Object>();
 			
-			//占쏢세븝옙占쏙옙/Day占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙트
+			
 			for(int i = 1; i <= schDetailDay.size(); i++){
 				List<ScheduleModel> day = scheduleService.DayList(i, s_no);
 				dayList.add(day);
@@ -372,11 +397,11 @@ public class ScheduleController {
 			mav.addObject("dayList", dayList);
 			
 		}
-		//占쏙옙占쏙옙표 占싹뗰옙
+	
 		else if(s_cate == 1){
 			s_count = 1;
 		}
-		//占쌘몌옙트 占싹띰옙
+		
 		else if(s_cate == 2){
 			List<SchCommentModel> schCommentList = scheduleService.sch_comList(s_no);
 			s_count = 1;
@@ -384,10 +409,10 @@ public class ScheduleController {
 			mav.addObject("schCommentList", schCommentList);
 		}
 		
-		//占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 회占쏙옙占싱몌옙占쏙옙 占쏙옙占쏙옙트 占쌀뤄옙占쏙옙占쏙옙
+		
 		List<ScheduleModel> s_together = scheduleService.s_together(s_no);
 		
-		//占쏙옙占쏙옙占쏙옙 占쏙옙커占쏙옙 표占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙트 占쌀뤄옙占쏙옙占쏙옙
+		
 		List<ScheduleModel> mapList = scheduleService.mapList(s_no);
 		
 		mav.addObject("s_idx", s_idx);
@@ -405,7 +430,7 @@ public class ScheduleController {
 		return mav;
 	}
 	
-	//占쏙옙占쏙옙占쌉쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙占싹깍옙
+	
 	@RequestMapping("scheduleDelete.go")
 	public String scheduleDelete(HttpServletRequest request){
 		
@@ -417,7 +442,6 @@ public class ScheduleController {
 		return "redirect:scheduleList.go?currentPage="+currentPage;
 	}
 	
-	//占쏙옙占쏙옙占쌉쏙옙占쏙옙 占쌘몌옙트 占쏙옙占쏙옙
 	@RequestMapping("schComment.go")
 	public String schComment(HttpServletRequest request, SchCommentModel schCommentModel){
 		
@@ -432,7 +456,7 @@ public class ScheduleController {
 		
 	}
 	
-	//占쏙옙占쏙옙占쌉쏙옙占쏙옙 占쌘몌옙트 占쏙옙占쏙옙
+	
 	@RequestMapping("schCommentDelete.go")
 	public String schCommentDelete(HttpServletRequest request){
 		
@@ -443,7 +467,7 @@ public class ScheduleController {
 		return "redirect:scheduleDetail.go?s_no="+s_no+"&s_cate=2&s_count=1";
 	}
 	
-	//占쏙옙占싹깍옙
+	
 	@RequestMapping("schZzim1.go")
 	public String schZzim1(HttpServletRequest request){
 		
@@ -455,7 +479,7 @@ public class ScheduleController {
 		return "redirect:scheduleDetail.go?s_no="+s_no+"&s_cate=0";
 	}
 	
-	//占쏙옙 占싹깍옙 占쏙옙占쏙옙
+	
 	@RequestMapping("schZzim2.go")
 	public String schZzim2(HttpServletRequest request){
 		
@@ -467,7 +491,7 @@ public class ScheduleController {
 		return "redirect:scheduleDetail.go?s_no="+s_no+"&s_cate=0";
 	}
 	
-	//占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙
+	
 	@RequestMapping("schDownload.go")
 	public String schDownload(HttpServletRequest request){
 		
@@ -475,25 +499,24 @@ public class ScheduleController {
 		String m_email = (String)request.getParameter("m_email");
 		String s_name = (String) request.getParameter("s_name");
 		
-		//占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쌀뤄옙占쏙옙占쏙옙
+	
 		ScheduleModel scheduleModel = scheduleService.scheduleDetail(s_no);
-		//占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹몌옙占쏙옙트 占쌀뤄옙占쏙옙占쏙옙
+		
 		List<ScheduleModel> schDetailList = scheduleService.schDetailList(s_no);
 		
-		//占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹깍옙(m_email 占쌕꿔서 insert 占싹깍옙)
+
 		scheduleModel.setM_email(m_email);
 		scheduleModel.setS_name(s_name);
 		String subject = scheduleModel.getS_name();
-		scheduleModel.setS_name("<占쏙옙크占쏙옙>"+subject);
+		scheduleModel.setS_name("<>"+subject);
 		
-		//sch占쏙옙占싱븝옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 s_no占쌨아울옙占쏙옙
-		int ss_no = scheduleService.schDownload(scheduleModel);
+		
 		System.out.println("ss_no : "+ss_no);
 		
-		//占쏙옙占쏙옙 ss_no占쏙옙 占싼곤옙占쌍깍옙
+	
 		scheduleService.schDownDetail(schDetailList, ss_no);
 		
-		//占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 - 占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占싼어가占쏙옙
+	
 		return "redirect:scheduleDetail.go?s_no="+s_no+"&s_cate=0";
 		
 		

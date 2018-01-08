@@ -55,10 +55,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 일정 게시판 글 쓰기 -->
 	<insert id="scheduleWrite" parameterType="schedule">
-		INSERT INTO SCH(NO, EMAIL, name, start_date, end_date, period, season,cost,theme) 
-		VALUES(sch_NO_SEQ.NEXTVAL, #{EMAIL},#{name}, TO_DATE(#{start_date}, 'yyyy-mm-dd'), TO_DATE(#{end_date}, 'yyyy-mm-dd'), #{period}, #{season},#{cost},#{theme})
+		INSERT INTO SCH(NO, email, name, start_date, end_date, period, season,cost,theme) 
+		VALUES(SCH_NO_SEQ.NEXTVAL, #{email}, #{name}, #{start_date}, #{end_date}, #{period}, #{season}, #{cost}, #{theme})
 	</insert>
-
+	
+	<!-- 일정 게시판 가장 최근에 쓴 글 검색 -->
+	<!-- <select id="scheduleLastWrite" resultMap="scheduleRes" parameterType="String">
+		select no, name, email, TO_CHAR(start_date, 'yyyy-mm-dd') start_date, TO_CHAR(end_date, 'yyyy-mm-dd') end_date
+		from sch 
+		where no = (select max(no) from sch) and email = #{email}
+	</select> -->
 	
 
  </mapper>

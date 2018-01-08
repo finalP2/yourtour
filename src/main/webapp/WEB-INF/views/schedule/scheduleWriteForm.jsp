@@ -55,7 +55,7 @@ function check(){
 <table width="100%">
 <tr>
 <td>
-<form:form commandName="scheduleModel" name="sForm" class="form-horizontal" action="scheduleState.go" method="post" onsubmit="return check();">
+<form commandName="scheduleModel" name="sForm" class="form-horizontal" action="scheduleState.go" method="post" onsubmit="return check();">
   <div class="form-group">
     <label class="control-label col-sm-2">일정 이름:</label>
     <div class="col-sm-6">
@@ -83,7 +83,6 @@ function check(){
       		<input type=text id=end_date name=end_date size=12 placeholder="종료일 선택" >	
     	</div>
     </div>
-    	<input type="hidden" name=period id=period >
     </div>
    
  
@@ -93,10 +92,10 @@ function check(){
       <div class="checkbox">
      <span class="input-group-addon">계절</span>
         <label data-toggle="tooltip" title="계절을 선택해 주세요.">
-        	<input type="checkbox" name="season" value="1" onclick="check_only(this)"/>봄
-        	<input type="checkbox" name="season" value="2" onclick="check_only(this)"/>여름
-        	<input type="checkbox" name="season" value="3" onclick="check_only(this)"/>가을
-        	<input type="checkbox" name="season" value="4" onclick="check_only(this)"/>겨울
+        	<input type="checkbox" name="season" value="봄" onclick="check_only(this)"/>봄
+        	<input type="checkbox" name="season" value="여름" onclick="check_only(this)"/>여름
+        	<input type="checkbox" name="season" value="가을" onclick="check_only(this)"/>가을
+        	<input type="checkbox" name="season" value="겨울" onclick="check_only(this)"/>겨울
         	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;
         </label>
       </div>
@@ -107,10 +106,10 @@ function check(){
       <div class="checkbox">
       <span class="input-group-addon">테마</span>
         <label data-toggle="tooltip" title="여행 테마를 선택해 주세요.">
-        	<input type="checkbox" name="theme" value="1" onclick="check_only1(this)"/>홀로
-        	<input type="checkbox" name="theme" value="2" onclick="check_only1(this)"/>커플
-        	<input type="checkbox" name="theme" value="3" onclick="check_only1(this)"/>친구
-        	<input type="checkbox" name="theme" value="4" onclick="check_only1(this)"/>가족
+        	<input type="checkbox" name="theme" value="홀로" onclick="check_only1(this)"/>홀로
+        	<input type="checkbox" name="theme" value="커플" onclick="check_only1(this)"/>커플
+        	<input type="checkbox" name="theme" value="친구" onclick="check_only1(this)"/>친구
+        	<input type="checkbox" name="theme" value="가족" onclick="check_only1(this)"/>가족
         	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;
         </label>
       </div>
@@ -121,7 +120,7 @@ function check(){
     <div class="col-sm-6">
       <input type="text" 
       		class="form-control" 
-      		name="s_name" 
+      		name="cost" 
       		data-placement="bottom"
       		data-toggle="tooltip" 
       		placeholder="여행 경비를 입력하세요."/>
@@ -145,7 +144,7 @@ function check(){
     </div>
   </div>
 
-</form:form>
+</form>
 </td>
 </tr>
 </table>
