@@ -1,7 +1,7 @@
 package net.nigne.yourtour.schedule;
 
 
-public class ScheduleDayDao {
+public class ScheduleDayModel {
 	
 	private int no;
 	private int day;

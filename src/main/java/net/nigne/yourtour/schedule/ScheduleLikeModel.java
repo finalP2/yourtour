@@ -1,6 +1,6 @@
 package net.nigne.yourtour.schedule;
 
-public class ScheduleLikeDao {
+public class ScheduleLikeModel {
 	private int no;
 	private String email;
 	private int sch_no;

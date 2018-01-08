@@ -45,80 +45,34 @@
 </head>
 <body>
 <div style="padding-top: 20px;">
-<h3 style="margin-top: 0px; margin-bottom: 0px; padding-left: 10px;"><span class="glyphicon glyphicon-tags"></span>&nbsp;${sch.s_name }</h3>
+<h3 style="margin-top: 0px; margin-bottom: 0px; padding-left: 10px;"><span class="glyphicon glyphicon-tags"></span>&nbsp;${sch.name }</h3>
 </div>
- <div class="row" style="padding-top: 5px;">
+
         <div class="col-sm-2 col-md-2" style="padding-right: 5px; padding-left: 20px;">
-            <div class="panel-group" id="accordion">
-            
-                <div class="panel panel-default">
-                    <div class="list-group-item active" style="text-align:center;">
-                        <h4 class="panel-title">
-                        	<button onclick="javascript:location.href='scheduleState.go?s_no=${param.s_no}'" 
-                        		class="btn btn-default btn-xs"
-                        		style="margin-bottom: 5px;">
-                        			<span class="glyphicon glyphicon-refresh"></span>&nbsp;지역 변경
-                        	</button>
-                        	<br>
-                        	도시 선택
-                        	<div style="padding-top: 5px;">
-								<form action="scheduleCity.go">
-									<div class="input-group">
-										<input type="hidden" value="${param.s_no }" name="s_no">
-										<input type="hidden" value="${param.state_no }" name="state_no">
-										<input type="text" class="form-control input-sm" placeholder="도시 이름" name="keyword">
-									    <div class="input-group-btn">
-										        <button type="submit" 
-										        		class="btn btn-default btn-sm">검색</button>
-									    </div>
-								    </div>
-								</form>
-							</div>
-                        </h4>
-                    </div>
+          
                     <div id="collapseOne" class="panel-collapse collapse in" style="height:610px; overflow:auto">
                         <div class="panel-body">
                             <table class="table">
-                            	<c:if test="${param.keyword == null }">
+                            	
 	                            <c:forEach var="cityList" items="${cityList }" varStatus="stat">
 	                                <tr>
 	                                   <td class="col-xs-1"
 	                                   		style="cursor:pointer;" 
-	                                   		onclick="window.open('http://localhost:8080/gokkiri/city/cityDetail.go?c_no=${cityList.c_no}&keyword=info','도시 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
+	                                   		onclick="window.open('http://localhost:8080/yourtour/city/cityDetail.go?no=${cityList.no}&keyword=info','도시 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
 	                                   	<span class="glyphicon glyphicon-info-sign"></span>
 	                                   </td>
-	                                   <td class="col-xs-10" style="text-align:left; cursor:pointer;" onclick="javascript:location.href='scheduleArea.go?s_no=${param.s_no}&state_no=${param.state_no}&c_no=${cityList.c_no}&s_idx=1'">
-	                                   	${cityList.c_name }
+	                                   <td >
+	                                   	${cityList.name }
 	                                   </td>
-	                                   <td class="col-xs-1" style="text-align:right; cursor:pointer;" onclick="javascript:location.href='scheduleArea.go?s_no=${param.s_no}&state_no=${param.state_no}&c_no=${cityList.c_no}&s_idx=1'">
+	                                   <td>
 	                                   	<span class="glyphicon glyphicon-chevron-right"></span>
 	                                   </td>
 	                                </tr>
 	                            </c:forEach>
-	                            </c:if>
-	                            <c:if test="${param.keyword != null }">
-	                            <c:forEach var="citySearchList" items="${citySearchList }" varStatus="stat">
-	                                <tr>
-	                                    <td class="col-xs-1"
-	                                   		style="cursor:pointer;" 
-	                                   		onclick="window.open('http://localhost:8080/gokkiri/city/cityDetail.go?c_no=${citySearchList.c_no}&keyword=info','도시 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
-	                                   	<span class="glyphicon glyphicon-info-sign"></span>
-	                                   </td>
-	                                   <td class="col-xs-10" style="text-align:left; cursor:pointer;" onclick="javascript:location.href='scheduleArea.go?s_no=${param.s_no}&state_no=${param.state_no}&c_no=${citySearchList.c_no}&s_idx=1'">
-	                                   	${citySearchList.c_name }
-	                                   </td>
-	                                   <td class="col-xs-1" style="text-align:right; cursor:pointer;" onclick="javascript:location.href='scheduleArea.go?s_no=${param.s_no}&state_no=${param.state_no}&c_no=${citySearchList.c_no}&s_idx=1'">
-	                                   	<span class="glyphicon glyphicon-chevron-right"></span>
-	                                   </td>
-	                                </tr>
-	                            </c:forEach>
-	                            </c:if>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+	                          </table>
+                          </div>
+                     </div>
+	                           
         <div class="col-sm-10 col-md-10" style="padding-left: 0px;">
             <div class="well" style="padding-top: 5px; padding-left: 5px; padding-bottom: 5px; padding-right: 5px;">
                 <div id="map" style="width:100%; height:700px;"></div>

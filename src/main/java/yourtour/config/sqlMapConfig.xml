@@ -19,9 +19,12 @@ PUBLIC " - //mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 		<typeAlias alias="member" type="net.nigne.yourtour.member.MemberModel" />
 		<typeAlias alias="schedule" type="net.nigne.yourtour.schedule.ScheduleModel" />
+		<typeAlias alias="scheduleDay" type="net.nigne.yourtour.schedule.ScheduleDayModel" />
+		<typeAlias alias="city" type="net.nigne.yourtour.city.CityModel" />
+		<typeAlias alias="cityImg" type="net.nigne.yourtour.city.CityImgModel" />
 		<!-- <typeAlias alias="schComment" type="com.gokkiri.schedule.SchCommentModel" /> -->
 <!-- 		<typeAlias alias="state" type="com.gokkiri.state.StateModel"/>
-		<typeAlias alias="city" type="com.gokkiri.city.CityModel" />
+		
 		<typeAlias alias="area" type="com.gokkiri.area.AreaModel" />
 		<typeAlias alias="areaReview" type="com.gokkiri.area.AreaReviewModel" />
 		<typeAlias alias="qna" type="com.gokkiri.qna.QnAModel" />
@@ -34,8 +37,9 @@ PUBLIC " - //mybatis.org//DTD Config 3.0//EN"
 	    <mapper resource="gokkiri/config/mypageSQL.xml" /> -->
 	    <mapper resource="yourtour/config/memberSQL.xml" />
 	    <mapper resource="yourtour/config/schSQL.xml" />
+	    <mapper resource="yourtour/config/citySQL.xml" />
 <!-- 	    <mapper resource="gokkiri/config/stateSQL.xml" />
-	    <mapper resource="gokkiri/config/citySQL.xml" />
+	   
 	    <mapper resource="gokkiri/config/areaSQL.xml" />
 	    <mapper resource="gokkiri/config/qnaSQL.xml" />
 	    <mapper resource="gokkiri/config/tipSQL.xml" /> -->

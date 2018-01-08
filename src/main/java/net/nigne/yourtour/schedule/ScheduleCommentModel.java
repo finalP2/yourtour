@@ -2,7 +2,7 @@ package net.nigne.yourtour.schedule;
 
 import java.util.Date;
 
-public class ScheduleCommentDao {
+public class ScheduleCommentModel {
 	private String email;			
 	private int no;				
 	private String content;

@@ -21,6 +21,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="cost" column="cost" />
 		<result property="theme" column="theme" />
 	</resultMap>
+	<resultMap type="scheduleDay" id="scheduleDayRes">
+		<!-- SCH 테이블 -->
+		<result property="no" column="no" />
+		<result property="day" column="day"/>
+		<result property="sch_no" column="sch_no" />
+	</resultMap>
 		
 <!-- 
 		SCH_DETAIL 테이블
@@ -53,6 +59,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="select-all-list" />
 		ORDER BY NO DESC
 	</select>
+	
+	<!-- 일정 번호와 세션 아이디로 글 검색-->
+	<select id="scheduleSelectOne" resultMap="scheduleRes" parameterType="schedule">
+		select * from sch 
+		where no = #{no}
+	</select>
+	
 	<!-- 일정 게시판 글 쓰기 -->
 	<insert id="scheduleWrite" parameterType="schedule">
 		INSERT INTO SCH(NO, email, name, start_date, end_date, period, season,cost,theme) 
@@ -65,5 +78,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where no = (select max(no) from sch) and email = #{email}
 	</select>
 	
-
+	<!-- 일별일일 추가 -->
+	<insert id="scheduleDayinsert" parameterType="scheduleDay">
+		INSERT INTO SCH_DAY(NO, DAY, SCH_NO) 
+		VALUES(SCH_DAT_NO_SEQ.NEXTVAL, #{day}, #{sch_no})
+	</insert>
+	
+	
  </mapper>

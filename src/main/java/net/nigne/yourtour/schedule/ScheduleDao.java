@@ -34,12 +34,14 @@ public interface ScheduleDao {
 
 	
 
-	public ScheduleModel scheduleWriteSelect(ScheduleModel scheduleModel);*/
+	*/
 	
 
 	public List<ScheduleModel> scheduleList();
 	public void scheduleWrite(ScheduleModel scheduleModel);
 	public ScheduleModel scheduleLastWrite(String email);
+	void scheduleDayinsert(ScheduleDayModel scheduleDayModel);
+	public ScheduleModel scheduleSelectOne(ScheduleModel scheduleModel);
 	/*
 	public List<ScheduleModel> scheduleSearchList(String state_name);
 	
@@ -104,4 +106,5 @@ public interface ScheduleDao {
 	
 	public void deleteSchedule(int s_no);
 */
+	
 }

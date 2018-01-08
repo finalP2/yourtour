@@ -26,6 +26,15 @@ public class ScheduleService implements ScheduleDao{
 	public List<ScheduleModel> scheduleList() {
 		return sqlSessionTemplate.selectList("schedule.scheduleList");
 	}
+	@Override
+	public ScheduleModel scheduleSelectOne(ScheduleModel scheduleModel) {
+		return sqlSessionTemplate.selectOne("schedule.scheduleSelectOne", scheduleModel);
+	}
+	
+	@Override
+	public void scheduleDayinsert(ScheduleDayModel scheduleDayModel) {
+		sqlSessionTemplate.insert("schedule.scheduleDayinsert", scheduleDayModel);
+	}
 	/*
 	@Override
 	public List<ScheduleModel> scheduleAreaList(ScheduleModel scheduleModel) {
@@ -264,6 +273,7 @@ public class ScheduleService implements ScheduleDao{
 		sqlSessionTemplate.delete("schedule.deleteSchedule", s_no);
 	}
 */
+	
 
 
 

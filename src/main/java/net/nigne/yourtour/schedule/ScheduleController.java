@@ -14,7 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import net.nigne.yourtour.city.CityModel;
+import net.nigne.yourtour.city.CityService;
 import net.nigne.yourtour.main.Paging;
 
 
@@ -26,6 +27,8 @@ public class ScheduleController {
 
 	@Resource(name="scheduleService")
 	private ScheduleService scheduleService;
+	@Resource(name="cityService")
+	private CityService cityService;
 	
 	private String pagingHtml;
 	private Paging page;
@@ -54,7 +57,7 @@ public class ScheduleController {
 	}
 	
 	@RequestMapping("scheduleState.go")
-	public ModelAndView scheduleState(HttpServletRequest request, ScheduleModel scheduleModel, HttpSession session) throws Exception{
+	public ModelAndView scheduleState(HttpServletRequest request, ScheduleModel scheduleModel, ScheduleDayModel scheduleDayModel, HttpSession session) throws Exception{
         		
 		scheduleModel.setEmail("csw");
 		
@@ -78,12 +81,20 @@ public class ScheduleController {
 
         scheduleModel.setPeriod((int) calDateDays+1);
     
-        
+        int period = scheduleModel.getPeriod();
         
 		scheduleService.scheduleWrite(scheduleModel);
-
-		scheduleModel = scheduleService.scheduleLastWrite("csw");
 		
+		
+		
+		
+		scheduleModel = scheduleService.scheduleLastWrite("csw");
+		scheduleDayModel.setSch_no(scheduleModel.getNo());
+		
+		for(int i=0; i<period ; i++) {
+			scheduleDayModel.setDay(1+i);
+			scheduleService.scheduleDayinsert(scheduleDayModel);
+		}
 		
 		
 		//List<StateModel> stateList = stateService.StateList();
@@ -95,7 +106,30 @@ public class ScheduleController {
 		
 		return mav;
 	}
-	
+	@RequestMapping("scheduleCity.go")
+	public ModelAndView scheduleCity(HttpServletRequest request, ScheduleModel scheduleModel, HttpSession session) throws Exception{
+		
+		String country = request.getParameter("country");
+		System.out.println("country="+country);
+		scheduleModel.setEmail("csw");
+		scheduleModel.setNo(Integer.parseInt(request.getParameter("no")));
+		
+		scheduleModel = scheduleService.scheduleSelectOne(scheduleModel);
+		
+		List<CityModel> cityList = cityService.schCityList("프랑스");
+		
+	/*	if (request.getParameter("keyword") != null) {
+			String keyword = request.getParameter("keyword");
+			List<CityModel> citySearchList = cityService.citySearchList(country, keyword);
+			mav.addObject("citySearchList",citySearchList);
+		}*/
+		
+		mav.addObject("sch", scheduleModel);
+		mav.addObject("cityList",cityList);
+		mav.setViewName("schedule/scheduleCity");
+		
+		return mav;
+	}
 	/*
 	@RequestMapping("scheduleArea.go")
 	public ModelAndView scheduleArea(HttpServletRequest request, HttpSession session, ScheduleModel scheduleModel1, ScheduleModel scheduleModel2) throws Exception{
@@ -214,30 +248,7 @@ public class ScheduleController {
 		return mav;
 	}
 	
-	@RequestMapping("scheduleCity.go")
-	public ModelAndView scheduleCity(HttpServletRequest request, ScheduleModel scheduleModel, HttpSession session) throws Exception{
-		
-		int state_no = Integer.parseInt(request.getParameter("state_no"));
-		
-		scheduleModel.setM_email((String)session.getAttribute("session_m_email"));
-		scheduleModel.setS_no(Integer.parseInt(request.getParameter("s_no")));
-		
-		scheduleModel = scheduleService.scheduleWriteSelect(scheduleModel);
-		
-		List<CityModel> cityList = cityService.stateCityList(state_no);
-		
-		if (request.getParameter("keyword") != null) {
-			String keyword = request.getParameter("keyword");
-			List<CityModel> citySearchList = cityService.citySearchList(state_no, keyword);
-			mav.addObject("citySearchList",citySearchList);
-		}
-		
-		mav.addObject("sch", scheduleModel);
-		mav.addObject("cityList",cityList);
-		mav.setViewName("scheduleCity");
-		
-		return mav;
-	}
+	
 	
 
 		@RequestMapping("turnUp.go")
