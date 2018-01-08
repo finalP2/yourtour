@@ -60,11 +60,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 일정 게시판 가장 최근에 쓴 글 검색 -->
-	<!-- <select id="scheduleLastWrite" resultMap="scheduleRes" parameterType="String">
-		select no, name, email, TO_CHAR(start_date, 'yyyy-mm-dd') start_date, TO_CHAR(end_date, 'yyyy-mm-dd') end_date
-		from sch 
+	 <select id="scheduleLastWrite" resultMap="scheduleRes" parameterType="String">
+		select * from sch 
 		where no = (select max(no) from sch) and email = #{email}
-	</select> -->
+	</select>
 	
 
  </mapper>
