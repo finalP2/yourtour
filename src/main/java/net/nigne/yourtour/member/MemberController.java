@@ -54,55 +54,48 @@ public class MemberController {
 		 String nickname = (String)request.getParameter("nickname");
 		
 		 System.out.println(email + " " + pw + " " + name + " " + nickname);
-		 /*
-		 Random rnd = new Random();
-		 StringBuffer buf = new StringBuffer();
-			for(int i=0;i<10;i++){
-			    if(rnd.nextBoolean()){
-			        buf.append((char)((int)(rnd.nextInt(26))+97));
-			    }else{
-			        buf.append((rnd.nextInt(10))); 
-			    }
-			}
-			String m_auth = buf.toString();
-		*/
 			
 		//�̸���, �г��� �ߺ��Ǹ� ���Ծȵǵ���	
-		 /*
-		MemberModel emailChk = memberService.getEmailDuplChk(m_email);
-		MemberModel nameChk = memberService.getNameDuplChk(m_name);
-		*/
 		
-		memberService.insertMember(email, pw, name, nickname);
-		
-		mav.setViewName("member/login");
-		 return mav;
+		 if(!(email.equals(""))&&!(pw.equals(""))&&!(name.equals(""))&&!(nickname.equals("")))
+		 {
+		MemberModel emailChk = memberService.getEmailDuplChk(email);
+		MemberModel nameChk = memberService.getNameDuplChk(nickname);
 	    
-	    /*
-		} else if(emailChk != null && nameChk==null){ 
-			joinError =1;
-			mav.addObject("joinError",joinError);
-			mav.addObject("m_email",m_email);
-		    mav.setViewName("member/joinError");
-		    return mav;
-		  
-		} else if(nameChk != null && emailChk==null) {
-			joinError=2;
-			mav.addObject("joinError",joinError);
-			mav.addObject("m_name",m_name);
-		    mav.setViewName("member/joinError");
-		    return mav;
-		    
-		} else if(emailChk != null && nameChk!=null) {
-			joinError=3;
-			mav.addObject("joinError",joinError);
-			mav.addObject("m_email",m_email);
-			mav.addObject("m_name",m_name);
-		    mav.setViewName("member/joinError");
-		    return mav;
-		   
-		}
-		*/
+		 if(emailChk==null && nameChk==null){
+				
+			 	memberService.insertMember(email, pw, name, nickname);
+			 	mav.setViewName("member/login");
+				 return mav;
+			    
+			    
+				} else if(emailChk != null && nameChk==null){ 
+					joinError =1;
+					mav.addObject("joinError",joinError);
+					mav.addObject("m_email",email);
+				    mav.setViewName("member/joinError");
+				    return mav;
+				  
+				} else if(nameChk != null && emailChk==null) {
+					joinError=2;
+					mav.addObject("joinError",joinError);
+					mav.addObject("m_name",nickname);
+				    mav.setViewName("member/joinError");
+				    return mav;
+				    
+				} else if(emailChk != null && nameChk!=null) {
+					joinError=3;
+					mav.addObject("joinError",joinError);
+					mav.addObject("m_email",email);
+					mav.addObject("m_name",nickname);
+				    mav.setViewName("member/joinError");
+				    return mav;
+				   
+				}
+				
+		 }
+		 		 mav.setViewName("member/joinForm");
+				 return mav;
 				
 	}
 	
@@ -142,7 +135,7 @@ public class MemberController {
 
 		  int memberEmailChk;
 		  		
-		  String m_email = request.getParameter("m_email");
+		  String m_email = request.getParameter("email");
 		  member = memberService.getEmailDuplChk(m_email);
 		  		
 		  		if (member == null) {
@@ -170,7 +163,7 @@ public class MemberController {
 		
 			  int memberNameChk;
 			  		
-			  String m_name = request.getParameter("m_name");
+			  String m_name = request.getParameter("nickname");
 			  member = memberService.getNameDuplChk(m_name);
 			  		
 			  		if (member == null) {
@@ -184,7 +177,6 @@ public class MemberController {
 			  		} else {
 			  			
 			  			memberNameChk = 1; // ���Ұ��� �г���
-			  			System.out.println("���Ұ��ɴг���");
 			  			mav.addObject("member", member);
 			  			mav.addObject("memberNameChk", memberNameChk);
 			  			mav.setViewName("member/nameChk");

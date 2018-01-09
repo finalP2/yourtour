@@ -7,7 +7,7 @@
 	<table width="100%" border="0">
 		<tr> <!-- 타이틀 텍스트 넣기 -->
 			<td width="10%"/>
-			<td align="center"><h1>아이디 찾기</h1></td>
+			<td align="center"><h1>이메일 찾기</h1></td>
 			<td width="10%"/>
 			<td align="center"><h1>비밀번호 찾기</h1></td>
 			<td width="10%"/>

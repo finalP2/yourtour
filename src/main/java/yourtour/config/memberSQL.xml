@@ -48,14 +48,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 이메일 중복체크 -->
 	<select id="emailCheck" parameterType="String" resultMap="memberRes"> 
-		select * from mem
-		where m_email = #{m_email}
+		select *
+		from member
+		where email = #{email}
 	</select> 
 	
 	<!-- 이름(닉네임) 중복체크 -->
 	<select id="nameCheck" parameterType="String" resultMap="memberRes"> 
-		<include refid="select-all-m" />
-		where name = #{name}
+		select *
+		from member
+		where nickname = #{nickname}
 	</select> 
 	
 	<!-- 이메일 찾기  -->
