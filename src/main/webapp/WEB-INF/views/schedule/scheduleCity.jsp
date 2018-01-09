@@ -8,9 +8,11 @@
 <title>일정 만들기</title>
 <style>
        #map {
-        height: 400px;
-        width: 50%;
+       	left: 50%;
+        height: 700px;
+        width: 45%;
        }
+
  </style>
 
 </head>
@@ -34,30 +36,24 @@
     </script>
 <div style="padding-top: 20px;">
 <h3 style="margin-top: 0px; margin-bottom: 0px; padding-left: 10px;"><span class="glyphicon glyphicon-tags"></span>&nbsp;${sch.name }</h3>
-</div>
-        
-
-                        <div class="panel-body">
-                            <table class="table">
-                            	
-	                            <c:forEach var="cityList" items="${cityList }" varStatus="stat">
-	                                <tr>
-	                                   <td class="col-xs-1"
-	                                   		style="cursor:pointer;" 
-	                                   		onclick="window.open('http://localhost:8080/yourtour/city/cityDetail.go?no=${cityList.no}&keyword=info','도시 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
-	                                   	<span class="glyphicon glyphicon-info-sign"></span>
-	                                   </td>
-	                                   <td >
-	                                   	${cityList.name }
-	                                   </td>
-	                                   <td>
-	                                   	<span class="glyphicon glyphicon-chevron-right"></span>
-	                                   </td>
-	                                </tr>
-	                            </c:forEach>
-	                          </table>
-                          </div>
-                 
+</div>   
+       <table class="table">
+        <c:forEach var="cityList" items="${cityList }" varStatus="stat">
+            <tr>
+               <td class="col-xs-1"
+               		style="cursor:pointer;" 
+               		onclick="window.open('http://localhost:8080/yourtour/city/cityDetail.go?no=${cityList.no}&keyword=info','도시 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
+               	<span class="glyphicon glyphicon-info-sign"></span>
+               </td>
+               <td >
+               	${cityList.name }
+               </td>
+               <td>
+               	<span class="glyphicon glyphicon-chevron-right"></span>
+               </td>
+            </tr>
+        </c:forEach>
+      </table>        
 	<div id="map"></div>
 </body>
 </html>

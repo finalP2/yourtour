@@ -110,7 +110,6 @@ public class ScheduleController {
 	public ModelAndView scheduleCity(HttpServletRequest request, ScheduleModel scheduleModel, HttpSession session) throws Exception{
 		
 		String country = request.getParameter("country");
-		System.out.println("country="+country);
 		scheduleModel.setEmail("csw");
 		scheduleModel.setNo(Integer.parseInt(request.getParameter("no")));
 		
