@@ -14,4 +14,4 @@
 	</div>
 	<input type="button" value="프랑스" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleCity.go?no=${sch.no}'">
 </body>
-</html>
+</html>              
