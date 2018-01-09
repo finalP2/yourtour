@@ -68,8 +68,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 일정 게시판 글 쓰기 -->
 	<insert id="scheduleWrite" parameterType="schedule">
-		INSERT INTO SCH(NO, email, name, start_date, end_date, period, season,cost,theme) 
-		VALUES(SCH_NO_SEQ.NEXTVAL, #{email}, #{name}, #{start_date}, #{end_date}, #{period}, #{season}, #{cost}, #{theme})
+		INSERT INTO SCH(NO, email, name, start_date, end_date, period, season,cost,theme,private1) 
+		VALUES(SCH_NO_SEQ.NEXTVAL, #{email}, #{name}, #{start_date}, #{end_date}, #{period}, #{season}, #{cost}, #{theme},#{private1})
 	</insert>
 	
 	<!-- 일정 게시판 가장 최근에 쓴 글 검색 -->
