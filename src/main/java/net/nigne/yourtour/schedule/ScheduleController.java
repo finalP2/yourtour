@@ -35,13 +35,11 @@ public class ScheduleController {
 	
 
 		@RequestMapping("scheduleList.go")
-		public ModelAndView scheduleList(HttpServletRequest request) throws Exception{
+		public ModelAndView scheduleList(HttpServletRequest request,ScheduleModel scheduleModel) throws Exception{
 
 				List<ScheduleModel> scheduleList = scheduleService.scheduleList();
 				mav.addObject("scheduleList", scheduleList);
 				
-				
-		
 				mav.setViewName("schedule/scheduleList");
 			
 			return mav;
@@ -126,6 +124,19 @@ public class ScheduleController {
 		mav.addObject("sch", scheduleModel);
 		mav.addObject("cityList",cityList);
 		mav.setViewName("schedule/scheduleCity");
+		
+		return mav;
+	}
+	
+	
+	@RequestMapping("scheduleDetail.go")
+	public ModelAndView scheduleDetail(HttpServletRequest request, HttpSession session, ScheduleModel scheduleModel) throws Exception{
+		scheduleModel.setNo(Integer.parseInt(request.getParameter("no")));
+		scheduleModel = scheduleService.scheduleSelectOne(scheduleModel);
+		String email = scheduleModel.getEmail();
+		System.out.println("이메일= "+email);
+		mav.addObject("sch", scheduleModel);
+		mav.setViewName("schedule/scheduleDetail");
 		
 		return mav;
 	}
