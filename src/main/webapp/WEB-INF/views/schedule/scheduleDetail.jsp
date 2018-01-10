@@ -22,6 +22,10 @@
 		<td>
 			${sch.name }
    		</td>
+   		
+   		<td>
+   			좋아요 = ${sch.like1 }
+   		</td>
 	</tr>
 	<input type="button" value="좋아요" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleLike.go?no=${sch.no}'"/>
 </table>
