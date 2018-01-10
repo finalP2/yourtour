@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<!-- SELECT -->
-	<!-- 여행지 검색 -->
+	<!-- 스케쥴- 여행지 검색 -->
 	<select id="schAreaSearch" resultMap="areaRes" parameterType="HashMap">
 		SELECT *
 		FROM AREA 
@@ -111,14 +111,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 여행지 상세보기 할때 이미지 리스트 불러오기 -->
-	<select id="areaImgList" resultMap="areaImgRes" parameterType="Integer">
+	<select id="area_imgList" resultMap="areaImgRes" parameterType="Integer">
 		SELECT *
 		FROM AREA_IMG
 		WHERE NO = #{no}
 	</select>
 	
 	<!-- 여행지 상세보기 할때 이미지 갤러리 메인 이미지 불러오기 -->
-	<select id="main_img" resultType="String" parameterType="Integer">
+	<select id="area_mainImg" resultType="String" parameterType="Integer">
 		SELECT SAV_NAME
 		FROM AREA_IMG
 		WHERE NO = #{no} AND A_IMG_INDEX = 1
@@ -132,13 +132,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY WRITEDATE DESC
 	</select>
 	
-	<!-- 여행지 수정할때 이미지 원본이름 리스트 구하기 -->
-	<select id="imgList" resultMap="areaRes" parameterType="Integer">
+	<!-- 여행지 수정할때 이미지 원본이름 불러오기 -->
+	<select id="imgOrgName" resultMap="areaRes" parameterType="Integer">
 		SELECT ORG_NAME FROM AREA_IMG
 		WHERE NO = #{no}
 	</select>
 	
-	<!-- 여행지 수정하기 -->
+	<!-- 여행지 글 수정하기 -->
 	<update id="areaModify" parameterType="area">
 		UPDATE AREA
 		SET NAME=#{name},CONTENT=#{content},ADDRESS=#{address},WAY=#{way},TEL=#{tel},HOURS=#{hours},WEB=#{web}
@@ -194,6 +194,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM AREA
 		WHERE NO = #{no}
 	</update>
-
+	
 	
 </mapper>
