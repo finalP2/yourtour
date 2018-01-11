@@ -29,5 +29,6 @@
 	</tr>
 	<input type="button" value="ÁÁ¾Æ¿ä" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleLike.go?no=${sch.no}'"/>
 </table>
+
 </body>
 </html>
