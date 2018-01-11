@@ -34,16 +34,17 @@ public class ScheduleController {
 	private Paging page;
 	
 
-		@RequestMapping("scheduleList.go")
-		public ModelAndView scheduleList(HttpServletRequest request,ScheduleModel scheduleModel) throws Exception{
-
-				List<ScheduleModel> scheduleList = scheduleService.scheduleList();
-				mav.addObject("scheduleList", scheduleList);
-				
-				mav.setViewName("schedule/scheduleList");
+	@RequestMapping("scheduleList.go")
+	public ModelAndView scheduleList(HttpServletRequest request,ScheduleModel scheduleModel) throws Exception{
 			
-			return mav;
-		}
+		
+			List<ScheduleModel> scheduleList = scheduleService.scheduleList();
+			mav.addObject("scheduleList", scheduleList);
+			
+			mav.setViewName("schedule/scheduleList");
+		
+		return mav;
+	}
 	
 	@RequestMapping("scheduleWriteForm.go")
 	public ModelAndView scheduleWriteForm(HttpServletRequest request, HttpSession session) throws Exception{

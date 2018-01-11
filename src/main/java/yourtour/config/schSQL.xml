@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="season" column="season" />
 		<result property="cost" column="cost" />
 		<result property="theme" column="theme" />
+		<result property="writedate" column="writedate"/>
 	</resultMap>
 	<resultMap type="scheduleDay" id="scheduleDayRes">
 		<!-- SCH 테이블 -->
@@ -68,8 +69,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 일정 게시판 글 쓰기 -->
 	<insert id="scheduleWrite" parameterType="schedule">
-		INSERT INTO SCH(NO, email, name, start_date, end_date, period, season,cost,theme,private1) 
-		VALUES(SCH_NO_SEQ.NEXTVAL, #{email}, #{name}, #{start_date}, #{end_date}, #{period}, #{season}, #{cost}, #{theme},#{private1})
+		INSERT INTO SCH(NO, email, name, start_date, end_date, period, season,cost,theme,private1,writedate) 
+		VALUES(SCH_NO_SEQ.NEXTVAL, #{email}, #{name}, #{start_date}, #{end_date}, #{period}, #{season}, #{cost}, #{theme},#{private1},sysdate)
 	</insert>
 	
 	<!-- 일정 게시판 가장 최근에 쓴 글 검색 -->

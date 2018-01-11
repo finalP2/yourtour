@@ -17,6 +17,7 @@ public class ScheduleModel {
 	private String season;
 	private String cost;
 	private String theme;
+	private Date writedate;
 	
 	public String getEmail() {
 		return email;
@@ -97,6 +98,12 @@ public class ScheduleModel {
 	}
 	public void setTheme(String theme) {
 		this.theme = theme;
+	}
+	public Date getWritedate() {
+		return writedate;
+	}
+	public void setWritedate(Date writedate) {
+		this.writedate = writedate;
 	}
 	
 	
