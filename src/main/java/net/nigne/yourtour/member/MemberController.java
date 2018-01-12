@@ -34,7 +34,7 @@ public class MemberController {
 	//ȸ������ ��
 	@RequestMapping("joinForm.go")
 	public String joinForm(){
-		return "member/joinForm";
+		return "member/login";
 	}
 	
 	 @RequestMapping("loginpage.go")
@@ -218,8 +218,6 @@ public class MemberController {
 	         session.setAttribute("session_m_name", result.getName());
 	         session.setAttribute("session_m_nickname", result.getNickname());
 	    	
-
-	         mav.addObject("msg", "success");
 	         mav.setViewName("member/main");
 	         return mav;
 	         
@@ -314,6 +312,7 @@ public class MemberController {
 	  			String m_email = (String) session.getAttribute("session_m_email");
 	  			MemberModel member = memberService.getMember(m_email);
 	  			session.setAttribute("session_m_email", member.getEmail());
+		        session.setAttribute("session_m_name", member.getName());
 		        session.setAttribute("session_m_nickname", member.getNickname());
 	  			mav.addObject("member", member);
 	  			mav.setViewName("member/memberModifyForm");
@@ -321,7 +320,7 @@ public class MemberController {
 	  			
 	  		} else {
 
-	  			mav.setViewName("member/main");
+	  			mav.setViewName("member/login");
 	  			return mav;
 	  		}
 	  	}
@@ -335,34 +334,34 @@ public class MemberController {
 		/*String m_email = (String) request.getParameter("m_email");*/
 		String email = (String) session.getAttribute("session_m_email");
 		String pw = (String) request.getParameter("pw");
-		String name = (String) request.getParameter("name");
-		String name2 = member.getName();
-		
+		String nickname = (String) request.getParameter("nickname");		
 
 				//ȸ������ ����
-				MemberModel result2 = memberService.getMember(email);
+				MemberModel nameChk = memberService.getNameDuplChk(nickname);
 				
-				memberService.memberModify(email, pw, name);
+				
+				if(nameChk==null) {
+				
+				memberService.memberModify(email, pw, nickname);	
+					
 				MemberModel result = memberService.getMember(email);
+				session.setAttribute("session_m_nickname", result.getNickname());
 				
-				if(result2.getName().equals(result.getName())) {
-					session.setAttribute("session_m_email", result2.getEmail());
-			        session.setAttribute("session_m_name", result2.getName());
-			        session.setAttribute("session_m_nickname", result2.getNickname());
-				    mav.setViewName("member/memberModifyForm");
+				mav.setViewName("member/main");
+				 return mav;
+			    
+			    
+				} else {
+					int joinError=2;
+					mav.addObject("joinError",joinError);
+					mav.addObject("m_name",nickname);
+				    mav.setViewName("member/joinError");
 				    return mav;
-				}
-				 else {
-						session.setAttribute("session_m_email", result.getEmail());
-				        session.setAttribute("session_m_name", result.getName());
-				        session.setAttribute("session_m_nickname", result.getNickname());
-						// ȸ������ ���� �� ����� ���� �̸� �ٲ��.
-						mav.setViewName("member/main");
-						 return mav;		   
+				   
 				}
 		
 		 } else{
-				mav.setViewName("member/loginpage"); //�α���x
+				mav.setViewName("member/memberModifyForm"); //�α���x
 				return mav;
 		 }
 

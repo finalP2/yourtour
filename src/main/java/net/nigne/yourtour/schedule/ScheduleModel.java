@@ -7,16 +7,17 @@ public class ScheduleModel {
 	private String email;			
 	private int no;				
 	private String name;
-	private Date start_date;
-	private Date end_date;
+	private String start_date;
+	private String end_date;
 	private int like1;
 	private int hit;
 	private int private1;
 	private String content;		
-	private String period;			
+	private int period;			
 	private String season;
 	private String cost;
 	private String theme;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -35,16 +36,17 @@ public class ScheduleModel {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getStart_date() {
+	
+	public String getStart_date() {
 		return start_date;
 	}
-	public void setStart_date(Date start_date) {
+	public void setStart_date(String start_date) {
 		this.start_date = start_date;
 	}
-	public Date getEnd_date() {
+	public String getEnd_date() {
 		return end_date;
 	}
-	public void setEnd_date(Date end_date) {
+	public void setEnd_date(String end_date) {
 		this.end_date = end_date;
 	}
 	public int getLike1() {
@@ -71,10 +73,11 @@ public class ScheduleModel {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getPeriod() {
+	
+	public int getPeriod() {
 		return period;
 	}
-	public void setPeriod(String period) {
+	public void setPeriod(int period) {
 		this.period = period;
 	}
 	public String getSeason() {

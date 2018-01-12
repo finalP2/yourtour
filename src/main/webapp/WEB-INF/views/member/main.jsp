@@ -15,6 +15,7 @@
     <input type="button" value="로그아웃" onclick="location.href='logout.go'">  
     <input type="button" value="회원수정" onclick="location.href='memberModifyForm.go'">
     <input type="button" value="회원탈퇴" onclick="location.href='memberDeleteForm.go'">
-    
+    <a href="/yourtour/schedule/scheduleWriteForm.go" >일정만들기</a><br/>
+	<a href="/yourtour/schedule/scheduleList.go">일정리스트</a>
 </body>
 </html>

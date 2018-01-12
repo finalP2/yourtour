@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 회원정보 수정 -->
 	<update id="updateMem" parameterType="HashMap"> 
 		update member set
-		 name = #{name},
+		 nickname = #{nickname},
  		 pw = #{pw}
 		where email = #{email}
  	</update> 

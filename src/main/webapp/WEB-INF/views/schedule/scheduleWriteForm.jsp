@@ -1,255 +1,163 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.ko.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
-function check(){
-var write = document.sForm;	   
-if(write.s_name.value==""){
-	alert("ÀÏÁ¤ ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-	write.s_name.focus();
-	return false;
-}
-else if(write.s_start_date.value==""){
-	alert("Ãâ¹ßÀÏÀ» ¼³Á¤ÇØÁÖ¼¼¿ä.");
-	write.s_start_date.focus();
-	return false;
-}
-else if(write.s_end_date.value==""){
-	alert("Á¾·áÀÏÀ» ¼³Á¤ÇØÁÖ¼¼¿ä.");
-	write.s_end_date.focus();
-	return false;
-}
-else if(write.emailExist.value.length != 0 && write.chk.value == 0){
-	alert("ÀÌ¸ŞÀÏ °Ë»ö ¹öÆ°À» ´­·¯ÁÖ¼¼¿ä.");
-	write.emailExist.focus();
-	return false;
-}
-}
-function openEmailExist(sForm){
-	   var url="emailExist.go?emailExist="+document.sForm.emailExist.value;
-	   var form=document.sForm;
-	   for (i=0;i<form.emailExist.value.length;i++ ){
-	      var ch = document.sForm.emailExist.value.charAt(i)
-	      if (!(ch>='0' && ch<='9') && !(ch>='a' && ch<='z')){
-	           alert ("ÀÌ¸ŞÀÏÀº ¼Ò¹®ÀÚ, ¼ıÀÚ¸¸ ÀÔ·Â°¡´ÉÇÕ´Ï´Ù.")
-	           form.emailExist.focus();
-	           return false;
-	        }
-	   }
-	   if(form.emailExist.value==""){
-	      alert("ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-	      form.emailExist.focus();
-	      return false;
-	   }
-	   if(form.emailExist.value=="${sessionScope.session_m_email}"){
-		      alert("ÀÚ½Å ÀÌ¸ŞÀÏÀº »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.");
-		      form.emailExist.value="";
-		      form.emailExist.focus();
-		      return false;
-	   }
 
-	   open(url,"confirm","toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=10");
+function check(){
+	
+	var write = document.sForm;	   
+	if(write.name.value==""){
+		alert("ì¼ì • ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+		write.name.focus();
+		return false;
+	}
+	else if(write.start_date.value==""){
+		alert("ì¶œë°œì¼ì„ ì„¤ì •í•´ì£¼ì„¸ìš”.");
+		write.start_date.focus();
+		return false;
+	}
+	else if(write.end_date.value==""){
+		alert("ì¢…ë£Œì¼ì„ ì„¤ì •í•´ì£¼ì„¸ìš”.");
+		write.end_date.focus();
+		return false;
 	}
 
-$(document).ready(function(){
-    // Initialize Tooltip
-    $('[data-toggle="tooltip"]').tooltip(); 
-})
+}
+
+    function check_only(chk){
+        var obj = document.getElementsByName("season");
+        for(var i=0; i<obj.length; i++){
+            if(obj[i] != chk){
+                obj[i].checked = false;
+            }
+        }
+    }
+    function check_only1(chk){
+        var obj = document.getElementsByName("theme");
+        for(var i=0; i<obj.length; i++){
+            if(obj[i] != chk){
+                obj[i].checked = false;
+            }
+        }
+    }
 </script>
-<style>
-/*»ó´Ü ÀÌ¹ÌÁö*/
-.jumbotron{
-background-image: url('/gokkiri/resources/img/cloud2.jpg');
-background-repeat: no-repeat;
-background-position: center;
-background-size: cover;
-width: 100%;
-height: 100%;
-}
-
-.button {
-  border-radius: 4px;
-  background-color: #f4511e;
-  border: none;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 16px;
-  padding: 10px;
-  width: 120px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 5px;
-}
-
-.button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.button:hover span {
-  padding-right: 25px;
-}
-
-.button:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-</style>
 </head>
 <body>
-<!-- »ó´Ü ÀÌ¹ÌÁö -->
-<div class="jumbotron text-center">
-  <form class="form-inline">
-  	<p><font color="#ffffff" size="10"><b>³ª¸¸ÀÇ ¿©Çà ÀÏÁ¤À» ¸¸µå¼¼¿ä!</b></font></p>
-  	<p><font color="#ffffff" size="3">³» ¿©Çà ÀÏÁ¤À» °øÀ¯ÇÒ ¼ö ÀÖ°í ´Ù¸¥ »ç¶÷ÀÌ ¸¸µç ¿©Çà ÀÏÁ¤À» º¼ ¼ö ÀÖ½À´Ï´Ù.</font></p>
-    <div class="input-group">
- 		<a class="btn btn-default" href="/gokkiri/schedule/scheduleList.go?currentPage=1" role="button">º¸·¯°¡±â</a>
-    </div>
-  </form>
-</div>
-
 <table width="100%">
 <tr>
 <td>
-<form:form commandName="scheduleModel" name="sForm" class="form-horizontal" action="scheduleState.go" method="post" onsubmit="return check();">
-  <c:if test="${not empty scheduleIncompleteList }">
-	  <div class="form-group"> 
-	    <div class="col-sm-offset-2 col-sm-10">
-	    	<!-- ´©¸¦½Ã ¸¶ÀÌÆäÀÌÁö ¹Ì¿Ï¼º -->
-	        <label>
-	        	<span style="cursor:pointer;"
-	        			onclick="javascript:location.href='/gokkiri/mypage/myScheduleList.go?s_complete=0&s_private=0'" 
-	        			class="label label-primary">${fn:length(scheduleIncompleteList) }</span>&nbsp;°³ÀÇ ÀÏÁ¤ÀÌ ¿Ï¼ºÀ» ±â´Ù¸®°í ÀÖ½À´Ï´Ù.
-	        </label>
-	    </div>
-	  </div>
-  </c:if>
+<form commandName="scheduleModel" name="sForm" class="form-horizontal" action="scheduleState.go" method="post" onsubmit="return check();">
   <div class="form-group">
-    <label class="control-label col-sm-2">ÀÏÁ¤ ÀÌ¸§:</label>
+    <label class="control-label col-sm-2">ì¼ì • ì´ë¦„:</label>
     <div class="col-sm-6">
       <input type="text" 
       		class="form-control" 
-      		name="s_name" 
+      		name="name" 
       		data-placement="bottom"
       		data-toggle="tooltip" 
-      		title="ÇÊ¼öÀÔ·Â Ç×¸ñ ÀÔ´Ï´Ù." 
-      		placeholder="ÀÏÁ¤ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä."/>
+      		title="í•„ìˆ˜ì…ë ¥ í•­ëª© ì…ë‹ˆë‹¤." 
+      		placeholder="ì¼ì • ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”."/>
     </div>
   </div>
   <div class="form-group">
-    <label class="control-label col-sm-2">³¯Â¥ ¼³Á¤:</label>
+    <label class="control-label col-sm-2">ë‚ ì§œ ì„¤ì •:</label>
     
     <div class="col-sm-3"> 
     	<div class="input-group">
-    		<span class="input-group-addon">Ãâ¹ßÀÏ</span>
-      		<input id="s_start_date" 
-      				name="s_start_date" 
-      				class="input-date form-control" 
-      				type="text" 
-      				placeholder="Ãâ¹ßÀÏ ¼±ÅÃ" 
-      				data-placement="bottom"
-      				readonly="readonly" 
-      				data-toggle="tooltip" 
-      				title="ÇÊ¼öÀÔ·Â Ç×¸ñ ÀÔ´Ï´Ù."/>
-      		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true" id="s_start_date" style="cursor:pointer;"></span></span>
+    		<span class="input-group-addon">ì¶œë°œì¼</span>
+    		<input type=text id=start_date name=start_date size=12 placeholder="ì¶œë°œì¼ ì„ íƒ">
     	</div>
     </div>
     <div class="col-sm-3"> 
       	<div class="input-group">
-      		<span class="input-group-addon">Á¾·áÀÏ</span>
-      		<input id="s_end_date" 
-      			name="s_end_date" 
-      			class="input-date form-control" 
-      			type="text" 
-      			placeholder="Á¾·áÀÏ ¼±ÅÃ" 
-      			readonly="readonly" 
-      			data-placement="bottom"
-      			data-toggle="tooltip" 
-      			title="ÇÊ¼öÀÔ·Â Ç×¸ñ ÀÔ´Ï´Ù."/>
-      		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true" id="s_end_date" style="cursor:pointer;"></span></span>
+      		<span class="input-group-addon">ì¢…ë£Œì¼</span>
+      		<input type=text id=end_date name=end_date size=12 placeholder="ì¢…ë£Œì¼ ì„ íƒ" >	
     	</div>
     </div>
     </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">°Ë»ö:</label>
-      <div class="col-sm-6">
-       <div class="input-group">
-        <input type="text" name="emailExist" class="form-control" aria-describedby="basic-addon2" placeholder="ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä."> 
-        <input type="hidden" name="chk" value="0">
-        <span class="input-group-addon" id="basic-addon2">@naver.com</span>
-        <span class="input-group-btn">
-        <button class="btn btn-default" onclick="openEmailExist(this.form)" name="confirmId" type="button">
-        <span class="glyphicon glyphicon-search"></span>&nbsp; </button>
-      </span>
-       </div>
-      </div>
-    </div>
-    
-   <div class="form-group">
-   	<label class="control-label col-sm-2" for="pwd">ÀÏÁ¤À» °øÀ¯ÇÒ Ä£±¸:</label>
-    <div class="col-sm-6">
-      <input type="text" name="s_together" class="form-control" aria-describedby="basic-addon2" placeholder="°Ë»ö ÈÄ Ãß°¡¸¦ ÇØÁÖ¼¼¿ä." readonly="readonly"> 
-    </div>
-  </div>
-    
+   
+ 
+  
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
       <div class="checkbox">
-        <label data-toggle="tooltip" title="Ã¼Å©ÇÒ ½Ã ÀÏÁ¤ °Ô½ÃÆÇ¿¡ ³ªÅ¸³ªÁö ¾Ê½À´Ï´Ù.">
-        	<input type="checkbox" name="s_private" value="1"/>
-        	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;ºñ¹Ğ±Û
+     <span class="input-group-addon">ê³„ì ˆ</span>
+        <label data-toggle="tooltip" title="ê³„ì ˆì„ ì„ íƒí•´ ì£¼ì„¸ìš”.">
+        	<input type="checkbox" name="season" value="ë´„" onclick="check_only(this)"/>ë´„
+        	<input type="checkbox" name="season" value="ì—¬ë¦„" onclick="check_only(this)"/>ì—¬ë¦„
+        	<input type="checkbox" name="season" value="ê°€ì„" onclick="check_only(this)"/>ê°€ì„
+        	<input type="checkbox" name="season" value="ê²¨ìš¸" onclick="check_only(this)"/>ê²¨ìš¸
+        	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;
         </label>
       </div>
     </div>
   </div>
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="button"><span>¸¸µé±â</span></button>
+      <div class="checkbox">
+      <span class="input-group-addon">í…Œë§ˆ</span>
+        <label data-toggle="tooltip" title="ì—¬í–‰ í…Œë§ˆë¥¼ ì„ íƒí•´ ì£¼ì„¸ìš”.">
+        	<input type="checkbox" name="theme" value="í™€ë¡œ" onclick="check_only1(this)"/>í™€ë¡œ
+        	<input type="checkbox" name="theme" value="ì»¤í”Œ" onclick="check_only1(this)"/>ì»¤í”Œ
+        	<input type="checkbox" name="theme" value="ì¹œêµ¬" onclick="check_only1(this)"/>ì¹œêµ¬
+        	<input type="checkbox" name="theme" value="ê°€ì¡±" onclick="check_only1(this)"/>ê°€ì¡±
+        	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">ì´ ì—¬í–‰ ê²½ë¹„:</label>
+    <div class="col-sm-6">
+      <input type="text" 
+      		class="form-control" 
+      		name="cost" 
+      		data-placement="bottom"
+      		data-toggle="tooltip" 
+      		placeholder="ì—¬í–‰ ê²½ë¹„ë¥¼ ì…ë ¥í•˜ì„¸ìš”."/>
+    </div>
+  </div>
+  
+  <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label data-toggle="tooltip" title="ì²´í¬í•  ì‹œ ì¼ì • ê²Œì‹œíŒì— ë‚˜íƒ€ë‚˜ì§€ ì•ŠìŠµë‹ˆë‹¤.">
+        	<input type="checkbox" name="private1" value="1"/>
+        	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;ë¹„ë°€ê¸€
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="button"><span>ë§Œë“¤ê¸°</span></button>
     </div>
   </div>
 
-</form:form>
+</form>
 </td>
 </tr>
 </table>
+<script>
 
-<script type="text/javascript">
-//¼±¾ğÇÑ TextBox¿¡ DateTimePicker À§Á¬À» Àû¿ëÇÑ´Ù.
-$('#s_start_date').datepicker({
-  format : "yyyy-mm-dd",
-  language : "ko", // È­¸é¿¡ Ãâ·ÂµÉ ¾ğ¾î¸¦ ÇÑ±¹¾î·Î ¼³Á¤ÇÑ´Ù.
-  pickTime : false, // »ç¿ëÀÚ·ÎºÎÅÍ ½Ã°£ ¼±ÅÃÀ» Çã¿ëÇÏ·Á¸é true¸¦ ¼³Á¤ÇÏ°Å³ª pickTime ¿É¼ÇÀ» »ı·«ÇÑ´Ù.
-  startDate : new Date() // ±âº»°ªÀ¸·Î ¿À´Ã ³¯Â¥¸¦ ÀÔ·ÂÇÑ´Ù. ±âº»°ªÀ» ÇØÁ¦ÇÏ·Á¸é defaultDate ¿É¼ÇÀ» »ı·«ÇÑ´Ù.
-});
-
-$('#s_end_date').datepicker({
-  format : "yyyy-mm-dd",
-  language : "ko",
-  pickTime : false,
-  startDate : new Date()
-});
+$(function() {
+	  $( "#start_date" ).datepicker({
+	    dateFormat: 'yy-mm-dd'
+	  });
+	  $( "#end_date" ).datepicker({
+		    dateFormat: 'yy-mm-dd'
+		  });
+	});
 </script>
-<br><br><br><br><br>
 </body>
 </html>

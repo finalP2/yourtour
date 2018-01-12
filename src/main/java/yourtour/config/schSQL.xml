@@ -21,6 +21,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="cost" column="cost" />
 		<result property="theme" column="theme" />
 	</resultMap>
+	
+	<resultMap type="scheduleDay" id="scheduleDayRes">
+		<!-- SCH 테이블 -->
+		<result property="no" column="no" />
+		<result property="day" column="day"/>
+		<result property="sch_no" column="sch_no" />
+	</resultMap>
+	<resultMap type="scheduleLike" id="scheduleLikeRes">
+		<!-- SCHLike 테이블 -->
+		<result property="no" column="no" />
+		<result property="email" column="email"/>
+		<result property="sch_no" column="sch_no" />
+	</resultMap>
+	<resultMap type="scheduleComment" id="scheduleCommentRes">
+		<!-- SCHCOMMENT 테이블 -->
+		<result property="email" column="email" />
+		<result property="no" column="no" />
+		<result property="content" column="content" />
+		<result property="writedate" column="writedate" />
+		<result property="sch_no" column="sch_no"/>
+		<result property="ref" column="ref" />
+		<result property="re_step" column="re_step" />
+		<result property="re_level" column="re_level" />
+	</resultMap>
 		
 <!-- 
 		SCH_DETAIL 테이블
@@ -53,12 +77,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="select-all-list" />
 		ORDER BY NO DESC
 	</select>
+	
+	<!-- 일정 번호와 세션 아이디로 글 검색-->
+	<select id="scheduleSelectOne" resultMap="scheduleRes" parameterType="schedule">
+		select * from sch 
+		where no = #{no}
+	</select>
+	
 	<!-- 일정 게시판 글 쓰기 -->
 	<insert id="scheduleWrite" parameterType="schedule">
-		INSERT INTO SCH(NO, EMAIL, name, start_date, end_date, period, season,cost,theme) 
-		VALUES(sch_NO_SEQ.NEXTVAL, #{EMAIL},#{name}, TO_DATE(#{start_date}, 'yyyy-mm-dd'), TO_DATE(#{end_date}, 'yyyy-mm-dd'), #{period}, #{season},#{cost},#{theme})
+		INSERT INTO SCH(NO, email, name, start_date, end_date, period, season,cost,theme,private1) 
+		VALUES(SCH_NO_SEQ.NEXTVAL, #{email}, #{name}, #{start_date}, #{end_date}, #{period}, #{season}, #{cost}, #{theme},#{private1})
 	</insert>
-
 	
-
+	<!-- 일정 게시판 가장 최근에 쓴 글 검색 -->
+	 <select id="scheduleLastWrite" resultMap="scheduleRes" parameterType="String">
+		select * from sch 
+		where no = (select max(no) from sch) and email = #{email}
+	</select>
+	
+	<!-- 일별일일 추가 -->
+	<insert id="scheduleDayinsert" parameterType="scheduleDay">
+		INSERT INTO SCH_DAY(NO, DAY, SCH_NO) 
+		VALUES(SCH_DAT_NO_SEQ.NEXTVAL, #{day}, #{sch_no})
+	</insert>
+	
+	<!-- 좋아요 추가 -->
+	<insert id="likeinsert" parameterType="scheduleLike">
+		INSERT INTO SCH_LIKE(NO, EMAIL, SCH_NO) 
+		VALUES(SCH_LIKE_NO_SEQ.NEXTVAL, #{email}, #{sch_no})
+	</insert>	
+	
+	<!-- 좋아요 계정 중복 확인 -->
+	<select id="scheduleLikeChk" resultMap="scheduleLikeRes" parameterType="scheduleLike">
+		select * from sch_like 
+		where email = #{email} and sch_no = #{sch_no}
+	</select>
+	
+	<!-- 좋아요 추가 -->
+	<update id="likeupdate" parameterType="schedule">
+		UPDATE SCH SET
+		 like1 = #{like1} 
+		WHERE no = #{no}
+	</update>	
+	
+	<!-- 댓글작성 -->
+	<insert id="scheduleCommentWrite" parameterType="scheduleComment">
+		INSERT INTO SCH_COMMENT(NO, EMAIL, CONTENT, WRITEDATE, SCH_NO) 
+		VALUES(SCH_COMMENT_NO_SEQ.NEXTVAL, #{email}, #{content}, sysdate, #{sch_no})
+	</insert>
  </mapper>

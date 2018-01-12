@@ -2,7 +2,7 @@ package net.nigne.yourtour.schedule;
 
 import java.util.Date;
 
-public class ScheduleDetailDao {			
+public class ScheduleDetailModel {			
 	private int no;				
 	private String memo;
 	private int sch_day_no;

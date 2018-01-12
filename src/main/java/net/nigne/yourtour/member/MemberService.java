@@ -72,11 +72,11 @@ public class MemberService implements MemberDao{
 	
 	//ȸ������ ����
 	@Override
-	public void memberModify(String m_email, String m_pw, String m_name) {
+	public void memberModify(String m_email, String m_pw, String m_nickname) {
 		HashMap<String, String> hm = new HashMap<String, String>();
 		hm.put("email", m_email);
 		hm.put("pw", m_pw);
-		hm.put("name", m_name);
+		hm.put("nickname", m_nickname);
 		sqlSessionTemplate.update("member.updateMem", hm);
 	}
 	
