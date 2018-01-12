@@ -15,7 +15,7 @@
     <input type="button" value="회원수정페이지" onclick="location.href='memberUpdateForm.do'"><br/>
     
     <a href="/yourtour/schedule/scheduleWriteForm.go" >일정만들기</a><br/>
-<a href="schedule/scheduleList.go">일정리스트</a><br/>
-<a href="area/areaWriteForm.go">여행지등록</a>
+<a href="/yourtour/schedule/scheduleList.go">일정리스트</a><br/>
+<a href="/yourtour/area/areaWriteForm.go">여행지등록</a>
 </body>
 </html>
