@@ -56,8 +56,7 @@ public interface AreaDao {
 	public int selectSeq();
 	
 	//파일 업로드
-	public void fileupload(String org_name, String sav_name, int no);
-	
+	public void fileupload(AreaImgModel areaimgModel);
 	//여행지 리뷰 쓰기
 	public void areaReviewWrite(AreaReviewModel areaReviewModel);
 	
@@ -66,4 +65,9 @@ public interface AreaDao {
 	
 	//여행지 글 삭제하기
 	public void areaDelete(int no);
+	
+	
+	public AreaModel areaLastWrite();
+
+	
 }

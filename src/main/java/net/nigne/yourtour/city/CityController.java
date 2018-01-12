@@ -36,16 +36,18 @@ public class CityController {
 		ModelAndView mav = new ModelAndView();
 		
 		List<CityModel> franceList = cityService.cityList(toString());
+		List<CityModel> germanyList = cityService.cityList(toString());
 		
 		mav.addObject("franceList", franceList);
+		mav.addObject("GermanyList", germanyList);
 		
-		mav.setViewName("cityList");
+		mav.setViewName("city/cityList");
 		
 		return mav;
 		
 	}
 	//도시 글 상세보기
-	/*@RequestMapping("cityDetail.go")
+	@RequestMapping("cityDetail.go")
 	public ModelAndView cityDetail(HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
@@ -59,11 +61,11 @@ public class CityController {
 		System.out.println(cityService.city_imgList(city_no));
 		int img_count = city_imgList.size();
 		
-		List<ScheduleModel> scheduleList =  scheduleService.scheduleSearchList(keyword);
+		/*List<ScheduleModel> scheduleList =  scheduleService.scheduleSearchList(keyword);
 		List<AreaModel> areaList = areaService.areaCountList();
 		
 		mav.addObject("scheduleList", scheduleList);
-		mav.addObject("areaList", areaList);
+		mav.addObject("areaList", areaList);*/
 		mav.addObject("cityModel", cityModel);
 		mav.addObject("city_imgList", city_imgList);
 		mav.addObject("img_count", img_count);
@@ -76,5 +78,5 @@ public class CityController {
 			return mav;
 			
 		}
-	}*/
+	}
 }

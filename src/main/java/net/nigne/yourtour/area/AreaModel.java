@@ -73,4 +73,6 @@ public class AreaModel {
 	public void setCity_no(int city_no) {
 		this.city_no = city_no;
 	}
+
+	
 }

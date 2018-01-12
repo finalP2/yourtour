@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="no" column="no" />
 		<result property="org_name" column="org_name" />
 		<result property="sav_name" column="sav_name" />
-		<result property="city_no" column="city_no" />
+		<result property="area_no" column="area_no" />
 		
 	</resultMap>
 	
@@ -165,14 +165,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(AREA_NO_SEQ.NEXTVAL, #{name}, #{content}, #{address}, #{way}, #{tel}, #{hours}, #{web}, #{city_no})
 	</insert>
 	
+	<select id="areaLastWrite" resultMap="areaRes">
+      select * from area 
+      where no = (select max(no) from area)
+   </select>
+	
 	<!-- 파일 업로드 전에 no 값 보내주기 -->
 	<select id="selectSeq" resultType="Integer">
 		SELECT MAX(NO) FROM AREA
 	</select>
 	
 	<!-- 파일 업로드 -->
-	<insert id="fileupload" parameterType="HashMap">
-		INSERT INTO AREA_IMG(NO, ORG_NAME, SAV_NAME, AREA_NO)
+	<insert id="fileupload" parameterType="areaImg">
+		INSERT INTO AREA_IMG(NO, ORG_NAME, SAV_NAME, AREA_NO) 
 		VALUES(AREA_IMG_NO_SEQ.NEXTVAL, #{org_name}, #{sav_name}, #{area_no})
 	</insert>
 	

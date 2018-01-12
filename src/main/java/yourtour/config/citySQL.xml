@@ -47,7 +47,7 @@
 	<select id="citySelectOne" resultMap="cityRes" parameterType="String">
 		SELECT *
 		FROM CITY
-		WHERE name = #{city_name}
+		WHERE name = #{city_name} 
 	</select>
 	
 	<!-- 도시 글쓰기 폼에서 국가 이름 불러오기

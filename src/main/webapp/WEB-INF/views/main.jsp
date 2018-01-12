@@ -10,7 +10,8 @@
 <a href="schedule/scheduleWriteForm.go" >일정만들기</a><br/>
 <a href="member/joinForm.go" >회원가입</a><br/>
 <a href="member/loginpage.go" >로그인</a><br/>
-<a href="area/areaWriteForm.go">여행지 등록</a>
+<a href="area/areaWriteForm.go">여행지 등록</a><br/>
+<a href="city/cityList.go">도시 리스트</a>
 
 </body>
 </html>

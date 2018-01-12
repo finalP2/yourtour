@@ -152,15 +152,10 @@ public class AreaService implements AreaDao {
 
 	//파일 업로드
 	@Override
-	public void fileupload(String org_name, String sav_name, int no) {
+	public void fileupload(AreaImgModel areaimgModel) {
 		// TODO Auto-generated method stub
 		
-		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("org_name", org_name);
-		hm.put("sav_name", sav_name);
-		hm.put("no", no);
-		
-		sqlSessionTemplate.insert("area.fileupload", hm);
+		sqlSessionTemplate.insert("area.fileupload", areaimgModel);
 	}
 
 	//여행지 리뷰 쓰기
@@ -183,5 +178,11 @@ public class AreaService implements AreaDao {
 		// TODO Auto-generated method stub
 		sqlSessionTemplate.update("area.areaDelete", no);
 	}
+	//여행지 가장최근에 올린 글 불러오기
+	@Override
+	   public AreaModel areaLastWrite() {
+	      return sqlSessionTemplate.selectOne("area.areaLastWrite");
+	   }
+	
 
 }

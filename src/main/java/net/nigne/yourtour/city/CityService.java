@@ -87,9 +87,9 @@ public class CityService implements CityDao {
 		return null;
 	}
 	@Override
-	public List<CityModel> citySelectOne(String city_name) {
+	public CityModel citySelectOne(String city_name) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList("city.citySelectOne", city_name);
+		return sqlSessionTemplate.selectOne("city.citySelectOne", city_name);
 	}
 	
 }

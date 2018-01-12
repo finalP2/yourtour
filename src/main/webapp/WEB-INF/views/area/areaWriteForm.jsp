@@ -22,6 +22,7 @@
 	margin: 10px 0px 60px;
 	border: 1px solid GREY;
 	}
+	
 </style>
 <script type="text/javascript">
 
@@ -66,7 +67,7 @@ traverseFiles(this.files);
 </script>
 </head>
 <body>
-<form role="form" action="area/areaWrite.go">
+<form action="areaWrite.go" method="post" enctype="multipart/form-data">
 <table width="60%" align="center">
 <tr><td>
   <div class="row">
@@ -78,6 +79,13 @@ traverseFiles(this.files);
                     
                     <br/><br/>
                     
+                    <label class="form-label" for="city_name">#도시 선택 </label>
+                    <br/>
+                    <input type="radio" name="city_name" value="파리" checked="checked">파리
+                    <input type="radio" name="city_name" value="깐느">깐느
+                    <input type="radio" name="city_name" value="니스">니스 
+                    <br/><br/>
+                  
                     <button type="button" class="btn btn-default btn-lg" onclick="searchMap()">
   			        <span class="glyphicon glyphicon-search" aria-hidden="true">주소검색</span>
 		            </button>
@@ -162,12 +170,12 @@ traverseFiles(this.files);
 
 <center>
 <input type="hidden" name="keyword" value="${param.keyword }" />
-<input type="hidden" name="city_no" value="${param.city_no }" />
-<button class="btn btn-success" onclick="this.form.submit();">등록하기</button>&nbsp;
+<input type="hidden" name="city_no" value="0" />
+<input type="submit" value="등록">
 <button class="btn btn-default" onclick="areaList();">취소</button>
 </center>
-</form>
-<br><br><br>
 
+<br><br><br>
+</form>
 </body>
 </html>

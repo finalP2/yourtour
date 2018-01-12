@@ -31,6 +31,6 @@ public interface CityDao {
 	
 	public CityModel city_mainImg(int city_no);
 
-	public List<CityModel> citySelectOne(String city_name);
+	public CityModel citySelectOne(String city_name);
 
 }

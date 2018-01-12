@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+/*import org.springframework.validation.BindingResult;*/
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import net.nigne.yourtour.city.CityModel;
 import net.nigne.yourtour.city.CityService;
@@ -37,7 +39,7 @@ public class AreaController {
 	@Resource(name="cityService")
 	private CityService cityService;
 	
-	private static final String uploadPath = "C:\\Java\\mavenApp\\yourtour\\src\\main\\webapp\\resources\\area_img\\";
+	private static final String uploadPath = "C:\\Java\\mavenApp\\";
 	int totalCount;
 	
 	//여행지 리스트 보기
@@ -101,7 +103,7 @@ public class AreaController {
 
 	//여행지 글쓰기 (관리자)
 	@RequestMapping("areaWrite.go")
-	public ModelAndView areaWrite(HttpServletRequest request, MultipartHttpServletRequest multipartHttpServletRequest, AreaModel areaModel, CityModel cityModel) throws Exception {
+	public ModelAndView areaWrite(HttpServletRequest request, MultipartHttpServletRequest multipartHttpServletRequest, AreaModel areaModel, CityModel cityModel, AreaImgModel areaimgModel) throws Exception {
 		
 		//줄바꿈
 		String content = areaModel.getContent().replaceAll("\r\n", "<br/>");
@@ -111,11 +113,15 @@ public class AreaController {
 		
 		List<CityModel> cityList = null;
 		
-		cityList = cityService.citySelectOne(city_name);
+		cityModel = cityService.citySelectOne(city_name);
+		System.out.println("도시이름 = "+city_name);
 		int city_no = cityModel.getNo();
 		areaModel.setCity_no(city_no);
+		
 		//첨부파일을 제외한 글쓰기 등록
 		areaService.areaWrite(areaModel);
+		areaModel = areaService.areaLastWrite();
+		int area_no = areaModel.getNo();
 		int no = areaService.selectSeq();
 		
 		//첨부파일 등록
@@ -153,8 +159,10 @@ public class AreaController {
 				
 				//파일 저장
 				mf.get(i).transferTo(new File(savePath));
-				
-				areaService.fileupload(org_name, sav_name, no);
+				areaimgModel.setOrg_name(org_name);
+				areaimgModel.setSav_name(sav_name);
+				areaimgModel.setArea_no(area_no);
+				areaService.fileupload(areaimgModel);
 			}
 		}
 		
@@ -166,7 +174,7 @@ public class AreaController {
 		new AreaValidator().validate(areaModel, bindingResult);
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("areaModel", areaModel);
-			return "/area/areaWriteForm";
+			return "area/areaWriteForm";
 		} else {
 			//데이터처리
 			//redirect
@@ -236,7 +244,7 @@ public class AreaController {
 	
 	//여행지 글 수정하기
 	@RequestMapping("areaModify.go")
-	public String areaModify(HttpServletRequest request, MultipartHttpServletRequest multipartHttpServletRequest, AreaModel areaModel) throws Exception {
+	public String areaModify(HttpServletRequest request, MultipartHttpServletRequest multipartHttpServletRequest, AreaModel areaModel,AreaImgModel areaimg) throws Exception {
 		
 		//줄바꿈
 		String content = areaModel.getContent().replaceAll("\r\n", "<br/>");
@@ -287,7 +295,7 @@ public class AreaController {
 				//파일 저장
 				mf.get(i).transferTo(new File(savePath));
 				
-				areaService.fileupload(org_name, sav_name, no);
+				//areaService.fileupload(org_name, sav_name, no);
 			}
 		}
 				
