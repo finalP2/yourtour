@@ -16,6 +16,10 @@ public interface ScheduleDao {
 	
 	public ScheduleModel scheduleSelectOne(ScheduleModel scheduleModel);
 	
+	void scheduleLikeinsert(ScheduleLikeModel scheduleLikeModel);
+	public ScheduleLikeModel scheduleLikeChk(ScheduleLikeModel scheduleLikeModel);
+	void scheduleLikeupdate(ScheduleModel ScheduleModel);
+	void scheduleCommentWrite(ScheduleCommentModel scheduleCommentModel);
 	
 	/*public List<ScheduleModel> togetherList(int s_no);
 	

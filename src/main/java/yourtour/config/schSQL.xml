@@ -29,24 +29,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="sch_no" column="sch_no" />
 	</resultMap>
 		
-<!-- 
-		SCH_DETAIL 테이블
-		<result property="s_detail_no" column="s_detail_no" />
-		<result property="s_detail_memo" column="s_detail_memo" />
-		<result property="s_idx" column="s_idx" />
-		<result property="s_detail_turn" column="s_detail_turn"/>
-		
-		<result property="a_name" column="a_name"/> 
-
-
-	
-	<resultMap type="schComment" id="schCommentRes">
-		<result property="s_no" column="s_no" />
-		<result property="m_email" column="m_email" />
-		<result property="s_co_no" column="s_co_no" />
-		<result property="s_co_con" column="s_co_con" />
-		<result property="s_co_date" column="s_co_date" />
-	</resultMap> -->
+<resultMap type="scheduleLike" id="scheduleLikeRes">
+		<!-- SCHLike 테이블 -->
+		<result property="no" column="no" />
+		<result property="email" column="email"/>
+		<result property="sch_no" column="sch_no" />
+	</resultMap>
+	<resultMap type="scheduleComment" id="scheduleCommentRes">
+		<!-- SCHCOMMENT 테이블 -->
+		<result property="email" column="email" />
+		<result property="no" column="no" />
+		<result property="content" column="content" />
+		<result property="writedate" column="writedate" />
+		<result property="sch_no" column="sch_no"/>
+		<result property="ref" column="ref" />
+		<result property="re_step" column="re_step" />
+		<result property="re_level" column="re_level" />
+	</resultMap>
 	
 	
 	<!-- 일정 게시판 ↓↓↓↓ -->
@@ -85,5 +84,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(SCH_DAT_NO_SEQ.NEXTVAL, #{day}, #{sch_no})
 	</insert>
 	
+	<!-- 좋아요 추가 -->
+	<insert id="likeinsert" parameterType="scheduleLike">
+		INSERT INTO SCH_LIKE(NO, EMAIL, SCH_NO) 
+		VALUES(SCH_LIKE_NO_SEQ.NEXTVAL, #{email}, #{sch_no})
+	</insert>	
 	
+	<!-- 좋아요 계정 중복 확인 -->
+	<select id="scheduleLikeChk" resultMap="scheduleLikeRes" parameterType="scheduleLike">
+		select * from sch_like 
+		where email = #{email} and sch_no = #{sch_no}
+	</select>
+	
+	<!-- 좋아요 추가 -->
+	<update id="likeupdate" parameterType="schedule">
+		UPDATE SCH SET
+		 like1 = #{like1} 
+		WHERE no = #{no}
+	</update>	
+	
+	<!-- 댓글작성 -->
+	<insert id="scheduleCommentWrite" parameterType="scheduleComment">
+		INSERT INTO SCH_COMMENT(NO, EMAIL, CONTENT, WRITEDATE, SCH_NO) 
+		VALUES(SCH_COMMENT_NO_SEQ.NEXTVAL, #{email}, #{content}, sysdate, #{sch_no})
+	</insert>
  </mapper>

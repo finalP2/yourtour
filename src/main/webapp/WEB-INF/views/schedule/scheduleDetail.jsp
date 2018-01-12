@@ -11,24 +11,36 @@
 </head>
 <body>
 <table class="table">
-	
-	<tr>
-		<td>
-			${sch.no } -
-		</td>
-    	<td>
-    		${sch.email }
-		</td>
-		<td>
-			${sch.name }
-   		</td>
-   		
-   		<td>
-   			좋아요 = ${sch.like1 }
-   		</td>
-	</tr>
-	<input type="button" value="좋아요" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleLike.go?no=${sch.no}'"/>
+   <tr>
+      <td>
+         ${sch.no } -
+      </td>
+       <td>
+          ${sch.email }
+      </td>
+      <td>
+         ${sch.name }
+         </td>
+        <td>
+           	 좋아요 = ${sch.like1 }
+         </td>
+   </tr>
+   <tr>
+         <c:if test="${msg == 'failure'}">
+                    <div style="color: red">
+                        좋아요는 한 게시물에 한번만 할 수 있습니다.
+                    </div>
+                </c:if>
+   
+   <input type="button" value="좋아요" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleLike.go?no=${sch.no}'"/>
+  
+   </tr>
 </table>
-
+ <th scop="row">댓글</th>
+   <td colspan=3>
+   <input type="text" id="TITLE" name="content" class="wap_90" style=" width:500px;">
+   <input type="button" value="등록하기" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleCommentWrite.go?no=${sch.no}'"/>
+   <input type="button" value="삭제하기" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleLike.go?no=${sch.no}'"/>
+   </td>
 </body>
 </html>

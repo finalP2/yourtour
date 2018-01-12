@@ -33,6 +33,24 @@ public class ScheduleService implements ScheduleDao{
 	@Override
 	public void scheduleDayinsert(ScheduleDayModel scheduleDayModel) {
 		sqlSessionTemplate.insert("schedule.scheduleDayinsert", scheduleDayModel);
+	}@Override
+	public void scheduleLikeinsert(ScheduleLikeModel scheduleLikeModel) {
+		sqlSessionTemplate.insert("schedule.likeinsert", scheduleLikeModel);
+	}
+	
+	@Override
+	public ScheduleLikeModel scheduleLikeChk(ScheduleLikeModel scheduleLikeModel) {
+		return sqlSessionTemplate.selectOne("schedule.scheduleLikeChk", scheduleLikeModel);
+	}
+	
+	@Override
+	public void scheduleLikeupdate(ScheduleModel scheduleModel) {
+		sqlSessionTemplate.update("schedule.likeupdate", scheduleModel);
+	}
+	
+	@Override
+	public void scheduleCommentWrite(ScheduleCommentModel scheduleCommentModel) {
+		sqlSessionTemplate.insert("schedule.scheduleCommentWrite", scheduleCommentModel);
 	}
 	/*
 	@Override

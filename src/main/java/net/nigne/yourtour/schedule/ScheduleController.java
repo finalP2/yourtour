@@ -136,6 +136,57 @@ public class ScheduleController {
 		
 		return mav;
 	}
+	@RequestMapping("scheduleLike.go")
+	   public ModelAndView scheduleLike(HttpServletRequest request,HttpSession session, ScheduleModel scheduleModel ) throws Exception{
+		      
+		   ScheduleLikeModel scheduleLikeModel = new ScheduleLikeModel();
+		   ScheduleLikeModel scheduleChk;
+		   scheduleModel.setNo(Integer.parseInt(request.getParameter("no")));
+		   scheduleModel = scheduleService.scheduleSelectOne(scheduleModel);
+		   session.getAttribute("session_m_email");
+		   String email = (String) session.getAttribute("session_m_email");
+		   int s_num = scheduleModel.getNo();
+		   int like = scheduleModel.getLike1();
+		   scheduleLikeModel.setEmail(email);
+		   scheduleLikeModel.setSch_no(s_num);
+
+		   
+		   scheduleChk = scheduleService.scheduleLikeChk(scheduleLikeModel);
+		    if(scheduleChk == null) {
+		 	scheduleModel.setLike1(++like);
+
+		    scheduleService.scheduleLikeinsert(scheduleLikeModel);
+		    scheduleService.scheduleLikeupdate(scheduleModel);
+		    mav.addObject("sch",scheduleModel);
+		    mav.addObject("msg","true");
+			mav.setViewName("schedule/scheduleDetail");
+			return mav;
+		    }
+		    else if(like!=0) {
+		   mav.addObject("msg", "failure");
+		    }
+		   mav.setViewName("schedule/scheduleDetail");
+		   return mav;
+	   }
+	   
+	   
+	   @RequestMapping("scheduleCommentWrite.go")
+	   public ModelAndView scheduleCommentWrite(HttpServletRequest request,HttpSession session, ScheduleModel scheduleModel ) throws Exception{
+		      
+		   ScheduleCommentModel scheduleCommentModel = new ScheduleCommentModel();
+		   scheduleModel.setNo(Integer.parseInt(request.getParameter("no")));
+		   scheduleModel = scheduleService.scheduleSelectOne(scheduleModel);
+		   session.getAttribute("session_m_email");
+		   scheduleCommentModel.setEmail((String) session.getAttribute("session_m_email"));// �벖�궗�엺 �씠硫붿씪
+		   scheduleCommentModel.setSch_no((scheduleModel.getNo())); //湲��꽆踰�
+		   scheduleCommentModel.setContent((String)request.getParameter("content"));
+
+		    scheduleService.scheduleCommentWrite(scheduleCommentModel);
+			mav.setViewName("schedule/scheduleDetail");
+			return mav;
+		    
+	   }
+
 	/*
 	@RequestMapping("scheduleArea.go")
 	public ModelAndView scheduleArea(HttpServletRequest request, HttpSession session, ScheduleModel scheduleModel1, ScheduleModel scheduleModel2) throws Exception{

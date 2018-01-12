@@ -20,12 +20,14 @@ PUBLIC " - //mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="member" type="net.nigne.yourtour.member.MemberModel" />
 		<typeAlias alias="schedule" type="net.nigne.yourtour.schedule.ScheduleModel" />
 		<typeAlias alias="scheduleDay" type="net.nigne.yourtour.schedule.ScheduleDayModel" />
+		<typeAlias alias="scheduleLike" type="net.nigne.yourtour.schedule.ScheduleLikeModel" />
 		<typeAlias alias="city" type="net.nigne.yourtour.city.CityModel" />
 		<typeAlias alias="cityImg" type="net.nigne.yourtour.city.CityImgModel" />
 		<typeAlias alias="area" type="net.nigne.yourtour.area.AreaModel" />
 		<typeAlias alias="areaReview" type="net.nigne.yourtour.area.AreaReviewModel" />
 		<typeAlias alias="areaImg" type="net.nigne.yourtour.area.AreaImgModel"/>
-		<!-- <typeAlias alias="schComment" type="com.gokkiri.schedule.SchCommentModel" /> -->
+		<typeAlias alias="scheduleComment" type="net.nigne.yourtour.schedule.ScheduleCommentModel" />
+		
 <!-- 		<typeAlias alias="state" type="com.gokkiri.state.StateModel"/>
 		
 		<typeAlias alias="area" type="com.gokkiri.area.AreaModel" />
