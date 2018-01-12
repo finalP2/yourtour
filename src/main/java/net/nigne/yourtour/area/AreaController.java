@@ -39,10 +39,10 @@ public class AreaController {
 	@Resource(name="cityService")
 	private CityService cityService;
 	
-	private static final String uploadPath = "C:\\Java\\mavenApp\\";
+	private static final String uploadPath = "C:\\Java\\App\\yourtour\\src\\main\\webapp\\WEB-INF\\views\\area_img\\";
 	int totalCount;
 	
-	//¿©ÇàÁö ¸®½ºÆ® º¸±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("areaList.go")
 	public ModelAndView areaList(HttpServletRequest request) throws Exception {
 		
@@ -54,7 +54,7 @@ public class AreaController {
 		int city_no = Integer.parseInt(request.getParameter("city_no"));
 		String keyword = request.getParameter("keyword");
 		
-		//°Ë»ö°ªÀÌ ÀÖÀ» ¶§
+		//ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		if(searchKeyword != null) {
 			searchKeyword = new String(searchKeyword);
 			
@@ -73,7 +73,7 @@ public class AreaController {
 			return mav;
 		}
 		
-		//°Ë»ö°ªÀÌ ¾øÀ» ¶§
+		//ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		areaList = areaService.areaList(city_no);
 		
 		totalCount = areaList.size();
@@ -87,7 +87,7 @@ public class AreaController {
 		return mav;
 	}
 		
-	//¿©ÇàÁö ±Û¾²±â Æû ÀÌµ¿ (°ü¸®ÀÚ)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ìµï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 	@RequestMapping("areaWriteForm.go")
 	public ModelAndView areaWriteForm(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
@@ -95,17 +95,17 @@ public class AreaController {
 		return mav;
 	}
 	
-	//¿©ÇàÁö ±Û¾²±â Æû¿¡¼­ ¿©ÇàÁö ÁÖ¼Ò°Ë»ö Æû ºÒ·¯¿À±â (°ü¸®ÀÚ)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼Ò°Ë»ï¿½ ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 	@RequestMapping("areaSearchMap.go")
 	public String areaSearchMap(HttpServletRequest request) {
 		return "area/areaSearchMap";
 	}
 
-	//¿©ÇàÁö ±Û¾²±â (°ü¸®ÀÚ)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 	@RequestMapping("areaWrite.go")
 	public ModelAndView areaWrite(HttpServletRequest request, MultipartHttpServletRequest multipartHttpServletRequest, AreaModel areaModel, CityModel cityModel, AreaImgModel areaimgModel) throws Exception {
 		
-		//ÁÙ¹Ù²Þ
+		//ï¿½Ù¹Ù²ï¿½
 		String content = areaModel.getContent().replaceAll("\r\n", "<br/>");
 		areaModel.setContent(content);
 		String city_name = request.getParameter("city_name");
@@ -114,50 +114,50 @@ public class AreaController {
 		List<CityModel> cityList = null;
 		
 		cityModel = cityService.citySelectOne(city_name);
-		System.out.println("µµ½ÃÀÌ¸§ = "+city_name);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ = "+city_name);
 		int city_no = cityModel.getNo();
 		areaModel.setCity_no(city_no);
 		
-		//Ã·ºÎÆÄÀÏÀ» Á¦¿ÜÇÑ ±Û¾²±â µî·Ï
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		areaService.areaWrite(areaModel);
 		areaModel = areaService.areaLastWrite();
 		int area_no = areaModel.getNo();
 		int no = areaService.selectSeq();
 		
-		//Ã·ºÎÆÄÀÏ µî·Ï
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		File dir = new File(uploadPath);
 		
-		//uploadPath °æ·Î¿¡ Æú´õ°¡ ¾øÀ¸¸é »õ·Î »ý¼º
+		//uploadPath ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if(!dir.isDirectory()) {
 			dir.mkdir();
 		}
 		
-		//ÄÜ¼Ö¿¡ uploadPath Ãâ·Â
+		//ï¿½Ü¼Ö¿ï¿½ uploadPath ï¿½ï¿½ï¿½
 		System.out.println("uploadPath : " + uploadPath);
 		
-		//³Ñ¾î¿Â ÆÄÀÏÀ» ¸®½ºÆ®·Î ÀúÀå
+		//ï¿½Ñ¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		List<MultipartFile> mf = multipartHttpServletRequest.getFiles("file");
 		
 		if(mf.size() == 1 && mf.get(0).getOriginalFilename().equals("")) {
 			
 		} else {
 			
-			//Ã·ºÎÆÄÀÏÀÌ ¾øÀ¸¸é ±Û¾²±â°¡ µÇÁö ¾Êµµ·Ï ¼öÁ¤
+			//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½â°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			for(int i=0; i<mf.size(); i++) {
 				
-				//ÆÄÀÏ Áßº¹¸í Ã³¸®
+				//ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 				String genId = UUID.randomUUID().toString();
 				
-				//º»·¡ ÆÄÀÏ¸í
+				//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½
 				String org_name = mf.get(i).getOriginalFilename();
 				
-				//ÀúÀåµÇ´Â ÆÄÀÏ ÀÌ¸§
+				//ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
 				String sav_name = genId + "." + FilenameUtils.getExtension(org_name);
 				
-				//ÀúÀåµÉ ÆÄÀÏ °æ·Î + ÆÄÀÏ ÀÌ¸§
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ + ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
 				String savePath = uploadPath + sav_name;
 				
-				//ÆÄÀÏ ÀúÀå
+				//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				mf.get(i).transferTo(new File(savePath));
 				areaimgModel.setOrg_name(org_name);
 				areaimgModel.setSav_name(sav_name);
@@ -169,20 +169,20 @@ public class AreaController {
 		return new ModelAndView("redirect:areaList.go?city_no="+city_no+"&keyword="+URLEncoder.encode(keyword, "UTF-8"));
 	}
 	
-	//³»¿ëÀÌ ºñ¿öÁ® ÀÖÀ¸¸é ¿¡·¯ ¸Þ½ÃÁö Ãâ·Â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public String AreaMessage(Model model, AreaModel areaModel, BindingResult bindingResult) {
 		new AreaValidator().validate(areaModel, bindingResult);
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("areaModel", areaModel);
 			return "area/areaWriteForm";
 		} else {
-			//µ¥ÀÌÅÍÃ³¸®
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
 			//redirect
 			return "redirect:/";
 		}
 	}
 
-	//¿©ÇàÁö ±Û »ó¼¼º¸±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½
 	@RequestMapping("areaDetail.go")
 	public ModelAndView areaDetail(HttpServletRequest request) {
 		
@@ -207,7 +207,7 @@ public class AreaController {
 		mav.addObject("areaReviewList", areaReviewList);
 		mav.addObject("revCount", revCount);
 		
-		//°Ë»ö°ªÀÌ ÇöÀç ÆäÀÌÁö¿Í ÀÏÄ¡ÇÏ¸é ÇöÀç ÆäÀÌÁö·Î ´Ù½Ã ÀÌµ¿
+		//ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ìµï¿½
 		if(request.getParameter("keyword").equals("info")) {
 			mav.setViewName("area/areaDetail");
 			return mav;
@@ -217,7 +217,7 @@ public class AreaController {
 		}
 	}
 	
-	//¿©ÇàÁö ±Û ¼öÁ¤ÇÏ±â Æû (°ü¸®ÀÚ)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 	@RequestMapping("areaModifyForm.go")
 	public ModelAndView areaModifyForm(HttpServletRequest request) {
 		
@@ -225,12 +225,12 @@ public class AreaController {
 		
 		int no = Integer.parseInt(request.getParameter("no"));
 		
-		//ÇÔ²² ÀúÀåµÈ ÀÌ¹ÌÁö ÆÄÀÏÀÇ ¿øº»ÀÌ¸§ ºÒ·¯¿À±â
+		//ï¿½Ô²ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<AreaModel> imgList = areaService.area_imgList(no);
 		
 		List<AreaModel> areaModel = areaService.areaDetail(no);
 		
-		//ÁÙ¹Ù²Þ <br/>´Ù½Ã \r\nÀ¸·Î ¹Ù²Ù±â
+		//ï¿½Ù¹Ù²ï¿½ <br/>ï¿½Ù½ï¿½ \r\nï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ù±ï¿½
 		String content = ((AreaModel) areaModel).getContent().replaceAll("<br/>", "\r\n");
 		((AreaModel) areaModel).setContent(content);
 		
@@ -242,57 +242,57 @@ public class AreaController {
 		return mav;
 	}
 	
-	//¿©ÇàÁö ±Û ¼öÁ¤ÇÏ±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	@RequestMapping("areaModify.go")
 	public String areaModify(HttpServletRequest request, MultipartHttpServletRequest multipartHttpServletRequest, AreaModel areaModel,AreaImgModel areaimg) throws Exception {
 		
-		//ÁÙ¹Ù²Þ
+		//ï¿½Ù¹Ù²ï¿½
 		String content = areaModel.getContent().replaceAll("\r\n", "<br/>");
 		areaModel.setContent(content);
 		
 		int no = Integer.parseInt(request.getParameter("no"));
 		areaModel.setNo(no);
 		
-		//Ã·ºÎÆÄÀÏ Á¦¿ÜÇÏ°í ¼öÁ¤ÇÏ±â
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		areaService.areaModify(areaModel);
 		
-		//³Ñ¾î¿Â ÆÄÀÏÀ» ¸®½ºÆ®·Î ÀúÀå
+		//ï¿½Ñ¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		List<MultipartFile> mf = multipartHttpServletRequest.getFiles("file");
 		
-		//Ã·ºÎÆÄÀÏ ¼öÁ¤ÇÏ±â (Ã·ºÎÆÄÀÏÀ» »õ·Î µî·ÏÇÏÁö ¾ÊÀ¸¸é ±×³É ³Ñ¾î°¡±â)
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ (Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×³ï¿½ ï¿½Ñ¾î°¡ï¿½ï¿½)
 		if(mf.size() == 1 && mf.get(0).getOriginalFilename().equals("")) {
 			
 		} else {
 			
-			//±âÁ¸ÀÇ Ã·ºÎÆÄÀÏÀ» »èÁ¦ÇÏ±â
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			areaService.fileDelete(no);
 			
 			File dir = new File(uploadPath);
 			
-			//uploadPath °æ·Î¿¡ Æú´õ°¡ ¾øÀ¸¸é »õ·Î »ý¼º
+			//uploadPath ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if(!dir.isDirectory()) {
 				dir.mkdir();
 			}
 			
-			//ÄÜ¼Ö¿¡ uploadPath Ãâ·Â
+			//ï¿½Ü¼Ö¿ï¿½ uploadPath ï¿½ï¿½ï¿½
 			System.out.println("uploadPath : "+ uploadPath);
 			
-			//Ã·ºÎÆÄÀÏÀÌ ¾øÀ¸¸é ±Û¾²±â°¡ ¾È µÇµµ·Ï ¼öÁ¤
+			//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½â°¡ ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			for(int i=0; i<mf.size(); i++) {
 				
-				//ÆÄÀÏ Áßº¹¸í Ã³¸®
+				//ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 				String genId = UUID.randomUUID().toString();
 				
-				//º»·¡ ÆÄÀÏ¸í
+				//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½
 				String org_name = mf.get(i).getOriginalFilename();
 				
-				//ÀúÀåµÇ´Â ÆÄÀÏ ÀÌ¸§
+				//ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
 				String sav_name = genId + "." + FilenameUtils.getExtension(org_name);
 				
-				//ÀúÀåµÉ ÆÄÀÏ°æ·Î + ÆÄÀÏ ÀÌ¸§
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ + ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
 				String savePath = uploadPath + sav_name;
 				
-				//ÆÄÀÏ ÀúÀå
+				//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				mf.get(i).transferTo(new File(savePath));
 				
 				//areaService.fileupload(org_name, sav_name, no);
@@ -304,7 +304,7 @@ public class AreaController {
 				return "redirect:areaDetail.go?no="+no+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
 	}
 	
-	//¿©ÇàÁö ±Û »èÁ¦ÇÏ±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	@RequestMapping("areaDelete.go")
 	public String areaDelete(HttpServletRequest request) throws UnsupportedEncodingException {
 		
@@ -317,7 +317,7 @@ public class AreaController {
 		return "redirect:areaList.go?city_no="+city_no+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
 	}
 	
-	//¿©ÇàÁö ¸®ºä ¾²±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("areaReview.go")
 	public String areaReview(HttpServletRequest request, AreaReviewModel areaReviewModel) throws UnsupportedEncodingException {
 		
@@ -331,7 +331,7 @@ public class AreaController {
 		return "redirect:areaDetail.go?no="+no+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
 	}
 	
-	//¿©ÇàÁö ¸®ºä »èÁ¦
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("areaReviewDelete.go")
 	public String areaReviewDelete(HttpServletRequest request) throws UnsupportedEncodingException {
 		
