@@ -5,6 +5,17 @@ import java.util.List;
 import net.nigne.yourtour.schedule.ScheduleModel;
 
 public interface ScheduleDao {
+
+	public List<ScheduleModel> scheduleList();
+	
+	public void scheduleWrite(ScheduleModel scheduleModel);
+	
+	public ScheduleModel scheduleLastWrite(String email);
+	
+	public void scheduleDayinsert(ScheduleDayModel scheduleDayModel);
+	
+	public ScheduleModel scheduleSelectOne(ScheduleModel scheduleModel);
+	
 	
 	/*public List<ScheduleModel> togetherList(int s_no);
 	
@@ -29,81 +40,48 @@ public interface ScheduleDao {
 	
 	public void deleteArea(ScheduleModel scheduleModel);
 	
-	;
-	
-
-	
-
-	*/
-	
-
-	public List<ScheduleModel> scheduleList();
-	public void scheduleWrite(ScheduleModel scheduleModel);
-	public ScheduleModel scheduleLastWrite(String email);
-	void scheduleDayinsert(ScheduleDayModel scheduleDayModel);
-	public ScheduleModel scheduleSelectOne(ScheduleModel scheduleModel);
-	/*
 	public List<ScheduleModel> scheduleSearchList(String state_name);
-	
 	
 	public List<ScheduleModel> scheduleHitList();
 
 	public ScheduleModel scheduleDetail(int s_no);
 	
-	
 	public List<ScheduleModel> schDetail(int s_no);
-	
 	
 	public List<ScheduleModel> DayList(int s_idx, int s_no);
 	
-	
 	public int zzimCheck(String m_email, int s_no);
-	
 	
 	public int scheduleUpdateReadhit(int s_no);
 	
-
 	public int sch_commCount(int s_no);
-	
 	
 	public List<SchCommentModel> sch_comList(int s_no);
 	
-	
 	public void schComment(SchCommentModel schCommentModel);
 	
-
 	public void schCommentDelete(int s_no);
-	
 	
 	public int areaCount(int s_no);
 	
-	
 	public void schZzim1(int s_no, String m_email);
-	
 	
 	public void schZzim2(int s_no, String m_email);
 	
-	
 	public List<ScheduleModel> schDetailList(int s_no);
-	
-	
+		
 	public int schDownload(ScheduleModel scheduleModel);
-	
-	
+		
 	public void schDownDetail(List<ScheduleModel> schDetailList, int ss_no);
 	
-
 	public List<ScheduleModel> mapList(int s_no);
 
 	public List<ScheduleModel> s_together(int s_no);
 	
-
 	public ScheduleModel selectS_idx(int s_no);
 	
-	
 	public ScheduleModel selectStateCity(int s_no);
-	
-	
+
 	public void deleteSchedule(int s_no);
 */
 	
