@@ -14,54 +14,54 @@ public class CityService implements CityDao {
 	@Resource
 	private SqlSessionTemplate sqlSessionTemplate;
 
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ë»ï¿½
+	//ÀÏÁ¤ ¸¸µé±â- µµ½Ã ¸®½ºÆ® °Ë»ö
 	@Override
-	public List<CityModel> schcitySearch(int no, String keyword) {
+	public List<CityModel> schCitySearch(String country, String keyword) {
 		// TODO Auto-generated method stub
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("no", no);
+		map.put("country", country);
 		map.put("keyword", "%"+keyword+"%");
 		
 		return sqlSessionTemplate.selectList("city.schcitySearch");
 	}
 	
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+	//ÀÏÁ¤ ¸¸µé±â- µµ½Ã ¸®½ºÆ® º¸±â
 	@Override
 	public List<CityModel> schCityList(String country) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList("city.schCityList", country);
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
+	//¿©ÇàÁö ÅÇ¿¡¼­ µµ½Ã ¸®½ºÆ® ºÒ·¯¿À±â
 	@Override
-	public List<CityModel> cityList(int no) {
+	public List<CityModel> cityList(String country) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList("city.cityList", no);
+		return sqlSessionTemplate.selectList("city.cityList", country);
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½
+	//µµ½Ã ±Û »ó¼¼º¸±â
 	@Override
 	public CityModel cityDetail(int no) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne("city.cityDetail", no);
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½
+	/*//µµ½Ã ±Û¾²±â
 	@Override
 	public Object cityWrite(CityModel cityModel) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne("city.cityWrite", cityModel);
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
+	//ÆÄÀÏ ¾÷·Îµå Àü¿¡ µµ½Ã ¹øÈ£ °ª º¸³»ÁÖ±â
 	@Override
 	public int selectSeq() {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne("city.selectSeq");
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
+	//ÆÄÀÏ ¾÷·Îµå
 	@Override
 	public void fileupload(String org_name, String sav_name, int city_no) {
 		// TODO Auto-generated method stub
@@ -70,20 +70,26 @@ public class CityService implements CityDao {
 		hm.put("org_name", org_name);
 		hm.put("sav_name", sav_name);
 		hm.put("city_no", city_no);
-	}
+	}*/
 
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
+	
+	//µµ½Ã »ó¼¼º¸±â ÇÒ ¶§ ÀÌ¹ÌÁö ¸®½ºÆ® °°ÀÌ ºÒ·¯¿À±â
 	@Override
 	public List<CityModel> city_imgList(int city_no) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList("city.city_imgList", city_no);
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
+	//µµ½Ã »ó¼¼º¸±â ÇÒ ¶§ ¸ÞÀÎ ÀÌ¹ÌÁö ºÒ·¯¿À±â
 	@Override
-	public CityModel main_ing(int city_no) {
+	public CityModel city_mainImg(int city_no) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public CityModel citySelectOne(String city_name) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("city.citySelectOne", city_name);
 	}
 	
 }

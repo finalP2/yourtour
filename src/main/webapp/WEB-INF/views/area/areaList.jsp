@@ -7,10 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="schedule/scheduleWriteForm.go" >일정만들기</a><br/>
-<a href="member/joinForm.go" >회원가입</a><br/>
-<a href="member/loginpage.go" >로그인</a><br/>
-<a href="schedule/scheduleList.go">일정리스트</a><br/>
-<a href="area/areaWriteForm.go">여행지등록</a>
+
 </body>
 </html>

@@ -76,16 +76,11 @@ public class ScheduleController {
  
         calDateDays = Math.abs(calDateDays);
         
-
-
         scheduleModel.setPeriod((int) calDateDays+1);
     
         int period = scheduleModel.getPeriod();
         
 		scheduleService.scheduleWrite(scheduleModel);
-		
-		
-		
 		
 		scheduleModel = scheduleService.scheduleLastWrite("csw");
 		scheduleDayModel.setSch_no(scheduleModel.getNo());

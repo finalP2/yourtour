@@ -22,7 +22,7 @@
 	
 	<!-- SELECT -->
 	<!-- 일정 만들기- 도시 리스트 검색 -->
-	<select id="schcitySearch" resultMap="cityRes" parameterType="HashMap">
+	<select id="schCitySearch" resultMap="cityRes" parameterType="HashMap">
 		SELECT *
 		FROM CITY
 		WHERE country = #{country} and name like #{keyword}
@@ -36,38 +36,45 @@
 	</select>
 	
 	<!-- 여행지 탭에서 도시 리스트 불러오기 -->
-	<select id="cityList" resultMap="cityRes" parameterType="Integer">
+	<select id="cityList" resultMap="cityRes" parameterType="String">
 		SELECT *
 		FROM CITY
 		WHERE country = #{country}
 		ORDER BY NO ASC
 	</select>
 	
-	<!-- 도시 글쓰기 폼에서 국가 이름 불러오기 -->
+	<!-- 도시 이름으로 도시불러오기 -->
+	<select id="citySelectOne" resultMap="cityRes" parameterType="String">
+		SELECT *
+		FROM CITY
+		WHERE name = #{city_name} 
+	</select>
+	
+	<!-- 도시 글쓰기 폼에서 국가 이름 불러오기
 	<select id="selectCountry" resultType="String" parameterType="Integer">
 		SELECT COUNTRY FROM CITY
 		WHERE country = #{country}
 	</select>
 	
-	<!-- INSERT -->
-	<!-- 도시 글쓰기 -->
+	INSERT
+	도시 글쓰기
 	<insert id="cityWrite" parameterType="city">
 		insert into city(no, name, content, country)
 		values(CITY_NO_SEQ.NEXTVAL, #{name}, #{content}, #{country})
 	</insert>
 	
-	<!-- 파일 업로드 전에 도시 번호 값 보내주기 -->
+	파일 업로드 전에 도시 번호 값 보내주기
 	<select id="selectSeq" resultType="Integer">
 		SELECT MAX(NO) FROM CITY
 	</select>
 	
-	<!-- 파일 업로드 -->
+	파일 업로드
 	<insert id="fileupload" parameterType="HashMap">
 		insert into city_img(no, org_name, sav_name, city_no)
 		values(CITY_ING_NO_SEQ.NEXTVAL, #{org_name}, #{sav_name}, #{city_no})
-	</insert>
+	</insert> -->
 	
-	<!-- 도시 상세보기 -->
+	<!-- 도시 글 상세보기 -->
 	<select id="cityDetail" resultMap="cityRes" parameterType="Integer">
 		SELECT NO,NAME,CONTENT,COUNTRY
 		FROM CITY
@@ -78,14 +85,14 @@
 	<select id="city_imgList" resultMap="cityRes" parameterType="Integer">
 		SELECT *
 		FROM CITY_IMG
-		WHERE NO = #{no}
+		WHERE CITY_NO = #{city_no}
 	</select>
 	
 	<!-- 도시 상세보기 할때 이미지 갤러리 메인 이미지 불러오기 -->
 	<select id="city_mainImg" resultMap="cityRes" parameterType="Integer">
 		SELECT *
 		FROM CITY_IMG
-		WHERE NO = #{no} AND C_IMG_INDEX = 1
+		WHERE CITY_NO = #{city_no} AND C_IMG_INDEX = 1
 	</select>
 
 </mapper>

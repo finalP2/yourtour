@@ -4,30 +4,33 @@ import java.util.List;
 
 public interface CityDao {
 	
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
-	public List<CityModel> schcitySearch(int no, String keyword);
+	//µµ½Ã °Ë»ö
+	public List<CityModel> schCitySearch(String country, String keyword);
 	
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+	//½ºÄÉÁì - µµ½Ã ¸®½ºÆ® º¸±â
 	public List<CityModel> schCityList(String country);
 	
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
-	public List<CityModel> cityList(int no);
+	//µµ½Ã ¸®½ºÆ® º¸±â
+	public List<CityModel> cityList(String country);
 	
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½
+	//µµ½Ã »ó¼¼º¸±â
 	public CityModel cityDetail(int no);
 
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½
+	/*//µµ½Ã ±Û¾²±â
 	public Object cityWrite(CityModel cityModel);
 	
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£(no) ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
+	//ÆÄÀÏ ¾÷·Îµå ÇÒ ¶§ µµ½Ã ¹øÈ£(no) º¸³»ÁÖ±â
 	public int selectSeq();
 	
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
-	public void fileupload(String org_name, String sav_name, int city_no);
+	//ÆÄÀÏ ¾÷·Îµå
+	public void fileupload(String org_name, String sav_name, int city_no);*/
 	
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
+	
+	//µµ½Ã »ó¼¼º¸±â ÇÒ ¶§ ÀÌ¹ÌÁö ¸®½ºÆ®µµ °°ÀÌ ºÒ·¯¿À±â
 	public List<CityModel> city_imgList(int city_no);
 	
-	public CityModel main_ing(int city_no);
+	public CityModel city_mainImg(int city_no);
+
+	public CityModel citySelectOne(String city_name);
 
 }

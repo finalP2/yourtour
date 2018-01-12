@@ -1,6 +1,5 @@
 package net.nigne.yourtour.schedule;
 
-import java.util.HashMap;
 import java.util.List;
 import javax.annotation.Resource;
 
