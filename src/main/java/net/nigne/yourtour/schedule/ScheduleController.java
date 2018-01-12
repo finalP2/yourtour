@@ -57,8 +57,9 @@ public class ScheduleController {
 	
 	@RequestMapping("scheduleState.go")
 	public ModelAndView scheduleState(HttpServletRequest request, ScheduleModel scheduleModel, ScheduleDayModel scheduleDayModel, HttpSession session) throws Exception{
-        		
-		scheduleModel.setEmail("csw");
+        
+		String email = (String) session.getAttribute("session_m_email");
+		scheduleModel.setEmail(email);
 		
 		
 		String date1 = scheduleModel.getStart_date();
@@ -82,7 +83,7 @@ public class ScheduleController {
         
 		scheduleService.scheduleWrite(scheduleModel);
 		
-		scheduleModel = scheduleService.scheduleLastWrite("csw");
+		scheduleModel = scheduleService.scheduleLastWrite(email);
 		scheduleDayModel.setSch_no(scheduleModel.getNo());
 		
 		for(int i=0; i<period ; i++) {
@@ -104,7 +105,8 @@ public class ScheduleController {
 	public ModelAndView scheduleCity(HttpServletRequest request, ScheduleModel scheduleModel, HttpSession session) throws Exception{
 		
 		String country = request.getParameter("country");
-		scheduleModel.setEmail("csw");
+		String email = (String) session.getAttribute("session_m_email");
+		scheduleModel.setEmail(email);
 		scheduleModel.setNo(Integer.parseInt(request.getParameter("no")));
 		
 		scheduleModel = scheduleService.scheduleSelectOne(scheduleModel);

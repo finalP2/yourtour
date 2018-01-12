@@ -218,7 +218,7 @@ public class MemberController {
 	         session.setAttribute("session_m_name", result.getName());
 	         session.setAttribute("session_m_nickname", result.getNickname());
 	    	
-	         mav.setViewName("member/main");
+	         mav.setViewName("main");
 	         return mav;
 	         
 	      }

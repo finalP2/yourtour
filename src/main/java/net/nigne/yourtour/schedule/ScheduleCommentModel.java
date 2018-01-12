@@ -11,6 +11,7 @@ public class ScheduleCommentModel {
 	private int ref;
 	private int re_step;
 	private int re_level;
+	
 	public String getEmail() {
 		return email;
 	}
