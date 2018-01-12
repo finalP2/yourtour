@@ -31,10 +31,10 @@ public class MemberController {
 	*/
 	ModelAndView mav = new ModelAndView();
 	
-	
+	//ȸ������ ��
 	@RequestMapping("joinForm.go")
 	public String joinForm(){
-		return "member/joinForm";
+		return "member/login";
 	}
 	
 	 @RequestMapping("loginpage.go")
@@ -42,7 +42,7 @@ public class MemberController {
 	        return "member/login";    // views/member/login.jsp�� ������
 	    }
 	
-	
+	//ȸ������
 	@RequestMapping(value="/join.go", method=RequestMethod.GET)
 	public ModelAndView join(@ModelAttribute("member") MemberModel member, HttpServletRequest request) throws Exception {
 		
@@ -54,55 +54,48 @@ public class MemberController {
 		 String nickname = (String)request.getParameter("nickname");
 		
 		 System.out.println(email + " " + pw + " " + name + " " + nickname);
-		 /*
-		 Random rnd = new Random();
-		 StringBuffer buf = new StringBuffer();
-			for(int i=0;i<10;i++){
-			    if(rnd.nextBoolean()){
-			        buf.append((char)((int)(rnd.nextInt(26))+97));
-			    }else{
-			        buf.append((rnd.nextInt(10))); 
-			    }
-			}
-			String m_auth = buf.toString();
-		*/
 			
-			
-		 /*
-		MemberModel emailChk = memberService.getEmailDuplChk(m_email);
-		MemberModel nameChk = memberService.getNameDuplChk(m_name);
-		*/
+		//�̸���, �г��� �ߺ��Ǹ� ���Ծȵǵ���	
 		
-		memberService.insertMember(email, pw, name, nickname);
-		
-		mav.setViewName("member/login");
-		 return mav;
+		 if(!(email.equals(""))&&!(pw.equals(""))&&!(name.equals(""))&&!(nickname.equals("")))
+		 {
+		MemberModel emailChk = memberService.getEmailDuplChk(email);
+		MemberModel nameChk = memberService.getNameDuplChk(nickname);
 	    
-	    /*
-		} else if(emailChk != null && nameChk==null){ 
-			joinError =1;
-			mav.addObject("joinError",joinError);
-			mav.addObject("m_email",m_email);
-		    mav.setViewName("member/joinError");
-		    return mav;
-		  
-		} else if(nameChk != null && emailChk==null) {
-			joinError=2;
-			mav.addObject("joinError",joinError);
-			mav.addObject("m_name",m_name);
-		    mav.setViewName("member/joinError");
-		    return mav;
-		    
-		} else if(emailChk != null && nameChk!=null) {
-			joinError=3;
-			mav.addObject("joinError",joinError);
-			mav.addObject("m_email",m_email);
-			mav.addObject("m_name",m_name);
-		    mav.setViewName("member/joinError");
-		    return mav;
-		   
-		}
-		*/
+		 if(emailChk==null && nameChk==null){
+				
+			 	memberService.insertMember(email, pw, name, nickname);
+			 	mav.setViewName("member/login");
+				 return mav;
+			    
+			    
+				} else if(emailChk != null && nameChk==null){ 
+					joinError =1;
+					mav.addObject("joinError",joinError);
+					mav.addObject("m_email",email);
+				    mav.setViewName("member/joinError");
+				    return mav;
+				  
+				} else if(nameChk != null && emailChk==null) {
+					joinError=2;
+					mav.addObject("joinError",joinError);
+					mav.addObject("m_name",nickname);
+				    mav.setViewName("member/joinError");
+				    return mav;
+				    
+				} else if(emailChk != null && nameChk!=null) {
+					joinError=3;
+					mav.addObject("joinError",joinError);
+					mav.addObject("m_email",email);
+					mav.addObject("m_name",nickname);
+				    mav.setViewName("member/joinError");
+				    return mav;
+				   
+				}
+				
+		 }
+		 		 mav.setViewName("member/joinForm");
+				 return mav;
 				
 	}
 	
@@ -113,11 +106,11 @@ public class MemberController {
 		String m_email = request.getParameter("m_email");
 		int auth = memberService.emailAuth(m_email, m_auth);
 		
-	
+		//���� ����
 		if (auth == 0) {
 			System.out.println("1111");
 			mav.setViewName("member/emailAuthFail");
-			
+		//������	
 		}else if (auth == 1) {
 			Random rnd = new Random();
 			StringBuffer buf = new StringBuffer();
@@ -136,13 +129,13 @@ public class MemberController {
 		return mav;
 	}
 		
-	
+	//ȸ�����Խ� �̸��� �ߺ�üũ
 	@RequestMapping("/duplChk.go")
 	public ModelAndView emailDuplChk(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 
 		  int memberEmailChk;
 		  		
-		  String m_email = request.getParameter("m_email");
+		  String m_email = request.getParameter("email");
 		  member = memberService.getEmailDuplChk(m_email);
 		  		
 		  		if (member == null) {
@@ -164,13 +157,13 @@ public class MemberController {
 		  		}
 		  	}
 	
-	
+	//�̸�(�г���)�ߺ�üũ
 	@RequestMapping("/nameDuplChk.go")
 	public ModelAndView getEmailDuplChk(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 		
 			  int memberNameChk;
 			  		
-			  String m_name = request.getParameter("m_name");
+			  String m_name = request.getParameter("nickname");
 			  member = memberService.getNameDuplChk(m_name);
 			  		
 			  		if (member == null) {
@@ -184,7 +177,6 @@ public class MemberController {
 			  		} else {
 			  			
 			  			memberNameChk = 1; // ���Ұ��� �г���
-			  			System.out.println("���Ұ��ɴг���");
 			  			mav.addObject("member", member);
 			  			mav.addObject("memberNameChk", memberNameChk);
 			  			mav.setViewName("member/nameChk");
@@ -194,13 +186,13 @@ public class MemberController {
 	
 	
 	
-	
+	//�α��� ��- ��޷���
 	/*@RequestMapping(value="/loginForm.go", method=RequestMethod.GET)
 	public String loginForm() {
 	     return "";
 	  }*/
 
-	 
+	 //�α��ε��� �� ���� ����
 	 @RequestMapping(value="/login.go", method=RequestMethod.POST)
 	 public ModelAndView memberLogin(HttpServletRequest request, MemberModel member) throws Exception{
 		 
@@ -224,18 +216,16 @@ public class MemberController {
 	         session.setAttribute("member", result);
 	         session.setAttribute("session_m_email", result.getEmail());
 	         session.setAttribute("session_m_name", result.getName());
+	         session.setAttribute("session_m_nickname", result.getNickname());
 	    	
-
-	         mav.addObject("msg", "success");
 	         mav.setViewName("member/main");
 	         return mav;
 	         
 	      }
-	      mav.setViewName("main.jsp");
 	      return mav;
 	 }
 	 
-	  
+	  //�α׾ƿ�
 	  @RequestMapping("/logout.go")
 	  public ModelAndView memberLogout(HttpServletRequest request, MemberModel member){
 	      
@@ -245,48 +235,50 @@ public class MemberController {
 	         session.invalidate();
 	      }
 	      mav.addObject("member", new MemberModel());
-	      mav.setViewName("logout");
+	      mav.addObject("msg","logout");
+	      mav.setViewName("member/login");
 	      return mav;
 	   }
       
 	 
-	 
+	 //�̸���/��й�ȣ ã�� ��
 	 @RequestMapping(value = "/findForm.go", method = RequestMethod.GET)
 	 public ModelAndView memberFindForm() {
-	  		mav.setViewName("emailpwFindForm");
+	  		mav.setViewName("member/emailpwFindform");
 	  		return mav;
 	  	}
 	
-	 
+	 //�̸��� ã��
 	 @RequestMapping(value = "/emailFind.go", method = RequestMethod.POST)
 	 public ModelAndView memberEmailFind(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 
 	  		int memberFindChk;
 	  		member = memberService.emailFindByName(member);
 	  		
+	  		
 	  		if (member == null) {
 	  			memberFindChk = 0; // ��ȸ��;
 	  			mav.addObject("memberFindChk", memberFindChk);
-	  			mav.setViewName("findError");
+	  			mav.setViewName("member/emailpwFindform");
 	  			return mav;
 
 	  		} else {
 	  		
 	  				mav.addObject("member", member);
-	  				mav.setViewName("emailFind");
+	  				mav.setViewName("member/emailFind");
 	  				return mav;
 	  		}
 	  	}
 	 
 	 
-	/* 
+	/* //��й�ȣã�� ��
 	 @RequestMapping(value = "/pwFindForm.go", method = RequestMethod.GET)
 	 public ModelAndView memberPwFindForm() {
 	  		mav.setViewName("emailpwFindForm");
 	  		return mav;
 	  	}*/
 	 
-	
+	 //��й�ȣ ã��
 	 @RequestMapping(value = "/pwFind.go", method = RequestMethod.POST)
 	 public ModelAndView memberPwFind(@ModelAttribute("member") MemberModel member, HttpServletRequest request) {
 
@@ -296,29 +288,21 @@ public class MemberController {
 	  		if (member== null) {
 	  			memberFindChk = 0; // ��ȸ��;
 	  			mav.addObject("memberFindChk", memberFindChk);
-	  			mav.setViewName("findError");
+	  			mav.setViewName("member/emailpwFindForm");
 	  			return mav;
 
 	  		} else {
-	  			
-	  			if (member.getEmail().equals(member.getName()) || member.getEmail().equals(member.getEmail())) {
 	  				memberFindChk = 1; // ȸ��, �̸�/�̸��� ��ġ
 	  				mav.addObject("member", member);
 	  				mav.addObject("memberFindChk", memberFindChk);
-	  				mav.setViewName("pwFind");
-	  				return mav;
-	  			} else {
-	  				memberFindChk = -1; // �̸�/�̸��� ����ġ
-	  				mav.addObject("memberFindChk", memberFindChk);
-	  				mav.setViewName("findError");
+	  				mav.setViewName("member/pwFind");
 	  				return mav;
 	  			}
 	  		}
-	  	}
 	  	
 	 
 	 
-	
+	 //ȸ���������� ��
 	 @RequestMapping("/memberModifyForm.go")
 	 public ModelAndView memberModifyForm(HttpSession session) {
 		 
@@ -327,55 +311,57 @@ public class MemberController {
 	  		if (session.getAttribute("session_m_email") != null) {
 	  			String m_email = (String) session.getAttribute("session_m_email");
 	  			MemberModel member = memberService.getMember(m_email);
-
+	  			session.setAttribute("session_m_email", member.getEmail());
+		        session.setAttribute("session_m_name", member.getName());
+		        session.setAttribute("session_m_nickname", member.getNickname());
 	  			mav.addObject("member", member);
-	  			mav.setViewName("memberModifyForm");
+	  			mav.setViewName("member/memberModifyForm");
 	  			return mav;
 	  			
 	  		} else {
 
-	  			mav.setViewName("loginConfirm");
+	  			mav.setViewName("member/login");
 	  			return mav;
 	  		}
 	  	}
 
-	
+	 //ȸ������ ���� �Ϸ�
 	 @RequestMapping("/memberModify.go")
 	 public ModelAndView memberModify(HttpServletRequest request, HttpSession session,@ModelAttribute("member") MemberModel member) {
 		 
 		if(session.getAttribute("session_m_email") != null) { 
 			
 		/*String m_email = (String) request.getParameter("m_email");*/
-		String m_email = (String) session.getAttribute("session_m_email");
-		String m_pw = (String) request.getParameter("m_pw");
-		String m_name = (String) request.getParameter("m_name");
+		String email = (String) session.getAttribute("session_m_email");
+		String pw = (String) request.getParameter("pw");
+		String nickname = (String) request.getParameter("nickname");		
 
-			
-		MemberModel nameChk = memberService.getNameDuplChk(m_name);
-				  	
-			if(nameChk==null){
-				
-				memberService.memberModify(m_email, m_pw, m_name);
+				//ȸ������ ����
+				MemberModel nameChk = memberService.getNameDuplChk(nickname);
 				
 				
-				MemberModel result = memberService.memberLogin(member);
-				session.setAttribute("session_m_name", result.getName());
+				if(nameChk==null) {
 				
-				mav.setViewName("memberModify");
+				memberService.memberModify(email, pw, nickname);	
+					
+				MemberModel result = memberService.getMember(email);
+				session.setAttribute("session_m_nickname", result.getNickname());
+				
+				mav.setViewName("member/main");
 				 return mav;
 			    
 			    
 				} else {
 					int joinError=2;
 					mav.addObject("joinError",joinError);
-					mav.addObject("m_name",m_name);
+					mav.addObject("m_name",nickname);
 				    mav.setViewName("member/joinError");
 				    return mav;
 				   
 				}
 		
 		 } else{
-				mav.setViewName("loginConfirm"); 
+				mav.setViewName("member/memberModifyForm"); //�α���x
 				return mav;
 		 }
 
@@ -386,7 +372,7 @@ public class MemberController {
 	 //ȸ�� Ż�� ��
 	 @RequestMapping("/memberDeleteForm.go")
 		public ModelAndView memberDeleteForm(){
-		 	mav.setViewName("memberDeleteForm");
+		 	mav.setViewName("member/memberDeleteForm");
 			return mav;
 		}
 	 
@@ -395,14 +381,14 @@ public class MemberController {
   	 public ModelAndView memberDelete(@ModelAttribute("member") MemberModel member, BindingResult result, HttpSession session, HttpServletRequest request) {
 		
 		
-  		MemberModel memberModel;
+  		MemberModel memberModel; // ���� ��� ���� ������ ��ü
   		
   		String m_email;
   		String m_pw;
-  		m_pw = request.getParameter("m_pw");
+  		m_pw = request.getParameter("pw");
   		int deleteCheck;
   		
-
+  		//�ش� �̸����� ������ �����´�
   		m_email = session.getAttribute("session_m_email").toString();
   		memberModel = (MemberModel) memberService.getMember(m_email);
   		
@@ -410,24 +396,22 @@ public class MemberController {
   		if(session.getAttribute("session_m_email") != null) { 
   		if(memberModel.getPw().equals(m_pw)) {
   			
-  			deleteCheck = 1;
+  			deleteCheck = 1; //�н����� ��ġ
   			
-  		
+  			//���� ���� ����
   			memberService.memberDelete(m_email);
   			session.removeAttribute("session_m_email");
   			session.removeAttribute("session_m_name");
+  			session.removeAttribute("session_m_nickname");
+  			mav.setViewName("member/login");
   		
-  		} else {
-  			deleteCheck = -1;
   		}
   		
-  		mav.addObject("deleteCheck", deleteCheck);
-  		mav.setViewName("memberDelete");
+  		mav.setViewName("member/login");
   		return mav;
   	}
   		else {
-
-			mav.setViewName("loginConfirm");
+			mav.setViewName("member/memberDeleteForm"); //�α���x
 			return mav;
 	}
 	  	
