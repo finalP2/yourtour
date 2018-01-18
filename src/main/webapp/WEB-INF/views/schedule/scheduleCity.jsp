@@ -35,18 +35,18 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsYawDeNCfjwnKdxLZjT8SmRA8UG3pYa0&callback=initMap">
     </script>
 <div style="padding-top: 20px;">
-<h3 style="margin-top: 0px; margin-bottom: 0px; padding-left: 10px;"><span class="glyphicon glyphicon-tags"></span>&nbsp;${sch.name }</h3>
+<h3 style="margin-top: 0px; margin-bottom: 0px; padding-left: 10px;"><span class="glyphicon glyphicon-tags"></span>&nbsp;${sch.NAME }</h3>
 </div>   
        <table class="table">
         <c:forEach var="cityList" items="${cityList }" varStatus="stat">
             <tr>
                <td class="col-xs-1"
                		style="cursor:pointer;" 
-               		onclick="window.open('http://localhost:8080/yourtour/city/cityDetail.go?no=${cityList.no}&keyword=info','도시 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
+               		onclick="window.open('http://localhost:8080/yourtour/city/cityDetail.go?no=${cityList.NO}&keyword=info','도시 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
                	<span class="glyphicon glyphicon-info-sign"></span>
                </td>
                <td >
-               	${cityList.name }
+               	${cityList.NAME }
                </td>
                <td>
                	<span class="glyphicon glyphicon-chevron-right"></span>

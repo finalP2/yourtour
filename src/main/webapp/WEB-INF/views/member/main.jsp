@@ -8,11 +8,13 @@
 </head>
 <body>
     <h2>회원 전용 페이지</h2>
-    ${member.email}님으로 로그인 하셨습니다.<br>
-    ${member.name}님 환영합니다<br>   
-    <input type="button" value="로그아웃" onclick="location.href='member/logout.go'">  
+    ${member.EMAIL}님으로 로그인 하셨습니다.<br>
+    ${member.NAME}님 환영합니다<br>   
+    <input type="button" value="로그아웃" onclick="location.href='logout.go'">  
     <input type="button" value="모든회원보기" onclick="location.href='memberList.do'">
     <input type="button" value="회원수정페이지" onclick="location.href='memberUpdateForm.do'">
+    <input type="button" value="일정만들기" onclick="location.href='/yourtour/schedule/scheduleWriteForm.go'">
+    <input type="button" value="일정리스트" onclick="location.href='/yourtour/schedule/scheduleList.go'">
     
 </body>
 </html>

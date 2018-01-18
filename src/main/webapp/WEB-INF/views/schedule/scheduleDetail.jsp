@@ -13,34 +13,53 @@
 <table class="table">
    <tr>
       <td>
-         ${sch.no } -
+         ${sch.NO } -
       </td>
        <td>
-          ${sch.email }
+          ${sch.EMAIL}
       </td>
       <td>
-         ${sch.name }
+         ${sch.NAME}
          </td>
         <td>
-           	 좋아요 = ${sch.like1 }
+           	 좋아요 = ${sch.LIKE1}
          </td>
    </tr>
    <tr>
          <c:if test="${msg == 'failure'}">
                     <div style="color: red">
-                        좋아요는 한 게시물에 한번만 할 수 있습니다.
+                        	좋아요는 한 게시물에 한번만 할 수 있습니다.
                     </div>
-                </c:if>
+          </c:if>
    
-   <input type="button" value="좋아요" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleLike.go?no=${sch.no}'"/>
+   <input type="button" value="좋아요" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleLike.go?no=${sch.NO}'"/>
   
    </tr>
 </table>
  <th scop="row">댓글</th>
    <td colspan=3>
-   <input type="text" id="TITLE" name="content" class="wap_90" style=" width:500px;">
-   <input type="button" value="등록하기" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleCommentWrite.go?no=${sch.no}'"/>
-   <input type="button" value="삭제하기" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleLike.go?no=${sch.no}'"/>
+  <form action="scheduleCommentWrite.go" method="post">
+		<table>
+			<tr>
+				<input type="hidden" name="no" value="${sch.NO}"/>
+				<input type="text" id="content" name="content" class="wap_90" style=" width:500px;">
+			</tr>
+			<tr>
+				<td colspan="2" align="right"><input name="submit"
+					type="submit" class="btn btn-outline-dark" value="작성완료" class="inputb" /></td>
+			</tr>
+		</table>
+	</form>
+   <c:forEach var="clist" items="${clist }" varStatus="stat">
+            <tr>
+               <td >
+               	${clist.EMAIL }-${clist.CONTENT }
+               	<input type="button" value="삭제하기" onclick="location.href='http://localhost:8080/yourtour/schedule/commentDelete.go?c_no=${clist.NO}&no=${sch.NO}'"/>
+              	<br/>
+               </td>
+            </tr>
+        </c:forEach>
+   
    </td>
 </body>
 </html>

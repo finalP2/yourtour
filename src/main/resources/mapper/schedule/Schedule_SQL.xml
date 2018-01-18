@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="schedule">
+	<!-- 일정 번호와 세션 아이디로 글 검색-->
+	<select id="scheduleList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+			    SCH    
+			ORDER BY NO DESC
+		]]>
+	</select>
+	<!-- 일정 게시판 글 쓰기 -->
+	<insert id="scheduleWrite" parameterType="hashmap" >
+		<![CDATA[
+			
+			INSERT INTO SCH(NO, email, name, start_date, end_date, period, season,cost,theme,private1,writedate) 
+		VALUES(SCH_NO_SEQ.NEXTVAL, #{email}, #{name}, #{start_date}, #{end_date}, #{period}, #{season}, #{cost}, #{theme},#{private1},sysdate)
+		]]>
+	</insert>
+	
+	<!-- 일정 게시판 가장 최근에 쓴 글 검색 -->
+	 <select id="scheduleLastWrite" resultType="hashmap" parameterType="hashmap">
+		<![CDATA[
+			select * from sch 
+			where no = (select max(no) from sch) and email = #{email}
+		]]>
+	</select>
+	
+	<!-- 일별일일 추가 -->
+	<insert id="scheduleDayinsert" parameterType="hashmap">
+		<![CDATA[
+		INSERT INTO SCH_DAY(NO, DAY, SCH_NO) 
+		VALUES(SCH_DAT_NO_SEQ.NEXTVAL, #{day}, #{sch_no})
+		]]>
+	</insert>
+	
+	<!-- 좋아요 추가 -->
+	<insert id="likeinsert" parameterType="hashmap">
+	<![CDATA[
+		INSERT INTO SCH_LIKE(NO, EMAIL, SCH_NO) 
+		VALUES(SCH_LIKE_NO_SEQ.NEXTVAL, #{email}, #{sch_no})
+	]]>
+	</insert>	
+	
+	<!-- 좋아요 계정 중복 확인 -->
+	<select id="scheduleLikeChk" resultType="hashmap" parameterType="hashmap">
+	<![CDATA[
+		select * from sch_like 
+		where email = #{email} and sch_no = #{sch_no}
+	]]>
+	</select>
+	
+	<!-- 좋아요 추가 -->
+	<update id="likeupdate" parameterType="hashmap">
+	<![CDATA[
+		UPDATE SCH SET
+		 like1 = #{like1} 
+		WHERE no = #{no}
+	]]>
+	</update>	
+	
+	<!-- 댓글작성 -->
+	<insert id="scheduleCommentWrite" parameterType="hashmap">
+	<![CDATA[
+		INSERT INTO SCH_COMMENT(NO, EMAIL, CONTENT, WRITEDATE, SCH_NO) 
+		VALUES(SCH_COMMENT_NO_SEQ.NEXTVAL, #{email}, #{content}, sysdate, #{sch_no})
+	]]>
+	</insert>
+	<!-- 댓글리스트 -->
+	<select id="commentList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT *
+			FROM sch_comment 
+			where sch_no = #{sch_no}
+		]]>
+	</select>
+	<!-- 댓글삭제 --> 
+ 	<delete id="commentDelete" parameterType="hashmap">
+ 		delete from sch_comment where no = #{c_no}
+	</delete>
+	<!-- 국가별 도시리스트 -->
+	<select id="schcityList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT *
+			FROM CITY 
+			where country = #{country}
+		]]>
+	</select>
+	
+	
+	<!-- 일정 번호와 세션 아이디로 글 검색-->
+	<select id="scheduleSelectOne" resultType="hashmap" parameterType="hashmap">
+		select * from sch 
+		where no = #{no}
+	</select>
+</mapper>

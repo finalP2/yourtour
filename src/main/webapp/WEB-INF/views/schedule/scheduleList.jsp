@@ -12,10 +12,10 @@
         <c:forEach var="scheduleList" items="${scheduleList }" varStatus="stat">
             <tr>
             <td >
-	          	${scheduleList.no } -
+	          	${scheduleList.NO } -
 	          </td>
                <td >
-               <a href="scheduleDetail.go?no=${scheduleList.no }">${scheduleList.name }</a>
+               <a href="scheduleDetail.go?no=${scheduleList.NO }">${scheduleList.NAME }</a>
                	
                </td>
             </tr>
