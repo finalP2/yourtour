@@ -28,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="org_name" column="org_name" />
 		<result property="sav_name" column="sav_name" />
 		<result property="area_no" column="area_no" />
+		<result property="city_no" column="city_no" />
 		
 	</resultMap>
 	
@@ -77,10 +78,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 여행지 리스트  보기 -->	
-	<select id="areaList" resultMap="areaRes" parameterType="HashMap" >
+	<select id="areaList" resultMap="areaRes" parameterType="Integer" >
 		SELECT *
-		FROM AREA INNER JOIN AREA_IMG
-		USING(NO)
+		FROM AREA 
 		WHERE CITY_NO = #{city_no}
 		ORDER BY NAME
 	</select>
@@ -113,15 +113,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 여행지 상세보기 할때 이미지 리스트 불러오기 -->
 	<select id="area_imgList" resultMap="areaImgRes" parameterType="Integer">
 		SELECT *
-		FROM AREA_IMG
-		WHERE NO = #{no}
+		FROM AREA_IMG 
+		WHERE CITY_NO = #{city_no}
 	</select>
 	
 	<!-- 여행지 상세보기 할때 이미지 갤러리 메인 이미지 불러오기 -->
 	<select id="area_mainImg" resultType="String" parameterType="Integer">
 		SELECT SAV_NAME
 		FROM AREA_IMG
-		WHERE NO = #{no} AND A_IMG_INDEX = 1
+		WHERE NO = #{no} 
 	</select>
 	
 	<!-- 여행지 상세보기 할때 리뷰 리스트 불러오기 -->

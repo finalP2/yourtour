@@ -27,6 +27,7 @@ public class CityController {
 	@Resource(name="areaService")
 	private AreaService areaService;
 
+
 	
 	
 	//도시 리스트 보기
@@ -35,11 +36,11 @@ public class CityController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		List<CityModel> franceList = cityService.cityList(toString());
-		List<CityModel> germanyList = cityService.cityList(toString());
+		List<CityModel> franceList = cityService.cityList("프랑스");
+		List<CityModel> germanyList = cityService.cityList("독일");
 		
 		mav.addObject("franceList", franceList);
-		mav.addObject("GermanyList", germanyList);
+		mav.addObject("germanyList", germanyList);
 		
 		mav.setViewName("city/cityList");
 		
@@ -53,13 +54,14 @@ public class CityController {
 		ModelAndView mav = new ModelAndView();
 		
 		int no = Integer.parseInt(request.getParameter("no"));
-		int city_no = Integer.parseInt(request.getParameter("city_no"));
 		String keyword = request.getParameter("keyword");
 		
 		CityModel cityModel = cityService.cityDetail(no);
-		List<CityModel> city_imgList = cityService.city_imgList(city_no);
+		CityImgModel cityImgModel = cityService.city_mainImg(cityModel.getNo());
+		System.out.println("도시번호="+no);
+		/*List<CityModel> city_imgList = cityService.city_imgList(city_no);
 		System.out.println(cityService.city_imgList(city_no));
-		int img_count = city_imgList.size();
+		int img_count = city_imgList.size();*/
 		
 		/*List<ScheduleModel> scheduleList =  scheduleService.scheduleSearchList(keyword);
 		List<AreaModel> areaList = areaService.areaCountList();
@@ -67,14 +69,15 @@ public class CityController {
 		mav.addObject("scheduleList", scheduleList);
 		mav.addObject("areaList", areaList);*/
 		mav.addObject("cityModel", cityModel);
-		mav.addObject("city_imgList", city_imgList);
-		mav.addObject("img_count", img_count);
+		mav.addObject("cityImgModel", cityImgModel);
+	   /* mav.addObject("city_imgList", city_imgList);*/
+		/*mav.addObject("img_count", img_count);*/
 		
 		if(request.getParameter("keyword").equals("info")) {
 			mav.setViewName("city/cityDetail");
 			return mav;
 		} else {
-			mav.setViewName("cityDetail");
+			mav.setViewName("city/cityDetail");
 			return mav;
 			
 		}

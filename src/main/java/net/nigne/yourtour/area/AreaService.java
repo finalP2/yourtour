@@ -54,10 +54,8 @@ public class AreaService implements AreaDao {
 	public List<AreaModel> areaList(int city_no) {
 		// TODO Auto-generated method stub
 		
-		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("city_no", city_no);
 		
-		return sqlSessionTemplate.selectList("area.areaList", hm);
+		return sqlSessionTemplate.selectList("area.areaList", city_no);
 	}
 
 	//여행지 리스트- 검색
@@ -81,16 +79,16 @@ public class AreaService implements AreaDao {
 
 	//여행지 글 상세보기
 	@Override
-	public List<AreaModel> areaDetail(int no) {
+	public AreaModel areaDetail(int no) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne("areaDetail", no);
 	}
 
 	//여행지 글 상세보기 할 때 이미지 리스트 같이 불러오기
 	@Override
-	public List<AreaModel> area_imgList(int no) {
+	public List<AreaImgModel> area_imgList(int city_no) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList("area.area_imgList", no);
+		return sqlSessionTemplate.selectList("area.area_imgList", city_no);
 	}
 
 	//여행지 글 상세보기 할 때 이미지 갤러리의 메인 이미지 불러오기

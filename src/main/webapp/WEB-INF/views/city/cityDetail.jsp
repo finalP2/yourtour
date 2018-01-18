@@ -35,11 +35,9 @@ function cityDelete(){
 
 		<tr>
 			<td colspan="3">
-				<ul class="nav nav-tabs nav-justified" >
-  					<li><a href="/yourtour/city/cityDetail.go?no=${cityModel.no}&keyword=${param.keyword}">홈</a></li>
-					<li><a href="/yourtour/area/areaList.go?no=${areaModel.no }&keyword=${param.keyword}">여행지</a></li>
-					<li><a data-toggle="modal" data-target="#scheduleList">여행일정 보기</a></li>
-				</ul>
+			<center><h2>${cityModel.name }</h2>
+				<a href="/yourtour/area/areaList.go?city_no=${cityModel.no }&keyword=${param.keyword}">여행지</a>
+				<a data-toggle="modal" data-target="#scheduleList">여행일정 보기</a></center>
 			</td>
 		</tr>
 </table>
@@ -57,11 +55,9 @@ function cityDelete(){
 
 <br/><br/>
 
-<tr>
-<td>${cityModel.name }</td>
 
-<img src="/yourtour/resources/img/main_img.jpg"/>
-<table width="70%" align="center">
+<center><img src="../resources/city_img/${cityImgModel.sav_name}"/>
+<table width="70%" align="center"></center>
 	<tr>
 		<td>#설명</td>
 		<td>${cityModel.content }</td>

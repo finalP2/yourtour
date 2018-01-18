@@ -82,10 +82,12 @@ public class CityService implements CityDao {
 
 	//도시 상세보기 할 때 메인 이미지 불러오기
 	@Override
-	public CityModel city_mainImg(int city_no) {
+	public CityImgModel city_mainImg(int city_no) {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectOne("city.city_mainImg", city_no);
 	}
+	
+	//도시 이름으로 도시불러오기
 	@Override
 	public CityModel citySelectOne(String city_name) {
 		// TODO Auto-generated method stub

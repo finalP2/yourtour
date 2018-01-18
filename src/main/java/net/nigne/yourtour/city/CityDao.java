@@ -29,8 +29,10 @@ public interface CityDao {
 	//도시 상세보기 할 때 이미지 리스트도 같이 불러오기
 	public List<CityModel> city_imgList(int city_no);
 	
-	public CityModel city_mainImg(int city_no);
+	public CityImgModel city_mainImg(int city_no);
 
 	public CityModel citySelectOne(String city_name);
+
+
 
 }

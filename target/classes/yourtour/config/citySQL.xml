@@ -89,10 +89,10 @@
 	</select>
 	
 	<!-- 도시 상세보기 할때 이미지 갤러리 메인 이미지 불러오기 -->
-	<select id="city_mainImg" resultMap="cityRes" parameterType="Integer">
+	<select id="city_mainImg" resultMap="cityImgRes" parameterType="Integer">
 		SELECT *
 		FROM CITY_IMG
-		WHERE CITY_NO = #{city_no} AND C_IMG_INDEX = 1
+		WHERE CITY_NO = #{city_no}
 	</select>
 
 </mapper>

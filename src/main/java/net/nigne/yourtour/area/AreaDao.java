@@ -26,10 +26,10 @@ public interface AreaDao {
 	public List<AreaModel> areaLikeList();
 	
 	//여행지 상세보기
-	public List<AreaModel> areaDetail(int no);
+	public AreaModel areaDetail(int no);
 
 	//여행지 상세보기 할 때 이미지 리스트 불러오기
-	public List<AreaModel> area_imgList(int no);
+	public List<AreaImgModel> area_imgList(int city_no);
 	
 	//여행지 상세보기 할 때 이미지 갤러리 메인 이미지 불러오기
 	public String area_mainImg(int no);

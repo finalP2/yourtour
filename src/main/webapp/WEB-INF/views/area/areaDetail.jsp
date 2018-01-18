@@ -154,7 +154,7 @@ $(document).ready(function(){
 </table>
 
 <br/><br/>
-
+<%-- 
 <table border="0" width="70%">
     <c:forEach var="areaReviewList" items="${areaReviewList }">
     <tr>
@@ -170,6 +170,6 @@ $(document).ready(function(){
             </td>
             </tr>
             </c:forEach>
-</table>
+</table> --%>
 </body>
 </html>

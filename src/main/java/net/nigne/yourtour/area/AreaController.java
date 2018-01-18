@@ -39,12 +39,12 @@ public class AreaController {
 	@Resource(name="cityService")
 	private CityService cityService;
 	
-	private static final String uploadPath = "C:\\Java\\mavenApp\\";
+	private static final String uploadPath = "C:\\Java\\mavenApp\\yourtour\\src\\main\\webapp\\resources\\area_img\\";
 	int totalCount;
 	
 	//여행지 리스트 보기
 	@RequestMapping("areaList.go")
-	public ModelAndView areaList(HttpServletRequest request) throws Exception {
+	public ModelAndView areaList(HttpServletRequest request, AreaModel areaModel) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -53,6 +53,7 @@ public class AreaController {
 		String searchKeyword = request.getParameter("searchKeyword");
 		int city_no = Integer.parseInt(request.getParameter("city_no"));
 		String keyword = request.getParameter("keyword");
+		
 		
 		//검색값이 있을 때
 		if(searchKeyword != null) {
@@ -68,23 +69,26 @@ public class AreaController {
 			mav.addObject("areaList", areaList);
 			mav.addObject("totalCount", totalCount);
 			mav.addObject("searchKeyword", searchKeyword);
-			mav.setViewName("areaList");
+			mav.setViewName("area/areaList");
 			
 			return mav;
 		}
 		
 		//검색값이 없을 때
 		areaList = areaService.areaList(city_no);
-		
+		List<AreaImgModel> areaImgModel = areaService.area_imgList(city_no);
+		System.out.println("size="+ areaImgModel.size());
 		totalCount = areaList.size();
 		/*List<ScheduleModel> scheduleList = scheduleService.scheduleSearchList(keyword);
 		
 		mav.addObject("scheduleList", scheduleList);*/
 		mav.addObject("areaList", areaList);
+		mav.addObject("areaImgModel", areaImgModel);
 		mav.addObject("totalCount", totalCount);
-		mav.setViewName("areaList");
+		mav.setViewName("area/areaList");
 		
 		return mav;
+		
 	}
 		
 	//여행지 글쓰기 폼 이동 (관리자)
@@ -191,10 +195,11 @@ public class AreaController {
 		int no = Integer.parseInt(request.getParameter("no"));
 		String keyword = request.getParameter("keyword");
 		
-		List<AreaModel> areaModel = areaService.areaDetail(no);
-		List<AreaModel> area_imgList = areaService.area_imgList(no);
+		
+		AreaModel areaModel = areaService.areaDetail(no);
+		
 		String area_mainImg = areaService.area_mainImg(no);
-		int img_count = area_imgList.size();
+
 		List<AreaReviewModel> areaReviewList = areaService.areaReviewList(no);
 		/*List<ScheduleModel> scheduleList = scheduleService.scheduleSearchList(keyword);*/
 		
@@ -202,7 +207,6 @@ public class AreaController {
 		
 		/*mav.addObject("scheduleList", scheduleList);*/
 		mav.addObject("areaModel", areaModel);
-		mav.addObject("area_imgList", area_imgList);
 		mav.addObject("area_mainImg", area_mainImg);
 		mav.addObject("areaReviewList", areaReviewList);
 		mav.addObject("revCount", revCount);
@@ -212,7 +216,7 @@ public class AreaController {
 			mav.setViewName("area/areaDetail");
 			return mav;
 		} else {
-			mav.setViewName("areaDetail");
+			mav.setViewName("area/areaDetail");
 			return mav;
 		}
 	}
@@ -226,10 +230,10 @@ public class AreaController {
 		int no = Integer.parseInt(request.getParameter("no"));
 		
 		//함께 저장된 이미지 파일의 원본이름 불러오기
-		List<AreaModel> imgList = areaService.area_imgList(no);
 		
-		List<AreaModel> areaModel = areaService.areaDetail(no);
 		
+		AreaModel areaModel = areaService.areaDetail(no);
+		List<AreaImgModel> imgList = areaService.area_imgList(areaModel.getCity_no());
 		//줄바꿈 <br/>다시 \r\n으로 바꾸기
 		String content = ((AreaModel) areaModel).getContent().replaceAll("<br/>", "\r\n");
 		((AreaModel) areaModel).setContent(content);

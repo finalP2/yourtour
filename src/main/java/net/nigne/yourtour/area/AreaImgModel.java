@@ -6,6 +6,7 @@ public class AreaImgModel {
 	private String org_name;
 	private String sav_name;
 	private int area_no;
+	private int city_no;
 	
 	public int getNo() {
 		return no;
@@ -30,6 +31,12 @@ public class AreaImgModel {
 	}
 	public void setArea_no(int area_no) {
 		this.area_no = area_no;
+	}
+	public int getCity_no() {
+		return city_no;
+	}
+	public void setCity_no(int city_no) {
+		this.city_no = city_no;
 	}
 	
 
