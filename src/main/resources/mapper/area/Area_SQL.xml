@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="area">
+	
+	
+	<!-- SELECT -->
+	<!-- 스케쥴- 여행지 검색 -->
+	<select id="schAreaSearch" resultType="HashMap" parameterType="HashMap">
+		SELECT *
+		FROM AREA 
+		WHERE city_no = #{city_no} AND name LIKE #{searchKeyword}
+		ORDER BY no ASC
+	</select>
+	
+	<!-- 스케쥴 - 여행지 리스트  보기 -->
+	<select id="schAreaList" resultType="HashMap" parameterType="HashMap" >
+		SELECT *
+		FROM AREA
+    	where city_no = #{city_no}
+		ORDER BY no ASC
+	</select>
+	
+	<!-- 스케쥴 - 마커 찍을 장소 리스트 -->
+	<select id="markerAreaList" resultType="HashMap" parameterType="HashMap">
+		SELECT * 
+		FROM AREA JOIN AREA_IMG on AREA_IMG.NO = AREA.NO
+		WHERE city_no = #{city_no} AND NOT EXISTS (SELECT * 
+                             							   		 FROM SCH_DETAIL 
+             	                    		 				     WHERE SCH_DETAIL.AREA_NO = AREA.NO AND NO = #{no} AND SCH_NO = ${sch_no})
+	</select>
+	
+	<!-- 스케쥴 - 지역 번호로 여행지 리스트 불러오기 -->
+	<select id="cityAreaList" resultType="HashMap" parameterType="HashMap">
+		SELECT *
+		FROM AREA INNER JOIN AREA_IMG
+		USING(NO)
+		WHERE CITY_NO = #{city_no}
+	</select>
+	
+	<!-- 여행지 리스트  보기 -->	
+	<select id="areaList" resultType="HashMap" parameterType="HashMap" >
+		SELECT *
+		FROM AREA 
+		WHERE CITY_NO = #{city_no}
+		ORDER BY NAME
+	</select>
+	
+	<!-- 여행지 리스트 - 검색 -->
+	<select id="areaSearch" resultType="HashMap" parameterType="HashMap">
+		SELECT *
+		FROM AREA INNER JOIN AREA_IMG
+		USING(NO)
+		WHERE CITY_NO = #{city_no} AND (NAME LIKE #{searchKeyword} OR CONTENT LIKE #{searchKeyword})
+		ORDER BY NAME
+	</select>
+	
+	<!-- 메인에서 인기 여행지 리스트 LIKE 순으로 불러오기 -->
+	<select id="areaLikeList" resultType="HashMap">
+		SELECT *
+		FROM AREA INNER JOIN AREA_IMG
+		USING(NO)
+		WHERE LIKE1 = #{like1}
+		ORDER BY LIKE1 DESC
+	</select>
+
+	<!-- 여행지 상세보기 -->
+	<select id="areaDetail" resultType="HashMap" parameterType="HashMap">
+		SELECT *
+		FROM AREA
+		WHERE NO = #{no}
+	</select>
+	
+	<!-- 여행지 상세보기 할때 이미지 리스트 불러오기 -->
+	<select id="area_imgList" resultType="HashMap" parameterType="HashMap">
+		SELECT *
+		FROM AREA_IMG 
+		WHERE CITY_NO = #{city_no}
+	</select>
+	
+	<!-- 여행지 상세보기 할때 이미지 갤러리 메인 이미지 불러오기 -->
+	<select id="area_mainImg" resultType="HashMap" parameterType="HashMap">
+		SELECT * FROM AREA_IMG
+		WHERE NO = #{no} 
+	</select>
+	
+	<!-- 여행지 상세보기 할때 리뷰 리스트 불러오기 -->
+	<select id="areaReviewList" resultType="HashMap" parameterType="HashMap">
+		SELECT * 
+		FROM AREA_REV
+		WHERE NO = #{no}
+		ORDER BY WRITEDATE DESC
+	</select>
+	
+	<!-- 여행지 수정할때 이미지 원본이름 불러오기 -->
+	<select id="imgOrgName" resultType="HashMap" parameterType="HashMap">
+		SELECT ORG_NAME FROM AREA_IMG
+		WHERE NO = #{no}
+	</select>
+	
+	<!-- 여행지 글 수정하기 -->
+	<update id="areaModify" parameterType="HashMap">
+		UPDATE AREA
+		SET NAME=#{name},CONTENT=#{content},ADDRESS=#{address},WAY=#{way},TEL=#{tel},HOURS=#{hours},WEB=#{web}
+		WHERE NO = #{no}
+	</update>
+	
+	<!-- 수정할때 이미지첨부파일이 새로 입력되면 기존의 이미지첨부파일 삭제하기 -->
+	<delete id="fileDelete" parameterType="HashMap">
+		DELETE FROM AREA_IMG
+		WHERE NO = #{no}
+	</delete>
+	
+	<!-- 여행지 리뷰 개수 구하기 -->
+	<select id="revCount" resultType="HashMap" parameterType="HashMap">
+		SELECT COUNT(*)
+		FROM AREA_REV
+		WHERE NO = #{no}
+	</select>
+	
+	<!-- INSERT -->
+	<!-- 여행지 글쓰기 -->
+ 	<insert id="areaWrite" parameterType="HashMap" >
+		INSERT INTO AREA(NO, NAME, CONTENT, ADDRESS, WAY, TEL, HOURS, WEB, CITY_NO)
+		VALUES(AREA_NO_SEQ.NEXTVAL, #{name}, #{content}, #{address}, #{way}, #{tel}, #{hours}, #{web}, #{city_no})
+	</insert>
+	
+	<select id="areaLastWrite" resultType="HashMap">
+      select * from area 
+      where no = (select max(no) from area)
+   </select>
+	
+	<!-- 파일 업로드 전에 no 값 보내주기 -->
+	<select id="selectSeq" resultType="HashMap">
+		SELECT MAX(NO) FROM AREA
+	</select>
+	
+	<!-- 파일 업로드 -->
+	<insert id="fileupload" parameterType="HashMap">
+		INSERT INTO AREA_IMG(NO, ORG_NAME, SAV_NAME, AREA_NO,CITY_NO) 
+		VALUES(AREA_IMG_NO_SEQ.NEXTVAL, #{org_name}, #{sav_name}, #{area_no}, #{city_no}
+	</insert>
+	
+	<!-- 여행지 리뷰 쓰기 -->
+	<insert id="areaReviewWrite" parameterType="HashMap">
+		INSERT INTO AREA_REV(NO, EMAIL, AREA_NO, CONTENT, WRITEDATE)
+		VALUES(AREA_REV_NO_SEQ.NEXTVAL, #{email}, #{area_no}, #{content}, sysdate)
+	</insert>
+	
+	<!-- 여행지 리뷰 삭제하기 -->
+	<delete id="areaReviewDelete" parameterType="HashMap">
+		DELETE FROM AREA_REV
+		WHERE NO = #{no}
+	</delete>
+	
+	<!-- UPDATE -->
+	<!-- 여행지 글 삭제하기 -->
+	<update id="areaDelete" parameterType="HashMap">
+		DELETE FROM AREA
+		WHERE NO = #{no}
+	</update>
+	
+	
+</mapper>
