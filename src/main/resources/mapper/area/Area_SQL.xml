@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 여행지 상세보기 할때 이미지 갤러리 메인 이미지 불러오기 -->
 	<select id="area_mainImg" resultType="HashMap" parameterType="HashMap">
 		SELECT * FROM AREA_IMG
-		WHERE NO = #{no} 
+		WHERE no = (select max(no) from AREA_IMG) and CITY_NO =  #{city_no} 
 	</select>
 	
 	<!-- 여행지 상세보기 할때 리뷰 리스트 불러오기 -->
@@ -105,6 +105,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE AREA
 		SET NAME=#{name},CONTENT=#{content},ADDRESS=#{address},WAY=#{way},TEL=#{tel},HOURS=#{hours},WEB=#{web}
 		WHERE NO = #{no}
+	</update>
+	<!-- 여행지 글 메인이미지 등록 -->
+	<update id="areaMainImgModify" parameterType="HashMap">
+		UPDATE AREA
+		SET MAIN_IMG=#{sav_name} 
+		WHERE NO = #{area_no}
 	</update>
 	
 	<!-- 수정할때 이미지첨부파일이 새로 입력되면 기존의 이미지첨부파일 삭제하기 -->
@@ -140,7 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 파일 업로드 -->
 	<insert id="fileupload" parameterType="HashMap">
 		INSERT INTO AREA_IMG(NO, ORG_NAME, SAV_NAME, AREA_NO,CITY_NO) 
-		VALUES(AREA_IMG_NO_SEQ.NEXTVAL, #{org_name}, #{sav_name}, #{area_no}, #{city_no}
+		VALUES(AREA_IMG_NO_SEQ.NEXTVAL, #{org_name}, #{sav_name}, #{area_no}, #{city_no})
 	</insert>
 	
 	<!-- 여행지 리뷰 쓰기 -->

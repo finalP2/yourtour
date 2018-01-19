@@ -74,4 +74,8 @@ Logger log = Logger.getLogger(this.getClass());
 		Map<String, Object> tempMap = areaDAO.areaLastWrite();
 		return tempMap;
 	}
+	@Override
+	public void areaMainImgModify(Map<String, Object> map) throws Exception {
+		areaDAO.areaMainImgModify(map);
+	}
 }

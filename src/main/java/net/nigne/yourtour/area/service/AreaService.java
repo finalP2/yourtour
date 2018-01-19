@@ -25,4 +25,6 @@ public interface AreaService {
 
 	Map<String, Object> areaLastWrite() throws Exception;
 
+	void areaMainImgModify(Map<String, Object> map) throws Exception;
+
 }

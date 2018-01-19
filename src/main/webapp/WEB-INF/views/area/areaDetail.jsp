@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -89,7 +91,10 @@ $(document).ready(function(){
 </div>
 
 <!-- 지도 들어가야함 -->
-
+<c:forEach var="areaImgModel" items="${areaImgModel }" varStatus="stat">
+	<img src="../resources/area_img/${areaImgModel.SAV_NAME }" class="img-rounded" alt="Cinque Terre" width="500" height="400"
+		onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'"/>	
+</c:forEach>
 <tr>
 <td><b>#주소</b></td>
 <td>${areaModel.ADDRESS }</td>

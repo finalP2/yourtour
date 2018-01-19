@@ -60,5 +60,10 @@ public class AreaDAO extends AbstractDAO{
 	public Map<String, Object> areaLastWrite() {
 		return (Map<String, Object>) selectOne("area.areaLastWrite");
 	}
+
+	public void areaMainImgModify(Map<String, Object> map) {
+		update("area.areaMainImgModify", map);
+		
+	}
 	
 }

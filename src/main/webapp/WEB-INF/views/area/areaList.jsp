@@ -116,10 +116,10 @@
 <table width="80%" border="0" cellspacing="0" cellpadding="2" align="center" class="table table-hover">
 
 	<thead>
-	<tr height="10">
+	<tr height="10" >
+		<th style="text-align:center;">이름</th>
 		<th style="text-align:center;">이미지</th>
 		<th style="text-align:center;">내용</th>
-		<th style="text-align:center;">일정에 담은 수</th>
 	</tr>
 	</thead>
 	
@@ -132,24 +132,22 @@
 	</c:if>
 
 	<c:forEach var="areaList" items="${areaList }" varStatus="stat">
-		<c:forEach var="areaImgModel" items="${areaImgModel }" >
-		<img src="../resources/area_img/${ areaImgModel.SAV_NAME }" class="img-rounded" alt="Cinque Terre" width="250" height="200"
-						onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'"/>
-			<td align="left" width="1000">
 		
 		<tr height="200">
-			<td align="center" width="300">
+			<td>
 				<a href="areaDetail.go?no=${areaList.NO }&keyword=${keyword}">
-				
-				</a>
-			</td>
-				
-				
-				<a href="areaDetail.go?no=${areaList.NO }&keyword=${param.keyword}">
 					<h2><b>${areaList.NAME }</b></h2>
 				</a>
+			</td>
+			<td align="center" width="300">
+				<a href="areaDetail.go?no=${areaList.NO }&keyword=${param.keyword}">
+				<img src="../resources/area_img/${ areaList.MAIN_IMG }" class="img-rounded" alt="Cinque Terre" width="250" height="200"
+						onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'"/>
+					
+				</a>
 				<br>
-				
+			</td>
+			<td align="center" width="300">
 				<!-- 글자 수를 초과하면 ...으로 보이도록 설정 -->
 				<c:if test="${fn:length(areaList.CONTENT) gt 200 }">
 					<c:out value="${fn:substring(areaList.COTNENT, 0, 200) }"/>......
@@ -160,7 +158,6 @@
 				<br>
 			</td>
 		</tr>
-		</c:forEach>
 	</c:forEach>
 	
 	<c:if test="${session_email == 'admin' }">

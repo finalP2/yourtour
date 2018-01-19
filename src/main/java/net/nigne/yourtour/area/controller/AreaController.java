@@ -73,14 +73,14 @@ public class AreaController {
 		}*/
 		commandMap.put("city_no", city_no);
 		areaList = areaService.areaList(commandMap.getMap());
-		List<Map<String,Object>> areaImgModel = areaService.area_imgList(commandMap.getMap());
-		System.out.println("size="+ areaImgModel.size());
+
+		
+
 		totalCount = areaList.size();
 		/*List<ScheduleModel> scheduleList = scheduleService.scheduleSearchList(keyword);
 		
 		mav.addObject("scheduleList", scheduleList);*/
 		mav.addObject("areaList", areaList);
-		mav.addObject("areaImgModel", areaImgModel);
 		mav.addObject("totalCount", totalCount);
 		mav.setViewName("area/areaList");
 		
@@ -102,14 +102,13 @@ public class AreaController {
 
 	@RequestMapping("areaWrite.go")
 	public ModelAndView areaWrite(HttpServletRequest request, MultipartHttpServletRequest multipartHttpServletRequest, CommandMap commandMap) throws Exception {
-		
-		String content = commandMap.get("CONTENT").toString().replaceAll("\r\n", "<br/>");
+
+		String content = request.getParameter("content").replaceAll("\r\n", "<br/>");
 		commandMap.put("content", content);
 		String city_name = request.getParameter("city_name");
 		String keyword = request.getParameter("keyword");
 		commandMap.put("city_name", city_name);
 		commandMap.put("keyword", keyword);
-		List<Map<String,Object>> cityList = null;
 		
 		Map<String,Object> cityModel = cityService.citySelectOne(commandMap.getMap());
 		System.out.println("도시이름 = "+city_name);
@@ -117,7 +116,6 @@ public class AreaController {
 		int city_no = Integer.parseInt(cityModel.get("NO").toString());
 		commandMap.put("city_no", city_no);
 		
-		//÷�������� ������ �۾��� ���
 		areaService.areaWrite(commandMap.getMap());
 		Map<String,Object> areaModel = areaService.areaLastWrite();
 		int area_no = Integer.parseInt(areaModel.get("NO").toString());
@@ -157,6 +155,7 @@ public class AreaController {
 				commandMap.put("area_no", area_no);
 
 				areaService.fileupload(commandMap.getMap());
+				areaService.areaMainImgModify(commandMap.getMap());
 			}
 		}
 		
@@ -174,9 +173,10 @@ public class AreaController {
 		commandMap.put("no", no);
 		
 		Map<String,Object> areaModel = areaService.areaDetail(commandMap.getMap());
-		
-		Map<String,Object> area_mainImg = areaService.area_mainImg(commandMap.getMap());
-
+		int city_no = Integer.parseInt(areaModel.get("CITY_NO").toString());
+		commandMap.put("city_no", city_no);
+		List<Map<String,Object>> areaImgModel = areaService.area_imgList(commandMap.getMap());
+		System.out.println("img="+ areaImgModel.toString());
 /*		List<Map<String,Object>>  areaReviewList = areaService.areaReviewList(no);
 		List<ScheduleModel> scheduleList = scheduleService.scheduleSearchList(keyword);
 		
@@ -184,7 +184,7 @@ public class AreaController {
 		
 		/*mav.addObject("scheduleList", scheduleList);*/
 		mav.addObject("areaModel", areaModel);
-		mav.addObject("area_mainImg", area_mainImg);
+		mav.addObject("areaImgModel", areaImgModel);
 /*		mav.addObject("areaReviewList", areaReviewList);
 		mav.addObject("revCount", revCount);*/
 
