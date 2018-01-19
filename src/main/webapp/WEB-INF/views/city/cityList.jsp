@@ -37,7 +37,7 @@
         	<tr>
 
               <td >
-              	<button><a href="cityDetail.go?no=${germanyList.no}&keyword=독일">${germanyList.NAME }</a></button>
+              	<button><a href="cityDetail.go?no=${germanyList.NO}&keyword=독일">${germanyList.NAME }</a></button>
               </td>
 
            </tr>
