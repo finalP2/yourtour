@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="area_imgList" resultType="HashMap" parameterType="HashMap">
 		SELECT *
 		FROM AREA_IMG 
-		WHERE CITY_NO = #{city_no}
+		WHERE area_no = #{no}
 	</select>
 	
 	<!-- 여행지 상세보기 할때 이미지 갤러리 메인 이미지 불러오기 -->

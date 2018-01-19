@@ -173,8 +173,6 @@ public class AreaController {
 		commandMap.put("no", no);
 		
 		Map<String,Object> areaModel = areaService.areaDetail(commandMap.getMap());
-		int city_no = Integer.parseInt(areaModel.get("CITY_NO").toString());
-		commandMap.put("city_no", city_no);
 		List<Map<String,Object>> areaImgModel = areaService.area_imgList(commandMap.getMap());
 		System.out.println("img="+ areaImgModel.toString());
 /*		List<Map<String,Object>>  areaReviewList = areaService.areaReviewList(no);

@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>여행지 리스트</title>
+
 </head>
 <body>
 <table width="100%" border="0" align="center">
@@ -149,12 +150,13 @@
 			</td>
 			<td align="center" width="300">
 				<!-- 글자 수를 초과하면 ...으로 보이도록 설정 -->
-				<c:if test="${fn:length(areaList.CONTENT) gt 200 }">
+		 		<c:if test="${fn:length(areaList.CONTENT) gt 200 }">
 					<c:out value="${fn:substring(areaList.COTNENT, 0, 200) }"/>......
 				</c:if>
 				<c:if test="${fn:length(areaList.CONTENT) le 200 }">
 					${areaList.CONTENT }
-				</c:if>
+				</c:if> 
+
 				<br>
 			</td>
 		</tr>

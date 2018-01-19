@@ -92,7 +92,7 @@ $(document).ready(function(){
 
 <!-- 지도 들어가야함 -->
 <c:forEach var="areaImgModel" items="${areaImgModel }" varStatus="stat">
-	<img src="../resources/area_img/${areaImgModel.SAV_NAME }" class="img-rounded" alt="Cinque Terre" width="500" height="400"
+	<img src="../resources/area_img/${areaImgModel.SAV_NAME }" class="img-rounded" alt="Cinque Terre" width="400" height="500"
 		onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'"/>	
 </c:forEach>
 <tr>
