@@ -31,4 +31,14 @@
 		WHERE hotel_no = #{no}
 	</select>
 	
+	<select id="hotelLastWrite" resultType="HashMap">
+      select * from hotel 
+      where no = (select max(no) from hotel)
+   </select>
+   
+   <update id="hotelMainImgModify" parameterType="HashMap">
+		UPDATE HOTEL
+		SET MAIN_IMG=#{sav_name} 
+		WHERE NO = #{hotel_no}
+	</update>
 </mapper>

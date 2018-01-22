@@ -15,4 +15,8 @@ public interface HotelService {
 
 	List<Map<String, Object>> hotel_imgList(Map<String, Object> map) throws Exception;
 
+	Map<String, Object> hotelLastWrite() throws Exception;
+
+	void hotelMainImgModify(Map<String, Object> map) throws Exception;
+
 }

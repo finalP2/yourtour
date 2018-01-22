@@ -34,4 +34,15 @@ public class HotelDAO extends AbstractDAO {
 		return (List<Map<String, Object>>)selectList("hotel.hotel_imgList", map);
 	}
 
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> hotelLastWrite() {
+		return (Map<String, Object>) selectOne("hotel.hotelLastWrite");
+	}
+
+
+	public void hotelMainImgModify(Map<String, Object> map) {
+		update("hotel.hotelMainImgModify", map);
+		
+	}
+
 }

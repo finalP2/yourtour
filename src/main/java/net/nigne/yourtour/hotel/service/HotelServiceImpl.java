@@ -45,5 +45,15 @@ Logger log = Logger.getLogger(this.getClass());
 	public List<Map<String, Object>> hotel_imgList(Map<String, Object> map) throws Exception {
 		return hotelDAO.hotel_imgList(map);
 	}
+	@Override
+	public Map<String, Object> hotelLastWrite() throws Exception {
+		Map<String, Object> tempMap = hotelDAO.hotelLastWrite();
+		return tempMap;
+	}
+
+	@Override
+	public void hotelMainImgModify(Map<String, Object> map) throws Exception {
+		hotelDAO.hotelMainImgModify(map);
+	}
 	
 }
