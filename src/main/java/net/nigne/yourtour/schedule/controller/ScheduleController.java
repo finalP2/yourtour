@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.nigne.yourtour.area.service.AreaService;
+import net.nigne.yourtour.city.service.CityService;
 import net.nigne.yourtour.common.common.CommandMap;
 import net.nigne.yourtour.schedule.service.ScheduleService;
 
@@ -25,6 +27,10 @@ public class ScheduleController {
 	
 	@Resource(name="scheduleService")
 	private ScheduleService scheduleService;
+	@Resource(name="areaService")
+	private AreaService areaService;
+	@Resource(name="cityService")
+	private CityService cityService;
 	
 	@RequestMapping("scheduleList.go")
 	public ModelAndView scheduleList(HttpServletRequest request,CommandMap commandMap) throws Exception{
@@ -119,6 +125,34 @@ public class ScheduleController {
 		
 		return mv;
 	}
+	@RequestMapping("scheduleArea.go")
+	public ModelAndView scheduleArea(HttpServletRequest request, CommandMap commandMap, HttpSession session) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		int city_no = Integer.parseInt(request.getParameter("city_no"));
+		String email = (String) session.getAttribute("session_m_email");
+		commandMap.put("email", email);
+		commandMap.put("no", Integer.parseInt(request.getParameter("sch_no")));
+		Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
+		List<Map<String,Object>> schDayList = scheduleService.scheduleDay(commandMap.getMap());
+		commandMap.put("city_no", city_no);
+		List<Map<String,Object>> areaList = areaService.areaList(commandMap.getMap());
+		commandMap.put("no", city_no);
+		Map<String,Object> cityOne = cityService.cityDetail(commandMap.getMap());
+		
+	/*	if (request.getParameter("keyword") != null) {
+			String keyword = request.getParameter("keyword");
+			List<CityModel> citySearchList = cityService.citySearchList(country, keyword);
+			mav.addObject("citySearchList",citySearchList);
+		}*/
+		
+		mv.addObject("sch", scheduleOne);
+		mv.addObject("schDayList", schDayList);
+		mv.addObject("areaList",areaList);
+		mv.addObject("cityOne",cityOne);
+		mv.setViewName("schedule/scheduleArea");
+		
+		return mv;
+	}
 	
 	
 	@RequestMapping("scheduleDetail.go")
@@ -128,10 +162,11 @@ public class ScheduleController {
 		Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
 		 commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
 	   List<Map<String,Object>> commentlist  = scheduleService.commentList(commandMap.getMap());
+	   
 	   mv.addObject("clist", commentlist);
 		mv.addObject("sch", scheduleOne);
-		mv.setViewName("schedule/scheduleDetail");
 		
+		mv.setViewName("schedule/scheduleDetail");
 		return mv;
 	}
 	

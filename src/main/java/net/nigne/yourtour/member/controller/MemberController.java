@@ -25,7 +25,7 @@ public class MemberController {
 	ModelAndView mv = new ModelAndView();
 	@RequestMapping("joinForm.go")
 	public String joinForm(){
-		return "member/login";
+		return "member/joinForm";
 	}
 	
 	 @RequestMapping("loginpage.go")

@@ -34,4 +34,6 @@ public interface ScheduleService {
 	List<Map<String, Object>> commentList(Map<String, Object> map) throws Exception;
 
 	void commentDelete(Map<String, Object> map) throws Exception;
+
+	List<Map<String, Object>> scheduleDay(Map<String, Object> map) throws Exception;
 }

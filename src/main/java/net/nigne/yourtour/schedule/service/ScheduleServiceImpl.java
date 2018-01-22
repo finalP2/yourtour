@@ -99,4 +99,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public void commentDelete(Map<String, Object> map) throws Exception {
 		scheduleDAO.commentDelete(map);
 	}
+	@Override
+	public List<Map<String, Object>> scheduleDay(Map<String, Object> map) throws Exception {
+		return scheduleDAO.scheduleDay(map);
+	}
 }

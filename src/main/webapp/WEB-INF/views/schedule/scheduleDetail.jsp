@@ -54,8 +54,10 @@
             <tr>
                <td >
                	${clist.EMAIL }-${clist.CONTENT }
+               	<c:if test="${session_m_email==clist.EMAIL }">
                	<input type="button" value="삭제하기" onclick="location.href='http://localhost:8080/yourtour/schedule/commentDelete.go?c_no=${clist.NO}&no=${sch.NO}'"/>
               	<br/>
+              	</c:if>
                </td>
             </tr>
         </c:forEach>

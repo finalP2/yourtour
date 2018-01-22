@@ -96,4 +96,9 @@
 		select * from sch 
 		where no = #{no}
 	</select>
+	<!-- 일정 일차 가져오기-->
+	<select id="scheduleDay" resultType="hashmap" parameterType="hashmap">
+		select * from sch_day
+		where sch_no = #{no}
+	</select>
 </mapper>

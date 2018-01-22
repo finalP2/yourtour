@@ -65,5 +65,10 @@ public class ScheduleDAO extends AbstractDAO{
 		delete("schedule.commentDelete",map);
 		
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> scheduleDay(Map<String, Object> map) {
+		return (List<Map<String, Object>>)selectList("schedule.scheduleDay", map);
+	}
 	
 }
