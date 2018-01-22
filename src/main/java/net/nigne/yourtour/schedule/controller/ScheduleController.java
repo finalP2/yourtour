@@ -20,7 +20,6 @@ import net.nigne.yourtour.common.common.CommandMap;
 import net.nigne.yourtour.schedule.service.ScheduleService;
 
 @Controller
-
 @RequestMapping("/schedule")
 public class ScheduleController {
 	Logger log = Logger.getLogger(this.getClass());

@@ -84,6 +84,8 @@ traverseFiles(this.files);
                     <input type="radio" name="city_name" value="파리" checked="checked">파리
                     <input type="radio" name="city_name" value="깐느">깐느
                     <input type="radio" name="city_name" value="니스">니스 
+                    <input type="radio" name="city_name" value="안시">안시 
+                    <input type="radio" name="city_name" value="마르세유">마르세유 
                     <br/><br/>
                   
                     <button type="button" class="btn btn-default btn-lg" onclick="searchMap()">
