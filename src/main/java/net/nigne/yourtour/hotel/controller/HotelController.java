@@ -104,11 +104,8 @@ public class HotelController {
 			for(int i=0; i<mf.size(); i++) {
 			
 				String genId = UUID.randomUUID().toString();
-			
 				String org_name = mf.get(i).getOriginalFilename();
-			
 				String sav_name = genId + "." + FilenameUtils.getExtension(org_name);
-		
 				String savePath = uploadPath + sav_name;
 		
 				mf.get(i).transferTo(new File(savePath));
