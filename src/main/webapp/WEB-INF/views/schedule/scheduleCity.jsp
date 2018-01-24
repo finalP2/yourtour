@@ -46,7 +46,7 @@
                	<span class="glyphicon glyphicon-info-sign"></span>
                </td>
                <td >
-               <a href="scheduleArea.go?city_no=${cityList.NO }&sch_no=${sch.NO}" >${cityList.NAME }</a>
+               <a href="scheduleArea.go?city_no=${cityList.NO }&sch_no=${sch.NO}&sch_day_no=1" >${cityList.NAME }</a>
                </td>
                <td>
                	<span class="glyphicon glyphicon-chevron-right"></span>

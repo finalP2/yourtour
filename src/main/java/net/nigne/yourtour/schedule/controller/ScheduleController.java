@@ -127,12 +127,19 @@ public class ScheduleController {
 	@RequestMapping("scheduleArea.go")
 	public ModelAndView scheduleArea(HttpServletRequest request, CommandMap commandMap, HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
+		int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
 		int city_no = Integer.parseInt(request.getParameter("city_no"));
 		String email = (String) session.getAttribute("session_m_email");
 		commandMap.put("email", email);
 		commandMap.put("no", Integer.parseInt(request.getParameter("sch_no")));
 		Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
 		List<Map<String,Object>> schDayList = scheduleService.scheduleDay(commandMap.getMap());
+		
+		List<Map<String,Object>> schDetailList = scheduleService.scheduleDetailList(commandMap.getMap());
+			
+
+		
+		
 		commandMap.put("city_no", city_no);
 		List<Map<String,Object>> areaList = areaService.areaList(commandMap.getMap());
 		commandMap.put("no", city_no);
@@ -147,7 +154,9 @@ public class ScheduleController {
 		mv.addObject("sch", scheduleOne);
 		mv.addObject("schDayList", schDayList);
 		mv.addObject("areaList",areaList);
+		mv.addObject("schDetailList",schDetailList);
 		mv.addObject("cityOne",cityOne);
+		mv.addObject("sch_day_no", sch_day_no);
 		mv.setViewName("schedule/scheduleArea");
 		
 		return mv;

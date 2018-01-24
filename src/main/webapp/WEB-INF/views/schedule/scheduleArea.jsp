@@ -37,25 +37,57 @@
 <div style="padding-top: 20px;">
 <h3 style="margin-top: 0px; margin-bottom: 0px; padding-left: 10px;"><span class="glyphicon glyphicon-tags"></span>&nbsp;${sch.NAME }</h3>
 <h4 style="margin-top: 0px; margin-bottom: 0px; padding-left: 10px;"><span class="glyphicon glyphicon-tags"></span>&nbsp;${cityOne.NAME }</h4>
+<h4 style="margin-top: 0px; margin-bottom: 0px; padding-left: 10px;"><span class="glyphicon glyphicon-tags"></span>&nbsp;${sch.START_DATE }~${sch.END_DATE }</h4>
+
 <c:forEach var="schDayList" items="${schDayList }" varStatus="stat">
             <tr>
                <td >
-               <a href="" >${schDayList.DAY }일차</a>
+               <a href="scheduleArea.go?sch_day_no=${schDayList.DAY }&sch_no=${sch.NO}&city_no=${cityOne.NO}" >${schDayList.DAY }일차</a>
                </td>
                <td>
                	<span class="glyphicon glyphicon-chevron-right"></span>
                </td>
             </tr>
  </c:forEach>
-</div>   
+</div>
+<div>
+	<table class="table">
+		<tr>
+		<td>
+			${sch_day_no}일차 일정
+		</td>
+		</tr>
+		<tr>
+			<td style="text-align:center; font-weight:bold;">
+          			<c:if test="${empty schDetailList }">
+          				일정을 추가해주세요.
+          			</c:if>
+          			<c:if test="${not empty schDetailList }">
+          				<c:forEach var="schDetailList" items="${schDetailList }" varStatus="stat">
+          					<a href="scheduleArea.go?city_no=${schDetailList.NO }&sch_no=${sch.NO}" >${schDetailList.AREA_NO }</a>
+          				</c:forEach>
+          			</c:if>
+			</td>
+   		</tr>
+        <c:forEach var="schDetailList" items="${schDetailList }" varStatus="stat">
+            <tr>
+               <td >
+               	<a href="scheduleArea.go?city_no=${schDetailList.NO }&sch_no=${sch.NO}" >${schDetailList.AREA_NO }</a>
+               </td>
+               <td>
+               	<span class="glyphicon glyphicon-chevron-right"></span>
+               </td>
+            </tr>
+        </c:forEach>
+      </table> 
+	
+</div>
        <table class="table">
         <c:forEach var="areaList" items="${areaList }" varStatus="stat">
             <tr>
                <td >
-               <a href="scheduleArea.go?city_no=${areaList.NO }&sch_no=${sch.NO}" >${areaList.NAME }</a>
-               </td>
-               <td>
-               	<span class="glyphicon glyphicon-chevron-right"></span>
+               	${areaList.NAME }
+               	<input type="button" onclick="javascript:location.href='insertArea.go?sch_no=${sch.NO}&area_no=${areaList.NO}'" value="+"/>
                </td>
             </tr>
         </c:forEach>

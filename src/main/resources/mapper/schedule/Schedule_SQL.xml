@@ -101,4 +101,10 @@
 		select * from sch_day
 		where sch_no = #{no}
 	</select>
+
+	<select id="scheduleDetailList" resultType="hashmap" parameterType="hashmap">
+		select * from sch_detail
+		where sch_no = #{no} 
+		order by detail_turn desc
+	</select>
 </mapper>
