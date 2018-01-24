@@ -64,21 +64,12 @@
           			</c:if>
           			<c:if test="${not empty schDetailList }">
           				<c:forEach var="schDetailList" items="${schDetailList }" varStatus="stat">
-          					<a href="scheduleArea.go?city_no=${schDetailList.NO }&sch_no=${sch.NO}" >${schDetailList.AREA_NO }</a>
+          					
+          					${schDetailList.DETAIL_TURN }--${schDetailList.AREA_NO }<br/>
           				</c:forEach>
           			</c:if>
 			</td>
    		</tr>
-        <c:forEach var="schDetailList" items="${schDetailList }" varStatus="stat">
-            <tr>
-               <td >
-               	<a href="scheduleArea.go?city_no=${schDetailList.NO }&sch_no=${sch.NO}" >${schDetailList.AREA_NO }</a>
-               </td>
-               <td>
-               	<span class="glyphicon glyphicon-chevron-right"></span>
-               </td>
-            </tr>
-        </c:forEach>
       </table> 
 	
 </div>
@@ -87,7 +78,7 @@
             <tr>
                <td >
                	${areaList.NAME }
-               	<input type="button" onclick="javascript:location.href='insertArea.go?sch_no=${sch.NO}&area_no=${areaList.NO}'" value="+"/>
+               	<input type="button" onclick="javascript:location.href='insertDetail.go?sch_no=${sch.NO}&area_no=${areaList.NO}&sch_day_no=${sch_day_no}&city_no=${cityOne.NO}'" value="+"/>
                </td>
             </tr>
         </c:forEach>

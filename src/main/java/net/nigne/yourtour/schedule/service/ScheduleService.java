@@ -38,4 +38,6 @@ public interface ScheduleService {
 	List<Map<String, Object>> scheduleDay(Map<String, Object> map) throws Exception;
 
 	List<Map<String, Object>> scheduleDetailList(Map<String, Object> map) throws Exception;
+
+	void insertDetail(Map<String, Object> map) throws Exception;
 }

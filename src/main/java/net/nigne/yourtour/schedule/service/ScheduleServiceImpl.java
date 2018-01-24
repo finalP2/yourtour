@@ -108,4 +108,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<Map<String, Object>> scheduleDetailList(Map<String, Object> map) throws Exception {
 		return scheduleDAO.scheduleDetailList(map);
 	}
+	@Override
+	public void insertDetail(Map<String, Object> map) throws Exception {
+		scheduleDAO.insertDetail(map);
+		
+	}
 }

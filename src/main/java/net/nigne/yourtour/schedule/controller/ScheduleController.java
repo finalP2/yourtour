@@ -1,5 +1,6 @@
 package net.nigne.yourtour.schedule.controller;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -130,11 +131,12 @@ public class ScheduleController {
 		int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
 		int city_no = Integer.parseInt(request.getParameter("city_no"));
 		String email = (String) session.getAttribute("session_m_email");
+		int sch_no = Integer.parseInt(request.getParameter("sch_no"));
 		commandMap.put("email", email);
-		commandMap.put("no", Integer.parseInt(request.getParameter("sch_no")));
+		commandMap.put("no", sch_no);
+		commandMap.put("sch_day_no", sch_day_no);
 		Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
 		List<Map<String,Object>> schDayList = scheduleService.scheduleDay(commandMap.getMap());
-		
 		List<Map<String,Object>> schDetailList = scheduleService.scheduleDetailList(commandMap.getMap());
 			
 
@@ -161,7 +163,24 @@ public class ScheduleController {
 		
 		return mv;
 	}
-	
+	@RequestMapping("insertDetail.go")
+	public ModelAndView insertDetail(HttpServletRequest request, HttpSession session, CommandMap commandMap) throws Exception{
+		
+		int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
+		int city_no = Integer.parseInt(request.getParameter("city_no"));
+		int sch_no = Integer.parseInt(request.getParameter("sch_no"));
+		int area_no = Integer.parseInt(request.getParameter("area_no"));
+		
+		commandMap.put("sch_day_no", sch_day_no);
+		commandMap.put("area_no", area_no);
+		commandMap.put("sch_no", sch_no);
+		
+		scheduleService.insertDetail(commandMap.getMap());
+		
+		
+		
+		return new ModelAndView("redirect:scheduleArea.go?sch_day_no="+sch_day_no+"&sch_no="+sch_no+"&city_no="+city_no+"");
+	}
 	
 	@RequestMapping("scheduleDetail.go")
 	public ModelAndView scheduleDetail(HttpServletRequest request, HttpSession session, CommandMap commandMap) throws Exception{

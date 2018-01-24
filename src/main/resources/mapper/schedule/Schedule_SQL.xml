@@ -104,7 +104,13 @@
 
 	<select id="scheduleDetailList" resultType="hashmap" parameterType="hashmap">
 		select * from sch_detail
-		where sch_no = #{no} 
-		order by detail_turn desc
+		where sch_no = #{no} and sch_day_no = #{sch_day_no}
+		order by detail_turn asc
 	</select>
+	
+	<!-- 일정 디테일 추가 -->
+	<insert id="insertDetail" parameterType="hashmap">
+		INSERT INTO SCH_DETAIL(NO, SCH_DAY_NO, SCH_NO, AREA_NO, DETAIL_TURN) 
+		VALUES(SCH_DETAIL_NO_SEQ.NEXTVAL, #{sch_day_no}, #{sch_no}, #{area_no},(SELECT NVL(MAX(DETAIL_TURN)+1,1) FROM SCH_DETAIL WHERE sch_no = ${sch_no} and sch_day_no = ${sch_day_no}))
+	</insert>
 </mapper>

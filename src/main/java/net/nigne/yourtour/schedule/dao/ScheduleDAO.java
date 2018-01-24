@@ -75,5 +75,10 @@ public class ScheduleDAO extends AbstractDAO{
 	public List<Map<String, Object>> scheduleDetailList(Map<String, Object> map) {
 		return (List<Map<String, Object>>)selectList("schedule.scheduleDetailList", map);
 	}
+
+	public void insertDetail(Map<String, Object> map) {
+		insert("schedule.insertDetail", map);
+		
+	}
 	
 }
