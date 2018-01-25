@@ -113,4 +113,23 @@
 		INSERT INTO SCH_DETAIL(NO, SCH_DAY_NO, SCH_NO, AREA_NO, DETAIL_TURN) 
 		VALUES(SCH_DETAIL_NO_SEQ.NEXTVAL, #{sch_day_no}, #{sch_no}, #{area_no},(SELECT NVL(MAX(DETAIL_TURN)+1,1) FROM SCH_DETAIL WHERE sch_no = ${sch_no} and sch_day_no = ${sch_day_no}))
 	</insert>
+	
+	<!-- 좋아요 추가 -->
+	<update id="updateAreaLike" parameterType="hashmap">
+	<![CDATA[
+		UPDATE AREA SET
+		 like1 = #{like1} 
+		WHERE no = #{no}
+	]]>
+	</update>	
+	<!-- 일정디테일삭제 --> 
+   <delete id="deleteDetail" parameterType="hashmap">
+      DELETE FROM SCH_DETAIL 
+      WHERE no = #{detail_no}
+   </delete>
+   
+   <select id="scheduleDetailOne" resultType="hashmap" parameterType="hashmap">
+		select * from SCH_DETAIL
+		where no = #{detail_no}
+	</select>
 </mapper>

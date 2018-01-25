@@ -17,7 +17,7 @@
 <style>
       #s_left {
        width:190px;
-       height: 700px;
+       height: 650px;
        float:left;
        margin: 5px;
        border: 1px solid black;
@@ -26,7 +26,7 @@
        
        #contents {
        width:240px;
-       height:700px;
+       height:650px;
        float:left;
        margin: 5px;
        border: 1px solid black;
@@ -34,7 +34,7 @@
        
        #map {
        width:69%;
-       height:700px;
+       height:650px;
        float:left;
        margin: 5px;
        }
@@ -71,7 +71,7 @@
             {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
       }
       var locations = [
-    	{lat: 48.873778, lng: 2.295027},
+       {lat: 48.873778, lng: 2.295027},
         {lat: 48.852968, lng: 2.349934},
         {lat: 48.872136, lng: 2.775883},
         {lat: 48.860576, lng: 2.337569},
@@ -98,14 +98,20 @@
 <c:forEach var="schDayList" items="${schDayList }" varStatus="stat">
 
                <a href="scheduleArea.go?sch_day_no=${schDayList.DAY }&sch_no=${sch.NO}&city_no=${cityOne.NO}" >${schDayList.DAY }일차</a>
-				 </c:forEach><hr>
-               	${sch_day_no}일차 일정<br/>
+             </c:forEach><hr>
+                  ${sch_day_no}일차 일정<br/>
 <c:if test="${empty schDetailList }">
                     <b>일정을 추가해주세요.</b><br/><br/>
                 </c:if>
 <c:if test="${not empty schDetailList }">
 <c:forEach var="schDetailList" items="${schDetailList }" varStatus="stat">
-                                  ${schDetailList.DETAIL_TURN }--${schDetailList.AREA_NO }<br/>
+                                  ${stat.count}--${schDetailList.AREA_NO }&nbsp;
+             <span class="glyphicon glyphicon-remove"
+             data-toggle="tooltip" title="이 여행지를 일정에서 삭제합니다."
+             style="cursor:pointer;"
+             onclick="location.href='http://localhost:8080/yourtour/schedule/deleteDetail.go?detail_no=${schDetailList.NO}&sch_day_no=${sch_day_no }&sch_no=${sch.NO}&city_no=${cityOne.NO}'"><br/>
+             </span>
+                                  <br/>
 </c:forEach>
 </c:if></div></div>
 <div id="contents" style="display:table-row">
@@ -117,14 +123,22 @@
 <center><b>여행지</b></center><hr/><br/>
 <c:forEach var="areaList" items="${areaList }" varStatus="stat">
             
-               ${stat.count}- ${areaList.NAME }<span class="glyphicon glyphicon-plus"
+               ${stat.count}- ${areaList.NAME }&nbsp;
+             <span class="glyphicon glyphicon-plus"
              data-toggle="tooltip" title="이 여행지를 일정에 추가합니다."
              style="cursor:pointer;"
              onclick="javascript:location.href='insertDetail.go?sch_no=${sch.NO}&area_no=${areaList.NO}&sch_day_no=${sch_day_no}&city_no=${cityOne.NO}'"><br/>                       
-             </span><br/>
-            
+             </span>&nbsp;
+             <span class="glyphicon glyphicon-search"
+             data-toggle="tooltip" title="여행지 정보를 보려면 클릭하세요."
+             style="cursor:pointer;"
+             onclick="window.open('http://localhost:8080/yourtour/area/areaDetail.go?no=${areaList.NO }&keyword=info','여행지 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
+             </span>
+             
+             <br/>
+             
                </c:forEach>
 </div></div></div>       
-	<div id="map"></div>
+   <div id="map"></div>
 </body>
 </html>

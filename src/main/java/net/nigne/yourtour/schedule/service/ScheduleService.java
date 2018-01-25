@@ -40,4 +40,10 @@ public interface ScheduleService {
 	List<Map<String, Object>> scheduleDetailList(Map<String, Object> map) throws Exception;
 
 	void insertDetail(Map<String, Object> map) throws Exception;
+
+	void updateAreaLike(Map<String, Object> map) throws Exception;
+
+	void deleteDetail(Map<String, Object> map) throws Exception;
+
+	Map<String, Object> scheduleDetailOne(Map<String, Object> map) throws Exception;
 }

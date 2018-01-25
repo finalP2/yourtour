@@ -113,4 +113,21 @@ public class ScheduleServiceImpl implements ScheduleService {
 		scheduleDAO.insertDetail(map);
 		
 	}
+	@Override
+	public void updateAreaLike(Map<String, Object> map) throws Exception {
+		scheduleDAO.updateAreaLike(map);
+		
+	}
+	
+	@Override
+	public void deleteDetail(Map<String, Object> map) throws Exception {
+		scheduleDAO.deleteDetail(map);
+		
+	}
+	
+	@Override
+	public Map<String, Object> scheduleDetailOne(Map<String, Object> map) throws Exception {
+		Map<String, Object> tempMap =  scheduleDAO.scheduleDetailOne(map);
+		return tempMap;
+	}
 }

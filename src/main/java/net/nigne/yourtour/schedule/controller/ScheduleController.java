@@ -176,11 +176,42 @@ public class ScheduleController {
 		commandMap.put("sch_no", sch_no);
 		
 		scheduleService.insertDetail(commandMap.getMap());
+		commandMap.put("no", area_no);
+		Map<String,Object> areaOne = areaService.areaDetail(commandMap.getMap());
+		int like = Integer.parseInt(areaOne.get("LIKE1").toString());
+		commandMap.put("like1", like+1);
+		scheduleService.updateAreaLike(commandMap.getMap());
 		
 		
 		
 		return new ModelAndView("redirect:scheduleArea.go?sch_day_no="+sch_day_no+"&sch_no="+sch_no+"&city_no="+city_no+"");
 	}
+	
+	@RequestMapping("deleteDetail.go")
+	   public ModelAndView deleteDetail(HttpServletRequest request, HttpSession session, CommandMap commandMap) throws Exception{
+	      
+	      int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
+	      int city_no = Integer.parseInt(request.getParameter("city_no"));
+	      int sch_no = Integer.parseInt(request.getParameter("sch_no"));
+	      
+	      commandMap.put("sch_day_no", sch_day_no);
+	      commandMap.put("sch_no", sch_no);
+	      
+	      Map<String,Object> detailOne = scheduleService.scheduleDetailOne(commandMap.getMap());
+	      int area_no =  Integer.parseInt(detailOne.get("AREA_NO").toString());
+	      commandMap.put("no", area_no);
+	      Map<String,Object> areaOne = areaService.areaDetail(commandMap.getMap());
+	      int like = Integer.parseInt(areaOne.get("LIKE1").toString());
+	      commandMap.put("like1", like-1);
+	      scheduleService.updateAreaLike(commandMap.getMap());
+	      
+	      scheduleService.deleteDetail(commandMap.getMap());
+	      
+	      
+	      
+	      return new ModelAndView("redirect:scheduleArea.go?sch_day_no="+sch_day_no+"&sch_no="+sch_no+"&city_no="+city_no+"");
+	      
+	   }
 	
 	@RequestMapping("scheduleDetail.go")
 	public ModelAndView scheduleDetail(HttpServletRequest request, HttpSession session, CommandMap commandMap) throws Exception{

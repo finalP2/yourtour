@@ -80,5 +80,20 @@ public class ScheduleDAO extends AbstractDAO{
 		insert("schedule.insertDetail", map);
 		
 	}
+
+	public void updateAreaLike(Map<String, Object> map) {
+		update("schedule.updateAreaLike", map);
+		
+	}
+
+	public void deleteDetail(Map<String, Object> map) {
+		delete("schedule.deleteDetail", map);
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> scheduleDetailOne(Map<String, Object> map) {
+		return (Map<String, Object>) selectOne("schedule.scheduleDetailOne", map);
+	}
 	
 }
