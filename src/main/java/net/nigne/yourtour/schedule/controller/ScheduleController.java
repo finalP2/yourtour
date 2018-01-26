@@ -139,9 +139,6 @@ public class ScheduleController {
 		List<Map<String,Object>> schDayList = scheduleService.scheduleDay(commandMap.getMap());
 		List<Map<String,Object>> schDetailList = scheduleService.scheduleDetailList(commandMap.getMap());
 			
-
-		
-		
 		commandMap.put("city_no", city_no);
 		List<Map<String,Object>> areaList = areaService.areaList(commandMap.getMap());
 		commandMap.put("no", city_no);
@@ -204,11 +201,8 @@ public class ScheduleController {
 	      int like = Integer.parseInt(areaOne.get("LIKE1").toString());
 	      commandMap.put("like1", like-1);
 	      scheduleService.updateAreaLike(commandMap.getMap());
-	      
 	      scheduleService.deleteDetail(commandMap.getMap());
-	      
-	      
-	      
+
 	      return new ModelAndView("redirect:scheduleArea.go?sch_day_no="+sch_day_no+"&sch_no="+sch_no+"&city_no="+city_no+"");
 	      
 	   }

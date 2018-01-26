@@ -103,10 +103,14 @@
 	</select>
 
 	<select id="scheduleDetailList" resultType="hashmap" parameterType="hashmap">
-		select * from sch_detail
-		where sch_no = #{no} and sch_day_no = #{sch_day_no}
-		order by detail_turn asc
+		select s.detail_turn, a.name, a.content, s.area_no, s.no
+		from area a inner join sch_detail s
+		on a.no = s.area_no 
+		where s.sch_no= #{no} and s.sch_day_no= #{sch_day_no}
+		order by s.detail_turn
 	</select>
+
+	
 	
 	<!-- 일정 디테일 추가 -->
 	<insert id="insertDetail" parameterType="hashmap">
