@@ -50,4 +50,6 @@ public interface ScheduleService {
 	List<Map<String, Object>> scheduleSearchList(Map<String, Object> map) throws Exception;
 
 	List<Map<String, Object>> scheduleLikeList(Map<String, Object> map) throws Exception;
+
+	Map<String, Object> searchMap(Map<String, Object> map) throws Exception;
 }

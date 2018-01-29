@@ -31,7 +31,6 @@
 </script>
 </head>
 <body>
-<%@ include file="../member/menu.jsp" %>
 <h2>로그인</h2>
     <form name="form1" method="post" action="login.go">
         <table border="1" width="400px">
@@ -46,6 +45,8 @@
             <tr>
                 <td colspan="2" align="center">
                     <button type="submit" id="btnLogin">로그인</button>
+                    <a href="/yourtour/member/joinForm.go">회원가입</a>
+                    <a href="/yourtour/member/findForm.go">이메일/비밀번호찾기</a>
                 <c:if test="${msg == 'failure'}">
                     <div style="color: red">
                         아이디 또는 비밀번호가 일치하지 않습니다.
@@ -57,6 +58,16 @@
                     </div>
                 </c:if>
                 </td>
+            </tr>
+            <tr>
+			<!-- 네이버 로그인 화면으로 이동 시키는 URL -->
+			<!-- 네이버 로그인 화면에서 ID, PW를 올바르게 입력하면 callback 메소드 실행 요청 -->
+			<td>
+			<a href="/yourtour/naver/login.go">네이버로그인</a>
+			</td>
+			<td>
+			<a href="/yourtour/naver/login.go">구글로그인</a>
+			</td>
             </tr>
         </table>
     </form>

@@ -139,4 +139,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<Map<String, Object>> scheduleLikeList(Map<String, Object> map) throws Exception {
 		return scheduleDAO.scheduleLikeList(map);
 	}
+	@Override
+	public Map<String, Object> searchMap(Map<String, Object> map) throws Exception {
+		Map<String, Object> tempMap =  scheduleDAO.searchMap(map);
+		return tempMap;
+	}
 }

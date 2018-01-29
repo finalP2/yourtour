@@ -105,5 +105,9 @@ public class ScheduleDAO extends AbstractDAO{
 	public List<Map<String, Object>> scheduleLikeList(Map<String, Object> map) {
 		return (List<Map<String, Object>>)selectList("schedule.scheduleLikeList", map);
 	}
+
+	public Map<String, Object> searchMap(Map<String, Object> map) {
+		return (Map<String, Object>) selectOne("schedule.searchMap", map);
+	}
 	
 }

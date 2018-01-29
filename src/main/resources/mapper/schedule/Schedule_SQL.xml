@@ -159,4 +159,8 @@
 		select * from SCH_DETAIL
 		where no = #{detail_no}
 	</select>
+	<select id="searchMap" resultType="hashmap" parameterType="hashmap">
+		select * from COUNTRY_MAP 
+		where country = #{country}
+	</select>
 </mapper>

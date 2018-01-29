@@ -159,14 +159,42 @@ public class ScheduleController {
 	@RequestMapping("scheduleCity.go")
 	public ModelAndView scheduleCity(HttpServletRequest request, CommandMap commandMap, HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		String country = request.getParameter("country");
+		int country = Integer.parseInt(request.getParameter("country"));
+		String country1 = "";
+		if(country == 1) {
+			country1 = "프랑스";
+		}
+		if(country == 2) {
+			country1 = "영국,아일랜드";
+		}
+		if(country == 3) {
+			country1 = "이탈리아";
+		}
+		if(country == 4) {
+			country1 = "스위스,체코";
+		}
+		if(country == 5) {
+			country1 = "독일";
+		}
+		if(country == 6) {
+			country1 = "포르투갈,스페인";
+		}
+		if(country == 7) {
+			country1 = "크로아티아";
+		}
+		if(country == 8) {
+			country1 = "러시아";
+		}
+		
 		String email = (String) session.getAttribute("session_m_email");
 		commandMap.put("email", email);
 		commandMap.put("no", Integer.parseInt(request.getParameter("no")));
 		Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
-		commandMap.put("country", "프랑스");
+		commandMap.put("country", country1);
 		List<Map<String,Object>> cityList = scheduleService.schcityList(commandMap.getMap());
-		
+		Map<String, Object> c_map = scheduleService.searchMap(commandMap.getMap());
+		float at = Float.parseFloat(c_map.get("LAT").toString());
+		float ng = Float.parseFloat(c_map.get("LNG").toString());
 	/*	if (request.getParameter("keyword") != null) {
 			String keyword = request.getParameter("keyword");
 			List<CityModel> citySearchList = cityService.citySearchList(country, keyword);
@@ -175,6 +203,8 @@ public class ScheduleController {
 		
 		mv.addObject("sch", scheduleOne);
 		mv.addObject("cityList",cityList);
+		mv.addObject("at",at);
+		mv.addObject("ng",ng);
 		mv.setViewName("schedule/scheduleCity");
 		
 		return mv;
