@@ -130,4 +130,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 		Map<String, Object> tempMap =  scheduleDAO.scheduleDetailOne(map);
 		return tempMap;
 	}
+	@Override
+	public List<Map<String, Object>> scheduleSearchList(Map<String, Object> map) throws Exception {
+		return scheduleDAO.scheduleSearchList(map);
+	}
+	
+	@Override
+	public List<Map<String, Object>> scheduleLikeList(Map<String, Object> map) throws Exception {
+		return scheduleDAO.scheduleLikeList(map);
+	}
 }

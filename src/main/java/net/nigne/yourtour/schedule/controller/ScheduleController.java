@@ -1,18 +1,23 @@
 package net.nigne.yourtour.schedule.controller;
 
+import java.io.File;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import net.nigne.yourtour.area.service.AreaService;
@@ -24,7 +29,7 @@ import net.nigne.yourtour.schedule.service.ScheduleService;
 @RequestMapping("/schedule")
 public class ScheduleController {
 	Logger log = Logger.getLogger(this.getClass());
-	
+	private static final String uploadPath = "C:\\Java\\App\\yourtour\\src\\main\\webapp\\resources\\sch_img\\";
 	@Resource(name="scheduleService")
 	private ScheduleService scheduleService;
 	@Resource(name="areaService")
@@ -38,10 +43,22 @@ public class ScheduleController {
 		
 
 			List<Map<String,Object>> list = scheduleService.scheduleList(commandMap.getMap());
+			List<Map<String,Object>> likelist = scheduleService.scheduleLikeList(commandMap.getMap());
 	    	mv.addObject("scheduleList", list);
+	    	mv.addObject("scheduleLikeList", likelist);
 	    	
 		return mv;
 	}
+	   @RequestMapping("scheduleSearch.go")
+	   public ModelAndView scheduleSearch(HttpServletRequest request,HttpSession session, CommandMap commandMap)throws Exception{
+		   ModelAndView mv = new ModelAndView("schedule/scheduleList");
+		   
+		   List<Map<String,Object>> list = scheduleService.scheduleSearchList(commandMap.getMap());
+		   List<Map<String,Object>> likelist = scheduleService.scheduleLikeList(commandMap.getMap());
+	    	mv.addObject("scheduleList", list);
+	    	mv.addObject("scheduleLikeList", likelist);
+		   return mv;
+	   }
 	
 	@RequestMapping("scheduleWriteForm.go")
 	public ModelAndView scheduleWriteForm(HttpServletRequest request, HttpSession session) throws Exception{
@@ -53,7 +70,7 @@ public class ScheduleController {
 	}
 	
 	@RequestMapping("scheduleState.go")
-	public ModelAndView scheduleState(HttpServletRequest request, CommandMap commandMap, HttpSession session) throws Exception{
+	public ModelAndView scheduleState(HttpServletRequest request,MultipartHttpServletRequest multipartHttpServletRequest, CommandMap commandMap, HttpSession session) throws Exception{
         
 		ModelAndView mv = new ModelAndView();
 		String email = (String) session.getAttribute("session_m_email");
@@ -81,7 +98,44 @@ public class ScheduleController {
         
         long perioddate = calDateDays+1;
         
-		scheduleService.scheduleWrite(commandMap.getMap());
+        
+        File dir = new File(uploadPath);
+		
+    	
+		if(!dir.isDirectory()) {
+			dir.mkdir();
+		}
+		
+	
+		System.out.println("uploadPath : " + uploadPath);
+		
+		
+		List<MultipartFile> mf = multipartHttpServletRequest.getFiles("file");
+		
+		if(mf.size() == 1 && mf.get(0).getOriginalFilename().equals("")) {
+			
+		} else {
+			
+		
+			for(int i=0; i<mf.size(); i++) {
+			
+				String genId = UUID.randomUUID().toString();
+			
+				String org_name = mf.get(i).getOriginalFilename();
+			
+				String main_img = genId + "." + FilenameUtils.getExtension(org_name);
+		
+				String savePath = uploadPath + main_img;
+		
+				mf.get(i).transferTo(new File(savePath));
+				commandMap.put("main_img", main_img);
+
+				scheduleService.scheduleWrite(commandMap.getMap());
+			}
+		}
+        
+        
+		
 		Map<String,Object> lastmap = scheduleService.scheduleLastWrite(commandMap.getMap());
 		int sch_no = Integer.parseInt(lastmap.get("NO").toString());
 		

@@ -95,5 +95,15 @@ public class ScheduleDAO extends AbstractDAO{
 	public Map<String, Object> scheduleDetailOne(Map<String, Object> map) {
 		return (Map<String, Object>) selectOne("schedule.scheduleDetailOne", map);
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> scheduleSearchList(Map<String, Object> map) {
+		return (List<Map<String, Object>>)selectList("schedule.scheduleSearchList", map);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> scheduleLikeList(Map<String, Object> map) {
+		return (List<Map<String, Object>>)selectList("schedule.scheduleLikeList", map);
+	}
 	
 }

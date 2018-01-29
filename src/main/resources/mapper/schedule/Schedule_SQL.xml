@@ -12,12 +12,35 @@
 			ORDER BY NO DESC
 		]]>
 	</select>
+	<select id="scheduleSearchList" parameterType="hashmap" resultType="hashmap">
+
+			SELECT * FROM SCH
+			<if test="season != 'all' or theme != 'all'">
+				where 
+			</if>
+			<if test="season != 'all'">
+        		 SEASON = #{season}
+    		</if>
+    		<if test="season != 'all' and theme != 'all'">
+        		and 
+    		</if>
+    		<if test="theme != 'all'">
+        		 THEME = #{theme} 
+    		</if>
+    		
+			ORDER BY NO DESC
+	</select>
+	
+	<select id="scheduleLikeList" parameterType="hashmap" resultType="hashmap">
+		SELECT * FROM SCH
+		ORDER BY LIKE1 DESC
+	</select>
 	<!-- 일정 게시판 글 쓰기 -->
 	<insert id="scheduleWrite" parameterType="hashmap" >
 		<![CDATA[
 			
-			INSERT INTO SCH(NO, email, name, start_date, end_date, period, season,cost,theme,private1,writedate) 
-		VALUES(SCH_NO_SEQ.NEXTVAL, #{email}, #{name}, #{start_date}, #{end_date}, #{period}, #{season}, #{cost}, #{theme},#{private1},sysdate)
+			INSERT INTO SCH(NO, email, name, start_date, end_date, period, season,theme,private1,writedate,main_img) 
+		VALUES(SCH_NO_SEQ.NEXTVAL, #{email}, #{name}, #{start_date}, #{end_date}, #{period}, #{season}, #{theme},#{private1},sysdate,#{main_img})
 		]]>
 	</insert>
 	
