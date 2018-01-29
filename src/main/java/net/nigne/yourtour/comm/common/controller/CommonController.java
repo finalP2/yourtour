@@ -64,7 +64,7 @@ public class CommonController {
 	@RequestMapping(value="/common/GetTempFileUrl.do")
 	public void getTempFileUrl(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String resultUrl = net.nigne.yourtour.comm.common.util.FileUtils.getTempFileUrl(request);
+		String resultUrl = net.nigne.yourtour.common.util.FileUtils.getTempFileUrl(request);
 		
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=UTF-8");

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.nigne.yourtour.comm.common.service.AbstractService;
-import net.nigne.yourtour.comm.common.util.FileUtils;
+import net.nigne.yourtour.common.util.FileUtils;
 
 @Service("reviewService")
 public class ReviewServiceImpl implements AbstractService{

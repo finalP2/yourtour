@@ -28,7 +28,7 @@
 	</mvc:interceptors>
 	
     <aop:aspectj-autoproxy/>
-	<bean id="loggerAspect" class="comm.common.logger.LoggerAspect" />
+	<bean id="loggerAspect" class="net.nigne.yourtour.comm.common.logger.LoggerAspect" />
 	
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     

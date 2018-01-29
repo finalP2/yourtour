@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import net.nigne.yourtour.comm.common.service.AbstractService;
-import net.nigne.yourtour.comm.common.util.FileUtils;
+import net.nigne.yourtour.common.util.FileUtils;
 
 @Service("accompanyService")
 public class AccompanyServiceImpl implements AbstractService{
