@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC 
+    "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" 
+    "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="default" template="/WEB-INF/views/community/template/layout.jsp">
+		<put-attribute name="title" value="YOUR TOUR" />
+		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/community/template/sidebar.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/community/template/mainbody.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
+	</definition>
+	
+	<definition name="main" extends="default"> 
+		<put-attribute name="header" value="/views/community/template/header_main.jsp" />
+		<put-attribute name="sidebar" value="/views/community/template/sidebar.jsp" />
+		<put-attribute name="body" value="/main/mainbody.jsp" />
+		<put-attribute name="footer" value="/views/community/template/footer.jsp" />
+	</definition>
+	
+	<definition name="reviewList" extends="default"> 
+		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/community/template/sidebar.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/community/comm_review/boardList.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
+	</definition>
+	
+	<definition name="reviewDetail" extends="default"> 
+		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/community/template/sidebar.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/community/comm_review/boardDetail.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
+	</definition>
+	
+	<definition name="buysellList" extends="default"> 
+		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/community/template/sidebar.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/community/comm_buysell/boardList.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
+	</definition>
+	
+	<definition name="lostfoundList" extends="default"> 
+		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/community/template/sidebar.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/community/comm_lostfound/boardList.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
+	</definition>
+	
+	<definition name="accompanyList" extends="default"> 
+		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/community/template/sidebar.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/community/comm_accompany/boardList.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
+	</definition>
+
+	<definition name="lossList" extends="default"> 
+		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/community/template/sidebar.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/community/comm_loss/boardList.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
+	</definition>	
+</tiles-definitions>

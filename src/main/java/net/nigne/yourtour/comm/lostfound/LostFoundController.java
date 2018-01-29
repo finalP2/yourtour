@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import net.nigne.yourtour.comm.common.common.CommandMap;
+import net.nigne.yourtour.common.common.CommandMap;
 import net.nigne.yourtour.comm.common.service.AbstractService;
 
 @Controller
@@ -22,14 +22,14 @@ public class LostFoundController {
 	@Resource(name="lostfoundService")
 	private AbstractService lostfoundService;
 	
-	@RequestMapping(value="/openBoardList.do")
+	@RequestMapping(value="/openBoardList.go")
     public ModelAndView openBoardList(CommandMap commandMap) throws Exception{
     	ModelAndView mv = new ModelAndView("lostfoundList");
     	
     	return mv;
     }
 	
-	@RequestMapping(value="/selectBoardList.do")
+	@RequestMapping(value="/selectBoardList.go")
     public ModelAndView selectBoardList(CommandMap commandMap) throws Exception{
     	ModelAndView mv = new ModelAndView("jsonView");
     	
@@ -45,23 +45,23 @@ public class LostFoundController {
     	return mv;
     }
 	
-	@RequestMapping(value="/openBoardWrite.do")
+	@RequestMapping(value="/openBoardWrite.go")
 	public ModelAndView openBoardWrite(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/lostfound/boardWrite");
 		
 		return mv;
 	}
 	
-	@RequestMapping(value="/insertBoard.do")
+	@RequestMapping(value="/insertBoard.go")
 	public ModelAndView insertBoard(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/comm/lostfound/openBoardList.do");
+		ModelAndView mv = new ModelAndView("redirect:/comm/lostfound/openBoardList.go");
 		
 		lostfoundService.insertBoard(commandMap.getMap(), request);
 		
 		return mv;
 	}
 	
-	@RequestMapping(value="/openBoardDetail.do")
+	@RequestMapping(value="/openBoardDetail.go")
 	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/lostfound/boardDetail");
 		
@@ -72,7 +72,7 @@ public class LostFoundController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/openBoardUpdate.do")
+	@RequestMapping(value="/openBoardUpdate.go")
 	public ModelAndView openBoardUpdate(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/lostfound/boardUpdate");
 		
@@ -83,9 +83,9 @@ public class LostFoundController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/updateBoard.do")
+	@RequestMapping(value="/updateBoard.go")
 	public ModelAndView updateBoard(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/comm/lostfound/openBoardDetail.do");
+		ModelAndView mv = new ModelAndView("redirect:/comm/lostfound/openBoardDetail.go");
 		
 		lostfoundService.updateBoard(commandMap.getMap(), request);
 		
@@ -93,9 +93,9 @@ public class LostFoundController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/deleteBoard.do")
+	@RequestMapping(value="/deleteBoard.go")
 	public ModelAndView deleteBoard(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/comm/lostfound/openBoardList.do");
+		ModelAndView mv = new ModelAndView("redirect:/comm/lostfound/openBoardList.go");
 		
 		lostfoundService.deleteBoard(commandMap.getMap());
 		

@@ -44,13 +44,25 @@
 				#{IDX},
 				#{WRITER},
 				#{SUBJECT},
-				#{CONTENT},
+				'',
 			    #{REGION},
 			    SYSDATE, 
 			    #{TAG}
 			)
 		]]>
 	</insert>
+	<select id="getLastIDX" resultType="string">
+		<![CDATA[
+			SELECT MAX(IDX) FROM COMM_TRAVELREVIEW
+		]]>
+	</select>
+	<update id="putContent" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	COMM_TRAVELREVIEW
+			SET		CONTENT	= #{CONTENT}
+			WHERE	IDX		= #{IDX}
+		]]>
+	</update>
 	
 	<update id="updateHitCnt" parameterType="hashmap">
 		<![CDATA[

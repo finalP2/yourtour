@@ -17,6 +17,7 @@ public class FileUtils {
 	
 	private static final String filePath = "C:\\dev\\file\\";
 	private static final String tempFilePath = "C:\\comm\\tempImages\\";
+	private static final String realFilePath = "C:\\comm\\boardImages\\";
 
 	public static String getTempFileUrl(HttpServletRequest request) throws Exception{
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
@@ -43,11 +44,23 @@ public class FileUtils {
         		file = new File(tempFilePath + storedFileName);
         		multipartFile.transferTo(file);
         		
-        		returnUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/common/GetTempFile.do?filename="+storedFileName;
+        		returnUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/common/GetTempFile.go?filename="+storedFileName;
         	}
         }
 		return returnUrl;
 	}
+
+	public void moveToReal(String tempFilename, String category, int articleid, String filename) {
+		File temp = new File(tempFilePath+tempFilename);
+		temp.mkdirs();
+		File target = new File(realFilePath+category+"\\"+articleid+"\\"+filename);
+		target.mkdirs();
+		
+		if(temp.exists()) {
+			temp.renameTo(target);
+	    }
+	}
+	
 	
 	public List<Map<String,Object>> parseInsertFileInfo(Map<String,Object> map, HttpServletRequest request) throws Exception{
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;

@@ -30,13 +30,29 @@ public class ReviewServiceImpl implements AbstractService{
 	}
 
 	@Override
+	@Transactional
 	public void insertBoard(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		reviewDAO.insertBoard(map);
+		int maxIdx = Integer.parseInt(reviewDAO.getLastIDX());
 		
-		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(map, request);
-		for(int i=0, size=list.size(); i<size; i++){
-			reviewDAO.insertFile(list.get(i));
+		// 아래: 전체 컨텐츠 내용을 가져와서
+		String source = map.get("CONTENT").toString();
+		// 아래: 파일이름 부분을 검사해서 각각 string[] 에 저장한다, 복사원본(tempFilenames), 타겟(filenames)
+		// 아래: 반복문 안에서 파일 이동까지 진행
+		String[] tempFilenames = source.split("/yourtour/common/GetTempFile.go?filename=");
+		String[] filenames = new String[tempFilenames.length];
+		for(int i=0; i<tempFilenames.length; i++) {
+			tempFilenames[i] = tempFilenames[i].substring(0, tempFilenames[i].indexOf("\""));
+			filenames[i] = tempFilenames[i].substring(tempFilenames[i].indexOf("_")+1);
+			fileUtils.moveToReal("tempFilenames[i]", "review", maxIdx, "filenames[i]");
 		}
+		
+		
+		// 아래: replaceAll(정규식) 이용해서 'GetTempFile' --> 'GetFile'
+		// 아래: 파일주소의 time 부분을 제거하고, '리뷰' 게시판정보(review)와 글번호를 대신 넣어준다
+		source.replaceAll("GetTempFile.go?filename=([0-9]*)_", "GetFile.go?cate=review&idx="+maxIdx+"filename=");
+
+
 	}
 
 	@Override

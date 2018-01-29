@@ -9,7 +9,7 @@
 	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer" >
 		<property name="definitions">
 			<list>
-				<value>/WEB-INF/template/tiles-yourtour.xml</value>
+				<value>/WEB-INF/views/community/template/tiles-yourtour.xml</value>
 			</list>
 		</property>
 	</bean>					

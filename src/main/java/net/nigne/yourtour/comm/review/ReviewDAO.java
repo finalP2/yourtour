@@ -15,9 +15,15 @@ public class ReviewDAO extends AbstractDAO{
 		List<Map<String, Object>> result = (List<Map<String, Object>>)selectPagingList("review.selectBoardList", map);
 		return result;
 	}
-
+	
 	public void insertBoard(Map<String, Object> map) throws Exception{
 		insert("review.insertBoard", map);
+	}
+	public String getLastIDX() throws Exception {
+		return selectOne("review.getlastIDX").toString();
+	}
+	public void putContent(Map<String, Object> map) throws Exception {
+		update("review.putContent", map);
 	}
 
 	public void updateHitCnt(Map<String, Object> map) throws Exception{

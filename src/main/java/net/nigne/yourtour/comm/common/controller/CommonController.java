@@ -17,18 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import net.nigne.yourtour.comm.common.common.CommandMap;
+import net.nigne.yourtour.common.common.CommandMap;
 import net.nigne.yourtour.comm.common.service.CommonService;
 
 @Controller
 public class CommonController {
 	Logger log = Logger.getLogger(this.getClass());
 	private static final String tempFilePath = "C:\\comm\\tempImages\\";
+	private static final String realFilePath = "C:\\comm\\boardImages\\";
 	
 	@Resource(name="commonService")
 	private CommonService commonService;
 	
-	@RequestMapping(value="/common/downloadFile.do")
+	@RequestMapping(value="/common/downloadFile.go")
 	public void downloadFile(CommandMap commandMap, HttpServletResponse response) throws Exception{
 		Map<String,Object> map = commonService.selectFileInfo(commandMap.getMap());
 		String storedFileName = (String)map.get("STORED_FILE_NAME");
@@ -46,7 +47,7 @@ public class CommonController {
 		response.getOutputStream().close();
 	}
 
-	@RequestMapping(value="/common/GetTempFile.do")
+	@RequestMapping(value="/common/GetTempFile.go") // 게시판 작성시 임시 저장파일 다시 받아가기 과정
 	public void getTempFile(CommandMap commandMap, HttpServletResponse response) throws Exception{
 		Map<String,Object> map = commandMap.getMap();
 		String storedFileName = (String)map.get("filename");
@@ -60,8 +61,22 @@ public class CommonController {
 		response.getOutputStream().flush();
 		response.getOutputStream().close();
 	}
+	@RequestMapping(value="/common/GetFile.go") // 게시판 작성후 임시파일을 본 경로로 옮긴 후 받아가기 내용
+	public void getFile(CommandMap commandMap, HttpServletResponse response) throws Exception{
+		Map<String,Object> map = commandMap.getMap();
+		String storedFileName = (String)map.get("filename");
+		
+		byte fileByte[] = FileUtils.readFileToByteArray(new File(realFilePath+storedFileName));
+		
+		response.setContentType("image/jpeg");
+		response.setContentLength(fileByte.length);
+		response.getOutputStream().write(fileByte);
+		
+		response.getOutputStream().flush();
+		response.getOutputStream().close();
+	}
 	
-	@RequestMapping(value="/common/GetTempFileUrl.do")
+	@RequestMapping(value="/common/GetTempFileUrl.go")
 	public void getTempFileUrl(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String resultUrl = net.nigne.yourtour.common.util.FileUtils.getTempFileUrl(request);

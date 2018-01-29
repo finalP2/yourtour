@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import net.nigne.yourtour.comm.common.common.CommandMap;
+import net.nigne.yourtour.common.common.CommandMap;
 import net.nigne.yourtour.comm.common.service.AbstractService;
 
 @Controller
@@ -22,14 +22,14 @@ public class AccompanyController {
 	@Resource(name="accompanyService")
 	private AbstractService accompanyService;
 	
-	@RequestMapping(value="/openBoardList.do")
+	@RequestMapping(value="/openBoardList.go")
     public ModelAndView openBoardList(CommandMap commandMap) throws Exception{
     	ModelAndView mv = new ModelAndView("accompanyList");
     	
     	return mv;
     }
 	
-	@RequestMapping(value="/selectBoardList.do")
+	@RequestMapping(value="/selectBoardList.go")
     public ModelAndView selectBoardList(CommandMap commandMap) throws Exception{
     	ModelAndView mv = new ModelAndView("jsonView");
     	
@@ -45,23 +45,23 @@ public class AccompanyController {
     	return mv;
     }
 	
-	@RequestMapping(value="/openBoardWrite.do")
+	@RequestMapping(value="/openBoardWrite.go")
 	public ModelAndView openBoardWrite(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/accompany/boardWrite");
 		
 		return mv;
 	}
 	
-	@RequestMapping(value="/insertBoard.do")
+	@RequestMapping(value="/insertBoard.go")
 	public ModelAndView insertBoard(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/comm/accompany/openBoardList.do");
+		ModelAndView mv = new ModelAndView("redirect:/comm/accompany/openBoardList.go");
 		
 		accompanyService.insertBoard(commandMap.getMap(), request);
 		
 		return mv;
 	}
 	
-	@RequestMapping(value="/openBoardDetail.do")
+	@RequestMapping(value="/openBoardDetail.go")
 	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/accompany/boardDetail");
 		
@@ -72,7 +72,7 @@ public class AccompanyController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/openBoardUpdate.do")
+	@RequestMapping(value="/openBoardUpdate.go")
 	public ModelAndView openBoardUpdate(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/accompany/boardUpdate");
 		
@@ -83,9 +83,9 @@ public class AccompanyController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/updateBoard.do")
+	@RequestMapping(value="/updateBoard.go")
 	public ModelAndView updateBoard(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/comm/accompany/openBoardDetail.do");
+		ModelAndView mv = new ModelAndView("redirect:/comm/accompany/openBoardDetail.go");
 		
 		accompanyService.updateBoard(commandMap.getMap(), request);
 		
@@ -93,9 +93,9 @@ public class AccompanyController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/deleteBoard.do")
+	@RequestMapping(value="/deleteBoard.go")
 	public ModelAndView deleteBoard(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/comm/accompany/openBoardList.do");
+		ModelAndView mv = new ModelAndView("redirect:/comm/accompany/openBoardList.go");
 		
 		accompanyService.deleteBoard(commandMap.getMap());
 		

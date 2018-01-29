@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import net.nigne.yourtour.comm.common.common.CommandMap;
+import net.nigne.yourtour.common.common.CommandMap;
 import net.nigne.yourtour.comm.common.service.AbstractService;
 
 @Controller
@@ -22,14 +22,14 @@ public class ReviewController {
 	@Resource(name="reviewService")
 	private AbstractService reviewService;
 	
-	@RequestMapping(value="/openBoardList.do")
+	@RequestMapping(value="/openBoardList.go")
     public ModelAndView openBoardList(CommandMap commandMap) throws Exception{
     	ModelAndView mv = new ModelAndView("reviewList");
     	
     	return mv;
     }
 	
-	@RequestMapping(value="/selectBoardList.do")
+	@RequestMapping(value="/selectBoardList.go")
     public ModelAndView selectBoardList(CommandMap commandMap) throws Exception{
     	ModelAndView mv = new ModelAndView("jsonView");
     	
@@ -45,23 +45,23 @@ public class ReviewController {
     	return mv;
     }
 	
-	@RequestMapping(value="/openBoardWrite.do")
+	@RequestMapping(value="/openBoardWrite.go")
 	public ModelAndView openBoardWrite(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("/comm_review/boardWrite");
+		ModelAndView mv = new ModelAndView("/community/comm_review/boardWrite");
 		
 		return mv;
 	}
 	
-	@RequestMapping(value="/insertBoard.do")
+	@RequestMapping(value="/insertBoard.go")
 	public ModelAndView insertBoard(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/comm/review/openBoardList.do");
+		ModelAndView mv = new ModelAndView("redirect:/comm/review/openBoardList.go");
 		
 		reviewService.insertBoard(commandMap.getMap(), request);
 		
 		return mv;
 	}
 	
-	@RequestMapping(value="/openBoardDetail.do")
+	@RequestMapping(value="/openBoardDetail.go")
 	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("reviewDetail");
 		
@@ -72,9 +72,9 @@ public class ReviewController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/openBoardUpdate.do")
+	@RequestMapping(value="/openBoardUpdate.go")
 	public ModelAndView openBoardUpdate(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("/comm_review/boardUpdate");
+		ModelAndView mv = new ModelAndView("/community/comm_review/boardUpdate");
 		
 		Map<String,Object> map = reviewService.selectBoardDetail(commandMap.getMap());
 		mv.addObject("map", map.get("map"));
@@ -83,9 +83,9 @@ public class ReviewController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/updateBoard.do")
+	@RequestMapping(value="/updateBoard.go")
 	public ModelAndView updateBoard(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/comm/review/openBoardDetail.do");
+		ModelAndView mv = new ModelAndView("redirect:/comm/review/openBoardDetail.go");
 		
 		reviewService.updateBoard(commandMap.getMap(), request);
 		
@@ -93,9 +93,9 @@ public class ReviewController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/deleteBoard.do")
+	@RequestMapping(value="/deleteBoard.go")
 	public ModelAndView deleteBoard(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/comm/review/openBoardList.do");
+		ModelAndView mv = new ModelAndView("redirect:/comm/review/openBoardList.go");
 		
 		reviewService.deleteBoard(commandMap.getMap());
 		
@@ -103,7 +103,7 @@ public class ReviewController {
 	}
 	
 	// 댓글
-	@RequestMapping(value="/selectCommentList.do")
+	@RequestMapping(value="/selectCommentList.go")
 	public ModelAndView selectCommentList(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
 		
@@ -120,7 +120,7 @@ public class ReviewController {
     }
 	
 	// 댓글삽입
-	@RequestMapping(value="/commentAdd.do")
+	@RequestMapping(value="/commentAdd.go")
 	public ModelAndView commentAdd(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
 		
@@ -128,7 +128,7 @@ public class ReviewController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/commentDelete.do")
+	@RequestMapping(value="/commentDelete.go")
 	public ModelAndView commentDelete(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
 		
