@@ -144,4 +144,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 		Map<String, Object> tempMap =  scheduleDAO.searchMap(map);
 		return tempMap;
 	}
+	
+	@Override
+	public List<Map<String, Object>> searchAreaMap(Map<String, Object> map) throws Exception {
+		return scheduleDAO.searchAreaMap(map);
+	}
+	
+	@Override
+	public Map<String, Object> cityMap(Map<String, Object> map) throws Exception {
+		Map<String, Object> tempMap =  scheduleDAO.cityMap(map);
+		return tempMap;
+	}
+	
 }

@@ -225,15 +225,23 @@ public class ScheduleController {
 			
 		commandMap.put("city_no", city_no);
 		List<Map<String,Object>> areaList = areaService.areaList(commandMap.getMap());
+		List<Map<String,Object>> areaMapList = scheduleService.searchAreaMap(commandMap.getMap());
 		commandMap.put("no", city_no);
 		Map<String,Object> cityOne = cityService.cityDetail(commandMap.getMap());
+		String country = cityOne.get("COUNTRY").toString();
+		commandMap.put("country", country);
+		Map<String, Object> c_map = scheduleService.cityMap(commandMap.getMap());
+		float at = Float.parseFloat(c_map.get("LAT").toString());
+		float ng = Float.parseFloat(c_map.get("LNG").toString());
 		
 	/*	if (request.getParameter("keyword") != null) {
 			String keyword = request.getParameter("keyword");
 			List<CityModel> citySearchList = cityService.citySearchList(country, keyword);
 			mav.addObject("citySearchList",citySearchList);
 		}*/
-		
+		mv.addObject("areaMapList", areaMapList);
+		mv.addObject("at", at);
+		mv.addObject("ng", ng);
 		mv.addObject("sch", scheduleOne);
 		mv.addObject("schDayList", schDayList);
 		mv.addObject("areaList",areaList);

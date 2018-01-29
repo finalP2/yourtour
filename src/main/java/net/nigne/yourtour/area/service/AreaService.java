@@ -27,4 +27,5 @@ public interface AreaService {
 
 	void areaMainImgModify(Map<String, Object> map) throws Exception;
 
+
 }

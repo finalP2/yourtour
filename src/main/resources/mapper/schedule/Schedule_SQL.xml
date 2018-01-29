@@ -163,4 +163,13 @@
 		select * from COUNTRY_MAP 
 		where country = #{country}
 	</select>
+	<select id="searchAreaMap" resultType="hashmap" parameterType="hashmap">
+		select * from AREA_MAP 
+		where city_no = #{city_no}
+	</select>
+	<select id="cityMap" resultType="hashmap" parameterType="hashmap">
+		select * from city_Map 
+		where city_no = #{city_no}
+	</select>
+	
 </mapper>
