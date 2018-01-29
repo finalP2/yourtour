@@ -19,14 +19,12 @@
 <body>
  <script>
       function initMap() {
-        var uluru = {lat: 48.855563, lng: 2.344924};
+    	var at = ${at}
+    	var ng = ${ng}
+        var uluru = {lat: at, lng: ng};
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 11,
+          zoom: 5,
           center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
         });
         
       }

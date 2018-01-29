@@ -1,6 +1,7 @@
 package net.nigne.yourtour.member.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -35,10 +36,24 @@ public class MemberDAO extends AbstractDAO{
 	public Map<String, Object> pwFind(Map<String, Object> map) throws Exception{
 		return (Map<String, Object>) selectOne("member.pwFind", map);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> myschedule(Map<String, Object> map) {
+		return (List<Map<String, Object>>)selectList("member.myList", map);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> mylikeschedule(Map<String, Object> map) {
+		return (List<Map<String, Object>>)selectList("member.myLikeList", map);
+	}
 
 	public void updateMem(Map<String, Object> map) throws Exception {
 		update("member.updateMem", map);
 		
+	}
+	
+	public void updateImg(Map<String, Object> map) throws Exception {
+		update("member.updateImg", map);
 	}
 
 	public void deleteMem(Map<String, Object> map) {

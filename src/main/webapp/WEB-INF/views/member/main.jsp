@@ -8,15 +8,23 @@
 </head>
 <body>
     <h2>회원 전용 페이지</h2>
+    <c:if test="${member.MEMBER_IMG == null}">
+	   <img src="/yourtour/resources/mem_img/images.png"/><br>
+ </c:if>
+ <c:if test="${member.MEMBER_IMG != null}">
+  <img src="/yourtour/resources/mem_img/${member.MEMBER_IMG }"/><br>
+ </c:if>
+    ${member.MEMBER_IMG}<br>
     ${member.EMAIL}님으로 로그인 하셨습니다.<br>
     ${member.NAME}님 환영합니다<br>   
     <input type="button" value="로그아웃" onclick="location.href='logout.go'">  
-    <input type="button" value="모든회원보기" onclick="location.href='memberList.do'">
-    <input type="button" value="회원수정페이지" onclick="location.href='memberUpdateForm.do'">
+    <input type="button" value="회원수정" onclick="location.href='memberModifyForm.go'">
+    <input type="button" value="회원탈퇴" onclick="location.href='memberDeleteForm.go'">
     <input type="button" value="일정만들기" onclick="location.href='/yourtour/schedule/scheduleWriteForm.go'">
     <input type="button" value="일정리스트" onclick="location.href='/yourtour/schedule/scheduleList.go'">
     <input type="button" value="여행지보기" onclick="location.href='/yourtour/city/cityList.go'">
-    <input type="button" value="여행지등록" onclick="location.href='/yourtour/area/areaWriteForm.go'">
-   
+    <c:if test="${member.EMAIL == 'admin'}">
+    	<input type="button" value="여행지등록" onclick="location.href='/yourtour/area/areaWriteForm.go'">
+   	</c:if>
 </body>
 </html>

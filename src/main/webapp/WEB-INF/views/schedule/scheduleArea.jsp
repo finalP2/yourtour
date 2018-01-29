@@ -46,42 +46,46 @@
 <script>
 
       function initMap() {
-
+    	var at = ${at}
+      	var ng = ${ng}
+        var uluru = {lat: at, lng: ng};
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 12,
-          center: {lat: 48.855563, lng: 2.344924}
+          center: uluru
         });
 
         // Create an array of alphabetical characters used to label the markers.
-        var labels = '123456789';
 
         // Add some markers to the map.
         // Note: The code uses the JavaScript Array.prototype.map() method to
         // create an array of markers based on a given "locations" array.
         // The map() method here has nothing to do with the Google Maps API.
-        var markers = locations.map(function(location, i) {
-          return new google.maps.Marker({
-            position: location,
-            label: labels[i % labels.length]
-          });
-        });
-
+        
+         var locations = [
+          {lat: 48.873778, lng: 2.295027},
+          {lat: 48.852968, lng: 2.349934},
+          {lat: 48.872136, lng: 2.775883},
+          {lat: 48.860576, lng: 2.337569},
+          {lat: 48.846384, lng: 2.336302},
+          {lat: 48.886648, lng: 2.343072},
+          {lat: 48.858341, lng: 2.294535},
+          {lat: 48.859819, lng: 2.326321},
+          {lat: 48.860811, lng: 2.351429},
+         ]
+	        var markers = locations.map(function(location, i) {
+	          return new google.maps.Marker({
+	            position: location
+	          });
+	        });
+  
         // Add a marker clusterer to manage the markers.
         var markerCluster = new MarkerClusterer(map, markers,
             {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+     	
       }
-      var locations = [
-       {lat: 48.873778, lng: 2.295027},
-        {lat: 48.852968, lng: 2.349934},
-        {lat: 48.872136, lng: 2.775883},
-        {lat: 48.860576, lng: 2.337569},
-        {lat: 48.846384, lng: 2.336302},
-        {lat: 48.886648, lng: 2.343072},
-        {lat: 43.279656, lng: 5.325408},
-        {lat: 48.858341, lng: 2.294535},
-        {lat: 48.859819, lng: 2.326321},
-        {lat: 48.860811, lng: 2.351429},
-      ]
+     
+     
+      
     </script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
@@ -96,7 +100,7 @@
 <div id="s_left" style="display:table-row">
 <div style="display:table-cell">
 <c:forEach var="schDayList" items="${schDayList }" varStatus="stat">
-
+				
                <a href="scheduleArea.go?sch_day_no=${schDayList.DAY }&sch_no=${sch.NO}&city_no=${cityOne.NO}" >${schDayList.DAY }일차</a>
              </c:forEach><hr>
                   ${sch_day_no}일차 일정<br/>
@@ -125,7 +129,7 @@
 <center><b>여행지</b></center><hr/><br/>
 <c:forEach var="areaList" items="${areaList }" varStatus="stat">
             
-               ${stat.count}- ${areaList.NAME }&nbsp;
+               *${areaList.NAME }&nbsp;
              <span class="glyphicon glyphicon-plus"
              data-toggle="tooltip" title="이 여행지를 일정에 추가합니다."
              style="cursor:pointer;"

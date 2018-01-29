@@ -1,18 +1,23 @@
 package net.nigne.yourtour.schedule.controller;
 
+import java.io.File;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import net.nigne.yourtour.area.service.AreaService;
@@ -24,7 +29,7 @@ import net.nigne.yourtour.schedule.service.ScheduleService;
 @RequestMapping("/schedule")
 public class ScheduleController {
 	Logger log = Logger.getLogger(this.getClass());
-	
+	private static final String uploadPath = "C:\\Java\\App\\yourtour\\src\\main\\webapp\\resources\\sch_img\\";
 	@Resource(name="scheduleService")
 	private ScheduleService scheduleService;
 	@Resource(name="areaService")
@@ -38,10 +43,22 @@ public class ScheduleController {
 		
 
 			List<Map<String,Object>> list = scheduleService.scheduleList(commandMap.getMap());
+			List<Map<String,Object>> likelist = scheduleService.scheduleLikeList(commandMap.getMap());
 	    	mv.addObject("scheduleList", list);
+	    	mv.addObject("scheduleLikeList", likelist);
 	    	
 		return mv;
 	}
+	   @RequestMapping("scheduleSearch.go")
+	   public ModelAndView scheduleSearch(HttpServletRequest request,HttpSession session, CommandMap commandMap)throws Exception{
+		   ModelAndView mv = new ModelAndView("schedule/scheduleList");
+		   
+		   List<Map<String,Object>> list = scheduleService.scheduleSearchList(commandMap.getMap());
+		   List<Map<String,Object>> likelist = scheduleService.scheduleLikeList(commandMap.getMap());
+	    	mv.addObject("scheduleList", list);
+	    	mv.addObject("scheduleLikeList", likelist);
+		   return mv;
+	   }
 	
 	@RequestMapping("scheduleWriteForm.go")
 	public ModelAndView scheduleWriteForm(HttpServletRequest request, HttpSession session) throws Exception{
@@ -53,7 +70,7 @@ public class ScheduleController {
 	}
 	
 	@RequestMapping("scheduleState.go")
-	public ModelAndView scheduleState(HttpServletRequest request, CommandMap commandMap, HttpSession session) throws Exception{
+	public ModelAndView scheduleState(HttpServletRequest request,MultipartHttpServletRequest multipartHttpServletRequest, CommandMap commandMap, HttpSession session) throws Exception{
         
 		ModelAndView mv = new ModelAndView();
 		String email = (String) session.getAttribute("session_m_email");
@@ -81,7 +98,44 @@ public class ScheduleController {
         
         long perioddate = calDateDays+1;
         
-		scheduleService.scheduleWrite(commandMap.getMap());
+        
+        File dir = new File(uploadPath);
+		
+    	
+		if(!dir.isDirectory()) {
+			dir.mkdir();
+		}
+		
+	
+		System.out.println("uploadPath : " + uploadPath);
+		
+		
+		List<MultipartFile> mf = multipartHttpServletRequest.getFiles("file");
+		
+		if(mf.size() == 1 && mf.get(0).getOriginalFilename().equals("")) {
+			
+		} else {
+			
+		
+			for(int i=0; i<mf.size(); i++) {
+			
+				String genId = UUID.randomUUID().toString();
+			
+				String org_name = mf.get(i).getOriginalFilename();
+			
+				String main_img = genId + "." + FilenameUtils.getExtension(org_name);
+		
+				String savePath = uploadPath + main_img;
+		
+				mf.get(i).transferTo(new File(savePath));
+				commandMap.put("main_img", main_img);
+
+				scheduleService.scheduleWrite(commandMap.getMap());
+			}
+		}
+        
+        
+		
 		Map<String,Object> lastmap = scheduleService.scheduleLastWrite(commandMap.getMap());
 		int sch_no = Integer.parseInt(lastmap.get("NO").toString());
 		
@@ -105,14 +159,42 @@ public class ScheduleController {
 	@RequestMapping("scheduleCity.go")
 	public ModelAndView scheduleCity(HttpServletRequest request, CommandMap commandMap, HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		String country = request.getParameter("country");
+		int country = Integer.parseInt(request.getParameter("country"));
+		String country1 = "";
+		if(country == 1) {
+			country1 = "프랑스";
+		}
+		if(country == 2) {
+			country1 = "영국,아일랜드";
+		}
+		if(country == 3) {
+			country1 = "이탈리아";
+		}
+		if(country == 4) {
+			country1 = "스위스,체코";
+		}
+		if(country == 5) {
+			country1 = "독일";
+		}
+		if(country == 6) {
+			country1 = "포르투갈,스페인";
+		}
+		if(country == 7) {
+			country1 = "크로아티아";
+		}
+		if(country == 8) {
+			country1 = "러시아";
+		}
+		
 		String email = (String) session.getAttribute("session_m_email");
 		commandMap.put("email", email);
 		commandMap.put("no", Integer.parseInt(request.getParameter("no")));
 		Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
-		commandMap.put("country", "프랑스");
+		commandMap.put("country", country1);
 		List<Map<String,Object>> cityList = scheduleService.schcityList(commandMap.getMap());
-		
+		Map<String, Object> c_map = scheduleService.searchMap(commandMap.getMap());
+		float at = Float.parseFloat(c_map.get("LAT").toString());
+		float ng = Float.parseFloat(c_map.get("LNG").toString());
 	/*	if (request.getParameter("keyword") != null) {
 			String keyword = request.getParameter("keyword");
 			List<CityModel> citySearchList = cityService.citySearchList(country, keyword);
@@ -121,6 +203,8 @@ public class ScheduleController {
 		
 		mv.addObject("sch", scheduleOne);
 		mv.addObject("cityList",cityList);
+		mv.addObject("at",at);
+		mv.addObject("ng",ng);
 		mv.setViewName("schedule/scheduleCity");
 		
 		return mv;
@@ -141,15 +225,23 @@ public class ScheduleController {
 			
 		commandMap.put("city_no", city_no);
 		List<Map<String,Object>> areaList = areaService.areaList(commandMap.getMap());
+		List<Map<String,Object>> areaMapList = scheduleService.searchAreaMap(commandMap.getMap());
 		commandMap.put("no", city_no);
 		Map<String,Object> cityOne = cityService.cityDetail(commandMap.getMap());
+		String country = cityOne.get("COUNTRY").toString();
+		commandMap.put("country", country);
+		Map<String, Object> c_map = scheduleService.cityMap(commandMap.getMap());
+		float at = Float.parseFloat(c_map.get("LAT").toString());
+		float ng = Float.parseFloat(c_map.get("LNG").toString());
 		
 	/*	if (request.getParameter("keyword") != null) {
 			String keyword = request.getParameter("keyword");
 			List<CityModel> citySearchList = cityService.citySearchList(country, keyword);
 			mav.addObject("citySearchList",citySearchList);
 		}*/
-		
+		mv.addObject("areaMapList", areaMapList);
+		mv.addObject("at", at);
+		mv.addObject("ng", ng);
 		mv.addObject("sch", scheduleOne);
 		mv.addObject("schDayList", schDayList);
 		mv.addObject("areaList",areaList);

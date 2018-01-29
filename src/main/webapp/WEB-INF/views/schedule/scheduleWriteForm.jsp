@@ -55,7 +55,7 @@ function check(){
 <table width="100%">
 <tr>
 <td>
-<form commandName="scheduleModel" name="sForm" class="form-horizontal" action="scheduleState.go" method="post" onsubmit="return check();">
+<form commandName="scheduleModel" name="sForm" class="form-horizontal" action="scheduleState.go" method="post" onsubmit="return check();" enctype="multipart/form-data">
   <div class="form-group">
     <label class="control-label col-sm-2">일정 이름:</label>
     <div class="col-sm-6">
@@ -116,17 +116,15 @@ function check(){
     </div>
   </div>
   <div class="form-group">
-    <label class="control-label col-sm-2">총 여행 경비:</label>
-    <div class="col-sm-6">
-      <input type="text" 
-      		class="form-control" 
-      		name="cost" 
-      		data-placement="bottom"
-      		data-toggle="tooltip" 
-      		placeholder="여행 경비를 입력하세요."/>
-    </div>
-  </div>
-  
+                      <label class="form-label" for="file">#일정 대표 사진 첨부하기</label>
+                      <div class="forms">
+                      <input id="files-upload" type="file" name="file" multiple>
+                      <ul id="file-list">
+                        <li class="no-items">(첨부한 파일 없음)</li>
+                      </ul>
+	</div>
+</div>
+
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
       <div class="checkbox">

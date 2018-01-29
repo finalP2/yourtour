@@ -46,4 +46,14 @@ public interface ScheduleService {
 	void deleteDetail(Map<String, Object> map) throws Exception;
 
 	Map<String, Object> scheduleDetailOne(Map<String, Object> map) throws Exception;
+
+	List<Map<String, Object>> scheduleSearchList(Map<String, Object> map) throws Exception;
+
+	List<Map<String, Object>> scheduleLikeList(Map<String, Object> map) throws Exception;
+
+	Map<String, Object> searchMap(Map<String, Object> map) throws Exception;
+	
+	List<Map<String, Object>> searchAreaMap(Map<String, Object> map) throws Exception;
+
+	Map<String, Object> cityMap(Map<String, Object> map) throws Exception;
 }
