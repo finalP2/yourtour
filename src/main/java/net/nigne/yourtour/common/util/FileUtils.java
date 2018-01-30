@@ -52,14 +52,19 @@ public class FileUtils {
 
 	public void moveToReal(String tempFilename, String category, int articleid, String filename) {
 		File temp = new File(tempFilePath+tempFilename);
-		temp.mkdirs();
+		File dir = new File(realFilePath+category+"\\"+articleid);
+		
+		if (!dir.exists()) { //폴더 없으면 폴더 생성
+            dir.mkdirs();
+        }
+		
 		File target = new File(realFilePath+category+"\\"+articleid+"\\"+filename);
-		target.mkdirs();
 		
 		if(temp.exists()) {
 			temp.renameTo(target);
 	    }
 	}
+	
 	
 	
 	public List<Map<String,Object>> parseInsertFileInfo(Map<String,Object> map, HttpServletRequest request) throws Exception{

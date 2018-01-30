@@ -35,7 +35,6 @@
 			    WRITER,
 			    SUBJECT,
 			    CONTENT,
-			    REGION,
 			    WRITEDATE,
 			    TAG
 			)
@@ -44,8 +43,7 @@
 				#{IDX},
 				#{WRITER},
 				#{SUBJECT},
-				'',
-			    #{REGION},
+				'sample',
 			    SYSDATE, 
 			    #{TAG}
 			)
