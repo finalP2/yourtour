@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="review">
+	
+	<select id="selectBoardList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
+			    a.IDX,
+			    a.WRITER,
+			    a.SUBJECT,
+			    SUBSTR(TRIM(a.CONTENT), 1, 100) AS CONTENT,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
+			    NVL(a.TAG, '태그가 없습니다') AS TAG,
+			    a.FILENAME,
+			    b.MEMBER_IMG
+			FROM
+			    COMM_TRAVELREVIEW a, MEMBER b
+			WHERE
+				a.DEL_FLAG = 'n' AND a.WRITER = b.NAME
+		]]>
+		<include refid="common.pagingPost"/> 
+	</select>
+	
+	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
+		<selectKey keyProperty="IDX" resultType="string" order="BEFORE">
+			SELECT COMM_TRAVELREVIEW_IDX_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		<![CDATA[
+			INSERT INTO COMM_TRAVELREVIEW
+			(
+				IDX,
+			    WRITER,
+			    SUBJECT,
+			    CONTENT,
+			    REGION,
+			    WRITEDATE,
+			    TAG
+			)
+			VALUES
+			(
+				#{IDX},
+				#{WRITER},
+				#{SUBJECT},
+				'',
+			    #{REGION},
+			    SYSDATE, 
+			    #{TAG}
+			)
+		]]>
+	</insert>
+	<select id="getLastIDX" resultType="string">
+		<![CDATA[
+			SELECT MAX(IDX) FROM COMM_TRAVELREVIEW
+		]]>
+	</select>
+	<update id="putContent" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	COMM_TRAVELREVIEW
+			SET		CONTENT	= #{CONTENT}
+			WHERE	IDX		= #{IDX}
+		]]>
+	</update>
+	
+	<update id="updateHitCnt" parameterType="hashmap">
+		<![CDATA[
+			UPDATE COMM_TRAVELREVIEW 
+			SET
+				HITCOUNT = NVL(HITCOUNT, 0) + 1
+			WHERE
+				IDX = #{IDX}	
+		]]>
+	</update>
+	
+	
+	<select id="selectBoardDetail" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+				IDX,
+				WRITER,
+				SUBJECT,
+				CONTENT,
+				HITCOUNT,
+				RECOMMENDCOUNT,
+				REGION,
+				WRITEDATE,
+				FILENAME,
+				TAG
+			FROM
+				COMM_TRAVELREVIEW
+			WHERE
+				IDX = #{IDX}		
+		]]>
+	</select>
+	
+	<update id="updateBoard" parameterType="hashmap">
+		<![CDATA[
+			UPDATE COMM_TRAVELREVIEW 
+			SET
+				SUBJECT = #{SUBJECT},
+				CONTENT = #{CONTENT}
+			WHERE
+				IDX = #{IDX}	
+		]]>
+	</update>
+	
+	<update id="deleteBoard" parameterType="hashmap">
+		<![CDATA[
+			UPDATE COMM_TRAVELREVIEW
+			SET
+				DEL_FLAG = 'y'
+			WHERE
+				IDX = #{IDX}
+		]]>
+	</update>
+	
+	
+	
+	
+	
+<!-- 	
+	<insert id="insertFile" parameterType="hashmap">
+		<![CDATA[
+			
+		]]>
+	</insert>
+	
+	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			
+		]]>
+	</select>
+	
+	<update id="deleteFileList" parameterType="hashmap">
+		<![CDATA[
+			
+		]]>
+	</update>
+	
+	<update id="updateFile" parameterType="hashmap">
+		<![CDATA[
+			
+		]]>
+	</update>
+ -->
+ 
+ <!-- 댓글부 -->
+ 	<select id="selectCommentList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.REF DESC, a.RE_STEP ASC) RNUM,
+			    a.IDX,
+			    a.WRITER,
+			    a.CONTENT,
+			    a.REF,
+			    a.RE_LEVEL,
+			    a.RE_STEP,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD HH:mm:SS') AS WRITEDATE,
+			    b.MEMBER_IMG
+			FROM
+			    COMM_TRAVELREVIEW_COMMENT a, MEMBER b
+			WHERE
+				ARTICLEID = #{ARTICLEID} AND a.WRITER = b.NAME
+		]]>
+		<include refid="common.pagingPost"/> 
+	</select>
+	
+	
+	
+	<update id="commentUpdateRE_STEP" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	COMM_TRAVELREVIEW_COMMENT
+			SET		RE_STEP = #{RE_STEP}+1
+			WHERE	REF = #{REF} AND
+			        RE_STEP >= #{RE_STEP}
+		]]>
+	</update>
+	<insert id="commentAdd" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
+		<selectKey keyProperty="IDX" resultType="string" order="BEFORE">
+			SELECT COMM_TRAVELREVIEW_C_IDX_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		<![CDATA[
+			INSERT INTO COMM_TRAVELREVIEW_COMMENT
+			(
+				IDX,
+			    ARTICLEID,
+			    WRITER,
+			    CONTENT,
+			    WRITEDATE,
+			    REF,
+			    RE_STEP,
+			    RE_LEVEL
+			)
+			VALUES
+			(
+				#{IDX},
+				#{ARTICLEID},
+				#{WRITER},
+				#{CONTENT},
+			    SYSDATE, 
+			    #{REF},
+			    #{RE_STEP},
+			    #{RE_LEVEL}
+			)
+		]]>
+	</insert>
+	<update id="commentUpdateREF">
+		<![CDATA[
+			UPDATE	COMM_TRAVELREVIEW_COMMENT
+			SET		REF = (	SELECT	MAX(IDX)
+			        FROM	COMM_TRAVELREVIEW_COMMENT
+			        )
+			WHERE	IDX = (	SELECT	MAX(IDX)
+			        FROM	COMM_TRAVELREVIEW_COMMENT
+        	)
+		]]>
+	</update>
+	
+	<update id="commentDelete" parameterType="hashmap">
+		<![CDATA[
+			DELETE FROM COMM_TRAVELREVIEW_COMMENT
+			WHERE IDX = #{IDX}
+		]]>
+	</update>
+</mapper>

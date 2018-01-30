@@ -8,14 +8,59 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Component("fileUtils")
 public class FileUtils {
-	private static final String filePath = "C:\\java\\upload\\";
+	
+	private static final String filePath = "C:\\dev\\file\\";
+	private static final String tempFilePath = "C:\\comm\\tempImages\\";
+	private static final String realFilePath = "C:\\comm\\boardImages\\";
+
+	public static String getTempFileUrl(HttpServletRequest request) throws Exception{
+		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
+    	Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
+    	
+    	MultipartFile multipartFile = null;
+    	String originalFileName = null;
+    	String originalFileExtension = null;
+    	String storedFileName = null;
+    	String returnUrl = null;
+    	
+        File file = new File(tempFilePath);
+        if(file.exists() == false){
+        	file.mkdirs();
+        }
+        
+        while(iterator.hasNext()){
+        	multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+        	if(multipartFile.isEmpty() == false){
+        		originalFileName = multipartFile.getOriginalFilename();
+        		originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        		storedFileName = CommonUtils.getNowTimeToString() + "_" + originalFileName;
+        		
+        		file = new File(tempFilePath + storedFileName);
+        		multipartFile.transferTo(file);
+        		
+        		returnUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/common/GetTempFile.go?filename="+storedFileName;
+        	}
+        }
+		return returnUrl;
+	}
+
+	public void moveToReal(String tempFilename, String category, int articleid, String filename) {
+		File temp = new File(tempFilePath+tempFilename);
+		temp.mkdirs();
+		File target = new File(realFilePath+category+"\\"+articleid+"\\"+filename);
+		target.mkdirs();
+		
+		if(temp.exists()) {
+			temp.renameTo(target);
+	    }
+	}
+	
 	
 	public List<Map<String,Object>> parseInsertFileInfo(Map<String,Object> map, HttpServletRequest request) throws Exception{
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
@@ -104,4 +149,7 @@ public class FileUtils {
         }
 		return list;
 	}
+	
+	
+	
 }
