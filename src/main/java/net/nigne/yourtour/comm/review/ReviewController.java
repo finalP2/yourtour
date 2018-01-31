@@ -54,7 +54,7 @@ public class ReviewController {
 		ModelAndView mv = new ModelAndView("/community/comm_review/boardWrite");
 		
 		if(session.getAttribute("session_m_email") != null) {
-    		mv.addObject("email", session.getAttribute("session_m_email").toString());
+    			mv.addObject("email", session.getAttribute("session_m_email").toString());
 		}
 		
 		return mv;
@@ -85,8 +85,11 @@ public class ReviewController {
 	}
 	
 	@RequestMapping(value="/openBoardUpdate.go")
-	public ModelAndView openBoardUpdate(CommandMap commandMap) throws Exception{
+	public ModelAndView openBoardUpdate(CommandMap commandMap, HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView("/community/comm_review/boardUpdate");
+		
+		if(session.getAttribute("session_m_email") != null)
+    			mv.addObject("email", session.getAttribute("session_m_email").toString());
 		
 		Map<String,Object> map = reviewService.selectBoardDetail(commandMap.getMap());
 		mv.addObject("map", map.get("map"));

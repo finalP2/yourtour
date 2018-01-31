@@ -3,6 +3,15 @@
 <html lang="ko">
 <head>
 <%@ include file="/WEB-INF/views/community/include/include-header.jspf" %>
+
+
+<!-- summernote start -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<link href="<c:url value='/summernote/summernote-bs4.css'/>" rel="stylesheet">
+<!-- summernote end -->
+
+
+
 </head>
 <body>
 	<form id="frm" name="frm" enctype="multipart/form-data">
@@ -26,9 +35,9 @@
 				</tr>
 				<tr>
 					<th scope="row">작성자</th>
-					<td>${map.CREA_ID }</td>
+					<td>${map.WRITER }</td>
 					<th scope="row">작성시간</th>
-					<td>${map.CREA_DTM }</td>
+					<td>${map.WRITEDATE }</td>
 				</tr>
 				<tr>
 					<th scope="row">제목</th>
@@ -38,38 +47,49 @@
 				</tr>
 				<tr>
 					<td colspan="4" class="view_text">
-						<textarea rows="20" cols="100" title="내용" id="CONTENT" name="CONTENT">${map.CONTENT }</textarea>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">첨부파일</th>
-					<td colspan="3">
-						<div id="fileDiv">				
-							<c:forEach var="row" items="${list }" varStatus="var">
-								<p>
-									<input type="hidden" id="IDX" name="IDX_${var.index }" value="${row.IDX }">
-									<a href="#this" id="name_${var.index }" name="name_${var.index }">${row.ORIGINAL_FILE_NAME }</a>
-									<input type="file" id="file_${var.index }" name="file_${var.index }"> 
-									(${row.FILE_SIZE }kb)
-									<a href="#this" class="btn" id="delete_${var.index }" name="delete_${var.index }">삭제</a>
-								</p>
-							</c:forEach>
-						</div>
+						<textarea rows="20" cols="100" id="summernote" name="CONTENT">${map.CONTENT }</textarea>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</form>
-	
-	<a href="#this" class="btn" id="addFile">파일 추가</a>
+	<br/><br/>
 	<a href="#this" class="btn" id="list">목록으로</a>
 	<a href="#this" class="btn" id="update">저장하기</a>
 	<a href="#this" class="btn" id="delete">삭제하기</a>
 	
 	<%@ include file="/WEB-INF/views/community/include/include-body.jspf" %>
 	<script type="text/javascript">
-		var gfv_count = '${fn:length(list)+1}';
 		$(document).ready(function(){
+			$('#summernote').summernote({
+				  height: 300,				// set editor height
+				  minHeight: null,			// set minimum height of editor
+				  maxHeight: null,			// set maximum height of editor
+				  focus: true,				// set focus to editable area after initializing summernote
+				  lang: 'ko-KR',			// default: 'en-US'
+				  callbacks: {
+					  onImageUpload: function(files){
+										  sendFile(files[0]);
+									  }
+				  }
+				});
+			
+			function sendFile(file){
+				data = new FormData();
+				data.append("file", file);
+				$.ajax({
+					url:			'/yourtour/common/GetTempFileUrl.go',
+					data:			data,
+					cache:			false,
+					type:			"POST",
+					contentType:	false,
+					processData:	false,
+					success:		function(url){
+										$('#summernote').summernote('insertImage', url);
+									}
+				});
+			}
+			
 			$("#list").on("click", function(e){ //목록으로 버튼
 				e.preventDefault();
 				fn_openBoardList();
@@ -83,11 +103,6 @@
 			$("#delete").on("click", function(e){ //삭제하기 버튼
 				e.preventDefault();
 				fn_deleteBoard();
-			});
-			
-			$("#addFile").on("click", function(e){ //파일 추가 버튼
-				e.preventDefault();
-				fn_addFile();
 			});
 			
 			$("a[name^='delete']").on("click", function(e){ //삭제 버튼
@@ -116,21 +131,14 @@
 			
 		}
 		
-		function fn_addFile(){
-			var str = "<p>" +
-					"<input type='file' id='file_"+(gfv_count)+"' name='file_"+(gfv_count)+"'>"+
-					"<a href='#this' class='btn' id='delete_"+(gfv_count)+"' name='delete_"+(gfv_count)+"'>삭제</a>" +
-				"</p>";
-			$("#fileDiv").append(str);
-			$("#delete_"+(gfv_count++)).on("click", function(e){ //삭제 버튼
-				e.preventDefault();
-				fn_deleteFile($(this));
-			});
-		}
-		
-		function fn_deleteFile(obj){
-			obj.parent().remove();
-		}
+
 	</script>
+
+<!-- summernote start -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+<script src="<c:url value='/summernote/summernote-bs4.js'/>"></script>
+<!-- summernote end -->
+
 </body>
 </html>
