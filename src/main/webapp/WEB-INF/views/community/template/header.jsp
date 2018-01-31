@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 
 <div id="menu-top">
-	<div class="menu-icon" ><a href="/semiP/main.action" style="color:#FFFFFF; text-decoration:none;">
+	<div class="menu-icon" ><a href="/yourtour/main.go" style="color:#FFFFFF; text-decoration:none;">
 		YT</a>
 		</div>
 	<div class="menu-item">
