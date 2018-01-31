@@ -1,6 +1,7 @@
 package net.nigne.yourtour.comm.review;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,22 @@ public class ReviewServiceImpl implements AbstractService{
 	
 	@Override
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
-		return reviewDAO.selectBoardList(map);
+		
+//		String text = "......";
+//		String textWithoutTag = text.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+		List<Map<String, Object>> list = reviewDAO.selectBoardList(map);
+		
+		Iterator<Map<String, Object>> iter = list.iterator();
+		while(iter.hasNext()) {
+			Map<String, Object> tempMap = iter.next(); 
+			String source = tempMap.get("CONTENT").toString();
+			String target = source.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+			target = target.replaceAll("<", "");
+			System.out.println(target);
+			tempMap.put("CONTENT", target);
+		}
+		
+		return list;
 	}
 
 	@Override
@@ -38,21 +54,26 @@ public class ReviewServiceImpl implements AbstractService{
 		// 아래: 전체 컨텐츠 내용을 가져와서
 		String source = map.get("CONTENT").toString();
 		// 아래: 파일이름 부분을 검사해서 각각 string[] 에 저장한다, 복사원본(tempFilenames), 타겟(filenames)
-		// 아래: 반복문 안에서 파일 이동까지 진행
-		String[] tempFilenames = source.split("/yourtour/common/GetTempFile.go?filename=");
+		// 아래: 반복문 안에서 파일 이동까지 진행 ** split 이용할때 ? 등은 정규식 문자라서 백슬래쉬 두개 붙여줘야 함
+		String[] tempFilenames = source.split("/yourtour/common/GetTempFile.go\\?filename=");
 		String[] filenames = new String[tempFilenames.length];
-		for(int i=0; i<tempFilenames.length; i++) {
-			tempFilenames[i] = tempFilenames[i].substring(0, tempFilenames[i].indexOf("\""));
-			filenames[i] = tempFilenames[i].substring(tempFilenames[i].indexOf("_")+1);
-			fileUtils.moveToReal("tempFilenames[i]", "review", maxIdx, "filenames[i]");
+		
+		if(tempFilenames.length > 1) {  // 잘리는게 있으면 길이가 2 이상이 나온다. 
+										// 이미지가 없으면 filename[i] 쪽으로 subString 할때 StringIndexOutOfBound Exception 발생  
+			for(int i=0; i<tempFilenames.length; i++) {
+				tempFilenames[i] = tempFilenames[i].substring(0, tempFilenames[i].indexOf("\""));
+				filenames[i] = tempFilenames[i].substring(tempFilenames[i].indexOf("_")+1);
+				fileUtils.moveToReal(tempFilenames[i], "review", maxIdx, filenames[i]);
+			}	
+			// 아래: replaceAll(정규식) 이용해서 'GetTempFile' --> 'GetFile'
+			// 아래: 파일주소의 time 부분을 제거하고, '리뷰' 게시판정보(review)와 글번호를 대신 넣어준다
+			String target = source.replaceAll("GetTempFile.go.filename=[0-9]*_", "GetFile.go?cate=review&idx="+maxIdx+"&filename=");
+			System.out.println(target);
+	
+			// 아래: 바뀐 문자열을 맵에 넣고 update 쿼리 해준다
+			map.put("CONTENT", target);
 		}
-		
-		
-		// 아래: replaceAll(정규식) 이용해서 'GetTempFile' --> 'GetFile'
-		// 아래: 파일주소의 time 부분을 제거하고, '리뷰' 게시판정보(review)와 글번호를 대신 넣어준다
-		source.replaceAll("GetTempFile.go?filename=([0-9]*)_", "GetFile.go?cate=review&idx="+maxIdx+"filename=");
-
-
+		reviewDAO.putContent(map);
 	}
 
 	@Override

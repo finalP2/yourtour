@@ -65,8 +65,10 @@ public class CommonController {
 	public void getFile(CommandMap commandMap, HttpServletResponse response) throws Exception{
 		Map<String,Object> map = commandMap.getMap();
 		String storedFileName = (String)map.get("filename");
+		String category = (String)map.get("cate");
+		String articleId = (String)map.get("idx");
 		
-		byte fileByte[] = FileUtils.readFileToByteArray(new File(realFilePath+storedFileName));
+		byte fileByte[] = FileUtils.readFileToByteArray(new File(realFilePath+"\\"+category+"\\"+articleId+"\\"+storedFileName));
 		
 		response.setContentType("image/jpeg");
 		response.setContentLength(fileByte.length);

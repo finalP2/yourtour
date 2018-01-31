@@ -20,7 +20,7 @@ public class ReviewDAO extends AbstractDAO{
 		insert("review.insertBoard", map);
 	}
 	public String getLastIDX() throws Exception {
-		return selectOne("review.getlastIDX").toString();
+		return selectOne("review.getLastIDX").toString();
 	}
 	public void putContent(Map<String, Object> map) throws Exception {
 		update("review.putContent", map);

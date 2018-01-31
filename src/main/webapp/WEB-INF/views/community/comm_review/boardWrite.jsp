@@ -30,12 +30,12 @@
 				<tr>
 					<td colspan="2" class="view_text">
 						<textarea rows="20" cols="100" title="내용" id="summernote" name="CONTENT"></textarea><br />
-						지역: <input type="text" name='REGION' value=' '><br />
-						태그: <input type="text" name='TAG' value=' '> 태그는 콤마로 구분해주세요<br />
+						태그: <input type="text" name='TAG' value=''> 태그는 콤마로 구분해주세요<br />
 					</td>
 				</tr>
 			</tbody>
 		</table>
+		<!--
 		<div id="fileDiv">
 			<p>
 				<input type="file" id="file" name="file_0">
@@ -44,7 +44,10 @@
 		</div>
 		
 		<br/><br/>
+		 
 		<a href="#this" class="btn" id="addFile">파일 추가</a>
+		-->
+		<br/><br/>
 		<a href="#this" class="btn" id="write">작성하기</a>
 		<a href="#this" class="btn" id="list">목록으로</a>
 	</form>
@@ -90,8 +93,7 @@
 			
 			$("#write").on("click", function(e){ //작성하기 버튼
 				e.preventDefault();
-				console.log($("#summernote").val());
-				//fn_insertBoard();
+				fn_insertBoard();
 			});
 			
 			$("#addFile").on("click", function(e){ //파일 추가 버튼
