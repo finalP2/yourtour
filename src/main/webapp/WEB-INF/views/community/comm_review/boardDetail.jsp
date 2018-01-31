@@ -78,7 +78,9 @@
 										<input type="hidden" id="ARTICLEID" name="ARTICLEID" value="${map.IDX }" />
 									</td>
 									<td width="15%" align="right">
-										<a href="#comment_input" class="btn" >댓글작성</a>
+										<c:if test="${email != '' && email ne null}">
+											<a href="#comment_input" class="btn" >댓글작성</a>
+										</c:if>
 									</td>
 								</tr>
 							</table>
@@ -104,16 +106,18 @@
 											<input type="hidden" id="ARTICLEID" name="ARTICLEID" value="${map.IDX }" />
 										</td>
 									</tr>
-									<tr>
-										<td colspan="2">
-											 <textarea name="comment_input" id="comment_input" rows="5" cols="60" class="comment_input"></textarea>
-	
-										</td>
-										<td class="common_input_btn_text">
-											<a href="javascript:fn_commentAdd('${username}', 'comment_input', ${map.IDX}, -1, -1, -1)" id="cwrite" name="cwrite">등록</a>
-											<!--  fn_commentAdd(작성자, 글내용ID값, 글IDX, 부모REF, 부모RE_STEP, 부모RE_LEVEL) -->
-										</td>
-									</tr>
+									<c:if test="${email != '' && email ne null}">
+										<tr>
+											<td colspan="2">
+												 <textarea name="comment_input" id="comment_input" rows="5" cols="60" class="comment_input"></textarea>
+		
+											</td>
+											<td class="common_input_btn_text">
+												<a href="javascript:fn_commentAdd('${email}', 'comment_input', ${map.IDX}, -1, -1, -1)" id="cwrite" name="cwrite">등록</a>
+												<!--  fn_commentAdd(작성자, 글내용ID값, 글IDX, 부모REF, 부모RE_STEP, 부모RE_LEVEL) -->
+											</td>
+										</tr>
+									</c:if>
 								</table>
 							</form>
 							<!-- 댓글파트 종료 -->
@@ -285,12 +289,10 @@
 					}
 					
 					str +=		"<td colspan='2'>" +
-									// checkup data start
-									// value.REF+" || "+value.RE_STEP+" || "+value.RE_LEVEL+"<br/>" +
-									// checkup data end
-									value.CONTENT + "&nbsp;&nbsp;" +
-									"<a href='javascript:toggleReplyForm("+value.IDX+");'><img src='/yourtour/img/comment.gif' width='20'>[답글달기]</a>" + "&nbsp;";
-					if('${username}' == value.WRITER){
+									value.CONTENT + "&nbsp;&nbsp;";
+					if('${email}')				
+						str +=		"<a href='javascript:toggleReplyForm("+value.IDX+");'><img src='/yourtour/img/comment.gif' width='20'>[답글달기]</a>" + "&nbsp;";
+					if('${nickname}' == value.WRITER){
 						str +=		"<br/><a href='javascript:fn_commentDelete("+value.IDX+")' id='cdelete'><img src='/yourtour/img/delete.jpg' width='50'>";
 					}
 					str +=			"<input type='hidden' id='cidx' value="+value.IDX+">" +
@@ -311,7 +313,7 @@
 													 "<textarea type='text' name='"+value.IDX+"comment_input' id='"+value.IDX+"comment_input' rows='5' cols='60' value='' class='comment_input'></textarea>" +
 												"</td>" +
 												"<td class='common_input_btn_text'>" +
-													"<a href='javascript:fn_commentAdd(\"${username}\",\""+value.IDX+"comment_input\","+${map.IDX}+","+value.REF+","+value.RE_STEP+","+value.RE_LEVEL+")' name='creply' id='creply'>등록</a>" +
+													"<a href='javascript:fn_commentAdd(\"${email}\",\""+value.IDX+"comment_input\","+${map.IDX}+","+value.REF+","+value.RE_STEP+","+value.RE_LEVEL+")' name='creply' id='creply'>등록</a>" +
 													// fn_commentAdd(작성자, 글내용ID값, 글IDX, 부모REF, 부모RE_STEP, 부모RE_LEVEL)
 												"</td>" +
 											"</tr>" +

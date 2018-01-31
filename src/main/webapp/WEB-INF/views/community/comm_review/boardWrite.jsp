@@ -15,7 +15,7 @@
 </head>
 <body>
 	<form id="frm" name="frm" enctype="multipart/form-data">
-		<input type='hidden' name='WRITER' value='작성자'>
+		<input type='hidden' name='WRITER' value='${email }'>
 		<table class="board_view">
 			<colgroup>
 				<col width="15%">

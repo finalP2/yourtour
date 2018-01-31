@@ -9,7 +9,7 @@
 			SELECT
 				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
 			    a.IDX,
-			    a.WRITER,
+			    b.NICKNAME AS WRITER,
 			    a.SUBJECT,
 			    SUBSTR(TRIM(a.CONTENT), 1, 100) AS CONTENT,
 			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
@@ -18,7 +18,7 @@
 			FROM
 			    COMM_TRAVELREVIEW a, MEMBER b
 			WHERE
-				a.DEL_FLAG = 'n' AND a.WRITER = b.NAME
+				a.DEL_FLAG = 'n' AND a.WRITER = b.EMAIL
 		]]>
 		<include refid="common.pagingPost"/> 
 	</select>
@@ -110,20 +110,18 @@
 	<select id="selectBoardDetail" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT
-				IDX,
-				WRITER,
-				SUBJECT,
-				CONTENT,
-				HITCOUNT,
-				RECOMMENDCOUNT,
-				REGION,
-				WRITEDATE,
-				FILENAME,
-				TAG
+				a.IDX,
+				b.NICKNAME AS WRITER,
+				a.SUBJECT,
+				a.CONTENT,
+				a.HITCOUNT,
+				a.RECOMMENDCOUNT,
+				a.WRITEDATE,
+				a.TAG
 			FROM
-				COMM_TRAVELREVIEW
+				COMM_TRAVELREVIEW a, MEMBER b
 			WHERE
-				IDX = #{IDX}		
+				IDX = #{IDX}  AND a.WRITER = b.EMAIL
 		]]>
 	</select>
 	
@@ -185,7 +183,8 @@
 			SELECT
 				ROW_NUMBER() OVER (ORDER BY a.REF DESC, a.RE_STEP ASC) RNUM,
 			    a.IDX,
-			    a.WRITER,
+				b.NICKNAME AS WRITER,
+				b.EMAIL,
 			    a.CONTENT,
 			    a.REF,
 			    a.RE_LEVEL,
@@ -195,7 +194,7 @@
 			FROM
 			    COMM_TRAVELREVIEW_COMMENT a, MEMBER b
 			WHERE
-				ARTICLEID = #{ARTICLEID} AND a.WRITER = b.NAME
+				ARTICLEID = #{ARTICLEID} AND a.WRITER = b.EMAIL
 		]]>
 		<include refid="common.pagingPost"/> 
 	</select>

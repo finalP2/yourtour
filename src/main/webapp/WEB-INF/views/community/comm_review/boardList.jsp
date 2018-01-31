@@ -38,7 +38,7 @@
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX"/>
 	
 	<br/>
-	<c:if test="${username != '' && username ne null}">
+	<c:if test="${email != '' && email ne null}">
 		<a href="#this" class="btn" id="write">글쓰기</a>
  	</c:if>
 	
