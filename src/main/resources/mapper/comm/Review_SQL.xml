@@ -14,7 +14,6 @@
 			    SUBSTR(TRIM(a.CONTENT), 1, 100) AS CONTENT,
 			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
 			    NVL(a.TAG, '태그가 없습니다') AS TAG,
-			    a.FILENAME,
 			    b.MEMBER_IMG
 			FROM
 			    COMM_TRAVELREVIEW a, MEMBER b
@@ -49,6 +48,8 @@
 			)
 		]]>
 	</insert>
+	
+	<!-- 컨텐트 내용 변경해서 다시 넣기 위한 쿼리 시리즈 -->
 	<select id="getLastIDX" resultType="string">
 		<![CDATA[
 			SELECT MAX(IDX) FROM COMM_TRAVELREVIEW
@@ -61,6 +62,39 @@
 			WHERE	IDX		= #{IDX}
 		]]>
 	</update>
+	
+	<!-- 태그 넣기 위한 쿼리 시리즈. 태그테이블에 있으면 업데이트 없으면 인서트, 그리고 태그맵 테이블 인서트 -->
+	<update id="tagInput" parameterType="string">
+		<![CDATA[
+			MERGE INTO  COMM_TAGS
+      			USING DUAL
+			ON (TAGNAME = #{0})
+			WHEN MATCHED THEN
+				UPDATE SET
+					TAGCOUNT = TAGCOUNT + 1
+				WHERE
+					TAGNAME = #{0}
+			WHEN NOT MATCHED THEN
+				INSERT	(IDX, COMMTYPE, TAGNAME, TAGCOUNT)
+				VALUES	(COMM_TAGS_IDX_SEQ.nextval, 1, #{0}, 1)
+		]]>
+	</update>
+	<select id="getTagId" resultType = "integer" parameterType="string">
+		<![CDATA[
+			SELECT	IDX
+			FROM	COMM_TAGS
+			WHERE	TAGNAME = #{0}
+		]]>
+	</select>
+	<insert id="tagmapInput" parameterType="hashmap">
+		<![CDATA[
+			INSERT INTO COMM_TAGMAP
+				(IDX, COMMTYPE, TAG_ID, ARTICLEID)
+			VALUES
+				(COMM_TAGMAP_IDX_SEQ.nextval, 1, #{TAG_ID}, #{ARTICLEID})
+		]]>
+	</insert>
+	
 	
 	<update id="updateHitCnt" parameterType="hashmap">
 		<![CDATA[

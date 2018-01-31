@@ -110,7 +110,7 @@
 	
 										</td>
 										<td class="common_input_btn_text">
-											<a href="javascript:fn_commentAdd('작성자', 'comment_input', ${map.IDX}, -1, -1, -1)" id="cwrite" name="cwrite">등록</a>
+											<a href="javascript:fn_commentAdd('${username}', 'comment_input', ${map.IDX}, -1, -1, -1)" id="cwrite" name="cwrite">등록</a>
 											<!--  fn_commentAdd(작성자, 글내용ID값, 글IDX, 부모REF, 부모RE_STEP, 부모RE_LEVEL) -->
 										</td>
 									</tr>
@@ -265,7 +265,7 @@
 					var relevel = value.RE_LEVEL;
 					str +=	"<tr>" + 
 								"<td rowspan='2' width='65' align='center'>" +
-									"<img src="+ imgaddr +" width='60' height='60'>" +
+									"<img src=/yourtour/resources/mem_img/"+ value.MEMBER_IMG +" width='60' height='60'>" +
 								"</td>" + 
 								"<td colspan='2' height='20' class='title' style='padding:1px;'>" +
 									value.IDX + "&nbsp;&nbsp;||&nbsp;&nbsp;" + value.WRITER + "&nbsp;&nbsp;||&nbsp;&nbsp;" + value.WRITEDATE +
@@ -289,9 +289,11 @@
 									// value.REF+" || "+value.RE_STEP+" || "+value.RE_LEVEL+"<br/>" +
 									// checkup data end
 									value.CONTENT + "&nbsp;&nbsp;" +
-									"<a href='javascript:toggleReplyForm("+value.IDX+");'><img src='/yourtour/img/comment.gif' width='20'>[답글달기]</a>" + "&nbsp;" +
-									"<br/><a href='javascript:fn_commentDelete("+value.IDX+")' id='cdelete'><img src='/yourtour/img/delete.jpg' width='50'>" +
-									"<input type='hidden' id='cidx' value="+value.IDX+">" +
+									"<a href='javascript:toggleReplyForm("+value.IDX+");'><img src='/yourtour/img/comment.gif' width='20'>[답글달기]</a>" + "&nbsp;";
+					if('${username}' == value.WRITER){
+						str +=		"<br/><a href='javascript:fn_commentDelete("+value.IDX+")' id='cdelete'><img src='/yourtour/img/delete.jpg' width='50'>";
+					}
+					str +=			"<input type='hidden' id='cidx' value="+value.IDX+">" +
 								"</td>";													
 							
 					if(value.RE_LEVEL > 0){			
@@ -309,7 +311,7 @@
 													 "<textarea type='text' name='"+value.IDX+"comment_input' id='"+value.IDX+"comment_input' rows='5' cols='60' value='' class='comment_input'></textarea>" +
 												"</td>" +
 												"<td class='common_input_btn_text'>" +
-													"<a href='javascript:fn_commentAdd(\"작성자\",\""+value.IDX+"comment_input\","+${map.IDX}+","+value.REF+","+value.RE_STEP+","+value.RE_LEVEL+")' name='creply' id='creply'>등록</a>" +
+													"<a href='javascript:fn_commentAdd(\"${username}\",\""+value.IDX+"comment_input\","+${map.IDX}+","+value.REF+","+value.RE_STEP+","+value.RE_LEVEL+")' name='creply' id='creply'>등록</a>" +
 													// fn_commentAdd(작성자, 글내용ID값, 글IDX, 부모REF, 부모RE_STEP, 부모RE_LEVEL)
 												"</td>" +
 											"</tr>" +

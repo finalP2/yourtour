@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -23,8 +24,11 @@ public class ReviewController {
 	private AbstractService reviewService;
 	
 	@RequestMapping(value="/openBoardList.go")
-    public ModelAndView openBoardList(CommandMap commandMap) throws Exception{
+    public ModelAndView openBoardList(CommandMap commandMap, HttpSession session) throws Exception{
     	ModelAndView mv = new ModelAndView("reviewList");
+    	    	
+    	if(session.getAttribute("session_m_email") != null)
+    		mv.addObject("email", session.getAttribute("session_m_email").toString());
     	
     	return mv;
     }
@@ -62,8 +66,11 @@ public class ReviewController {
 	}
 	
 	@RequestMapping(value="/openBoardDetail.go")
-	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception{
+	public ModelAndView openBoardDetail(CommandMap commandMap, HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView("reviewDetail");
+		
+		if(session.getAttribute("session_m_email") != null)
+    		mv.addObject("email", session.getAttribute("session_m_email").toString());
 		
 		Map<String,Object> map = reviewService.selectBoardDetail(commandMap.getMap());
 		mv.addObject("map", map.get("map"));

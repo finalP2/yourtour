@@ -16,16 +16,32 @@ public class ReviewDAO extends AbstractDAO{
 		return result;
 	}
 	
+	
 	public void insertBoard(Map<String, Object> map) throws Exception{
 		insert("review.insertBoard", map);
 	}
+	// 컨텐트 내용 변경해서 다시 넣기 위한 쿼리 시리즈
 	public String getLastIDX() throws Exception {
 		return selectOne("review.getLastIDX").toString();
 	}
 	public void putContent(Map<String, Object> map) throws Exception {
 		update("review.putContent", map);
 	}
-
+	
+	
+	// 태그 넣기 위한 쿼리 시리즈. 태그테이블에 있으면 업데이트 없으면 인서트, 그리고 태그맵 테이블 인서트
+	public void tagInput(String tag) throws Exception {
+		update("review.tagInput", tag);
+	}
+	public int getTagId(String tag) throws Exception {
+		return (int) selectOne("review.getTagId", tag);
+	}
+	public void tagmapInput(Map<String, Object> map) throws Exception {
+		insert("review.tagmapInput", map);
+	}
+	
+	
+	
 	public void updateHitCnt(Map<String, Object> map) throws Exception{
 		update("review.updateHitCnt", map);
 	}

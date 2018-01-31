@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -37,7 +38,9 @@
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX"/>
 	
 	<br/>
-	<a href="#this" class="btn" id="write">글쓰기</a>
+	<c:if test="${username != '' && username ne null}">
+		<a href="#this" class="btn" id="write">글쓰기</a>
+ 	</c:if>
 	
 	<%@ include file="/WEB-INF/views/community/include/include-body.jspf" %>
 	<script type="text/javascript">
@@ -100,17 +103,11 @@
 				gfn_renderPaging(params);
 				
 				var str = "";
-				var imgaddr = '';
 								
 				$.each(data.list, function(key, value){
-					if(!$.trim(value.FILENAME) ){
-						imgaddr = value.MEMBER_IMG;
-					}else{
-						imgaddr = value.FILENAME;
-					}
 					str +=	"<tr>" + 
 								"<td rowspan='3' width='110'>" +
-								"<a href='#this' name='title'><img src="+ imgaddr +" width='100' height='100'></a>" +
+								"<a href='#this' name='title'><img src=/yourtour/resources/mem_img/"+ value.MEMBER_IMG +" width='100' height='100'></a>" +
 								"<input type='hidden' id='IDX' value=" + value.IDX + ">" + 
 									"</td>" + 
 								"<td height='20' class='title' style='padding:5px;'>" +

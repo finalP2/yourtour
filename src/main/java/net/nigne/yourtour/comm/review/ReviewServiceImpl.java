@@ -50,6 +50,9 @@ public class ReviewServiceImpl implements AbstractService{
 	public void insertBoard(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		reviewDAO.insertBoard(map);
 		int maxIdx = Integer.parseInt(reviewDAO.getLastIDX());
+		int tagId;
+		String tag;
+		Map<String, Object> tempMap = new HashMap<String, Object>();
 		
 		// 아래: 전체 컨텐츠 내용을 가져와서
 		String source = map.get("CONTENT").toString();
@@ -74,6 +77,22 @@ public class ReviewServiceImpl implements AbstractService{
 			map.put("CONTENT", target);
 		}
 		reviewDAO.putContent(map);
+		
+		// 아래: 태그를 콤마 기준으로 잘라서 comm_tags, comm_tagmap 에 넣어주기
+		String[] tags = map.get("TAG").toString().trim().split("\\s*,\\s*");
+		for(int i=0; i<tags.length; i++) {
+			// 태그테이블에 있으면 업데이트 없으면 인서트, 그리고 태그맵 테이블 인서트
+			tag = tags[i];
+			reviewDAO.tagInput(tag);
+			// 태그 아이디 가져오기
+			tagId = reviewDAO.getTagId(tag);
+			// 태그맵에 넣을 정보 맵에 넣기
+			tempMap.put("TAG_ID", tagId);
+			tempMap.put("ARTICLEID", maxIdx);
+			// 태그맵 인서트
+			reviewDAO.tagmapInput(tempMap);
+		}
+		
 	}
 
 	@Override
