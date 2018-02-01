@@ -3,6 +3,7 @@ package net.nigne.yourtour.schedule.controller;
 import java.io.File;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -233,13 +234,19 @@ public class ScheduleController {
 		Map<String, Object> c_map = scheduleService.cityMap(commandMap.getMap());
 		float at = Float.parseFloat(c_map.get("LAT").toString());
 		float ng = Float.parseFloat(c_map.get("LNG").toString());
+		List<String> a_map = new ArrayList();
 		
+		for(int i=0; i < areaMapList.size(); i++) {
+			a_map.add("{lat: "+Float.parseFloat(areaMapList.get(i).get("LAT").toString())+", "+"lng:"+Float.parseFloat(areaMapList.get(i).get("LNG").toString())+"}");
+		}
+		System.out.println("a_map= "+a_map);
 	/*	if (request.getParameter("keyword") != null) {
 			String keyword = request.getParameter("keyword");
 			List<CityModel> citySearchList = cityService.citySearchList(country, keyword);
 			mav.addObject("citySearchList",citySearchList);
 		}*/
 		mv.addObject("areaMapList", areaMapList);
+		mv.addObject("a_map", a_map);
 		mv.addObject("areaMapSize", areaMapList.size());
 		mv.addObject("at", at);
 		mv.addObject("ng", ng);

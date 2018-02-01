@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
     <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
@@ -33,12 +34,11 @@
        }
        
        #map {
-       width:69%;
-       height:650px;
-       float:left;
-       margin: 5px;
+	       width:69%;
+	       height:650px;
+	       float:left;
+	       margin: 5px; 
        }
-
  </style>
 
 </head>
@@ -60,25 +60,11 @@
         // Note: The code uses the JavaScript Array.prototype.map() method to
         // create an array of markers based on a given "locations" array.
         // The map() method here has nothing to do with the Google Maps API.
-        	/* var locations = [
-                {lat: 48.873778, lng: 2.295027},
-                {lat: 48.852968, lng: 2.349934},
-                {lat: 48.872136, lng: 2.775883},
-                {lat: 48.860576, lng: 2.337569},
-                {lat: 48.846384, lng: 2.336302},
-                {lat: 48.886648, lng: 2.343072},
-                {lat: 48.858341, lng: 2.294535},
-                {lat: 48.859819, lng: 2.326321},
-                {lat: 48.860811, lng: 2.351429},
-               ] */
+ 
+	
+        var locations = ${a_map};
         	
-        	var lat1 =  parseFloat(${areaMapList.LAT});
-            var lng1 =  parseFloat(${areaMapList.LNG});
-            
-            for(i=0; i < ${areaMapSize}; i++){
-             var locations = [{lat: lat1, lng: lng1}]
-        
-         
+        	
 	        var markers = locations.map(function(location, i) {
 	          return new google.maps.Marker({
 	            position: location
