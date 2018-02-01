@@ -121,13 +121,13 @@
 		
 		function fn_updateBoard(){
 			var comSubmit = new ComSubmit("frm");
-			comSubmit.setUrl("<c:url value='/comm/review/updateBoard.do' />");
+			comSubmit.setUrl("<c:url value='/comm/review/updateBoard.go' />");
 			comSubmit.submit();
 		}
 		
 		function fn_deleteBoard(){
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/comm/review/deleteBoard.do' />");
+			comSubmit.setUrl("<c:url value='/comm/review/deleteBoard.go' />");
 			comSubmit.addParam("IDX", $("#IDX").val());
 			comSubmit.submit();
 			

@@ -94,4 +94,6 @@ public class CommonController {
 		out.print(resultUrl);
 		System.out.println(resultUrl);
 	}
+	
+	
 }

@@ -41,6 +41,17 @@ public class ReviewDAO extends AbstractDAO{
 	}
 	
 	
+	public void removeTag(Map<String, Object> removeTag) {
+		update("review.removeTag", removeTag);
+	}
+	public void removeTagmap(Map<String, Object> removeTag) {
+		update("review.removeTagmap", removeTag);
+	}
+	public void updateArticleTag(Map<String, Object> map) {
+		update("review.updateArticleTag", map);
+	}
+	
+	
 	
 	public void updateHitCnt(Map<String, Object> map) throws Exception{
 		update("review.updateHitCnt", map);

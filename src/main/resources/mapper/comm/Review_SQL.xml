@@ -95,6 +95,29 @@
 		]]>
 	</insert>
 	
+	<update id="removeTag" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	COMM_TAGS
+			SET		TAGCOUNT = TAGCOUNT - 1
+			WHERE	TAGNAME = #{TAG} AND COMMTYPE = 1
+		]]>
+	</update>
+	
+	<update id="removeTagmap" parameterType="hashmap">
+		<![CDATA[
+			DELETE FROM	COMM_TAGMAP
+			WHERE		ARTICLEID = #{IDX} 
+					AND TAG_ID = #{TAGID}
+					AND COMMTYPE = 1
+		]]>
+	</update>
+	<update id="updateArticleTag" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	COMM_TRAVELREVIEW
+			SET		TAG = #{TAG}
+			WHERE	IDX = #{IDX}
+		]]>
+	</update>
 	
 	<update id="updateHitCnt" parameterType="hashmap">
 		<![CDATA[
