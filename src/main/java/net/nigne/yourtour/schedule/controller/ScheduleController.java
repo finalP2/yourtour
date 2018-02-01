@@ -240,6 +240,7 @@ public class ScheduleController {
 			mav.addObject("citySearchList",citySearchList);
 		}*/
 		mv.addObject("areaMapList", areaMapList);
+		mv.addObject("areaMapSize", areaMapList.size());
 		mv.addObject("at", at);
 		mv.addObject("ng", ng);
 		mv.addObject("sch", scheduleOne);
