@@ -1,5 +1,7 @@
 package net.nigne.yourtour.comm.review;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -48,6 +50,47 @@ public class ReviewServiceImpl implements AbstractService{
 	@Override
 	@Transactional
 	public void insertBoard(Map<String, Object> map, HttpServletRequest request) throws Exception {
+
+		// 아래: 일단 입력받은 태그에 중복값이 없는지 확인
+		// 태그가 있으면 검사하고, 중복된 값이 있으면 리스트에서 제거해준다
+		List<String> tags = new ArrayList<String>(Arrays.asList(map.get("TAG").toString().trim().split("\\s*,\\s*")));
+		if(tags.size() > 0) {
+//			System.out.println(",,");
+//			System.out.println("map.get(\"TAG\") : "+map.get("TAG").toString());
+//			System.out.println("tags.size() : "+tags.size());
+			List<Integer> duplicatedPosition = new ArrayList<Integer>();
+			for(int i=0; i<tags.size()-1; i++) {
+				for(int j=i+1; j<tags.size(); j++) {
+					if(tags.get(i).equals(tags.get(j))) {
+						duplicatedPosition.add(i);
+//						System.out.println("duplicatedPosition Added!! size() : "+duplicatedPosition.size()+", position : "+duplicatedPosition.get(duplicatedPosition.size()-1));
+						break;
+					}
+				}
+			}
+			if(duplicatedPosition.size() > 0) {
+				for(int i=duplicatedPosition.size() - 1; i>=0; i--) {
+					tags.remove((int)duplicatedPosition.get(i));
+//					System.out.println("i : "+i+", duplicatedPosition removed position : "+duplicatedPosition.get(i));
+				}
+			}
+			// 중복제거된 리스트를 다시 문자열로 변환
+			String concatTag = "";
+			for(int i=0; i<tags.size(); i++) {
+				concatTag = concatTag.concat(tags.get(i).toString()+",");
+//				System.out.println("concatTag i : "+i+", string: "+concatTag);
+			}
+			// 마지막 콤마만 제거
+			concatTag = concatTag.substring(0, concatTag.lastIndexOf(","));
+			map.put("TAG", concatTag);
+			
+//			System.out.println("final concatTag : "+concatTag);
+//			System.out.println("map.get(\"TAG\") : "+map.get("TAG").toString());
+//			System.out.println(",,");
+		}
+		
+		
+		
 		reviewDAO.insertBoard(map);
 		int maxIdx = Integer.parseInt(reviewDAO.getLastIDX());
 		int tagId;
@@ -79,13 +122,11 @@ public class ReviewServiceImpl implements AbstractService{
 		reviewDAO.putContent(map);
 		
 		// 아래: 태그를 콤마 기준으로 잘라서 comm_tags, comm_tagmap 에 넣어주기
-		
-		String[] tags = map.get("TAG").toString().trim().split("\\s*,\\s*");
-		System.out.println(tags.length);
-		if(tags.length > 1) {
-			for(int i=0; i<tags.length; i++) {
+		System.out.println(tags.size());
+		if(tags.size() > 1) {
+			for(int i=0; i<tags.size(); i++) {
 				// 태그테이블에 있으면 업데이트 없으면 인서트, 그리고 태그맵 테이블 인서트
-				tag = tags[i];
+				tag = tags.get(i);
 				reviewDAO.tagInput(tag);
 				// 태그 아이디 가져오기
 				tagId = reviewDAO.getTagId(tag);
@@ -124,14 +165,39 @@ public class ReviewServiceImpl implements AbstractService{
 //			- 새로 들어온 태그면 추가해 주고,
 //			- 삭제된 태그가 있으면 없애주고..
 		
-		String[] tags = map.get("TAG").toString().trim().split("\\s*,\\s*");
-		String[] oriTags = map.get("oriTAG").toString().trim().split("\\s*,\\s*");
-		String[] tagsToAdd = new String[tags.length];		// 추가할 태그 어레이
-		String[] tagsToRemove = new String[oriTags.length];	// 제거할 태그 어레이. 그냥 둘 태그는 처리하지 않는다.
+		List<String> tags = new ArrayList<String>(Arrays.asList(map.get("TAG").toString().trim().split("\\s*,\\s*")));
+		List<String> oriTags = new ArrayList<String>(Arrays.asList(map.get("oriTAG").toString().trim().split("\\s*,\\s*")));
+		List<String> tagsToAdd = new ArrayList<String>();		// 추가할 태그 리스트
+		List<String> tagsToRemove = new ArrayList<String>();	// 제거할 태그 리스트. 그냥 둘 태그는 처리하지 않는다.
 		
-		for(String tag : tags) {
-			for(String oriTag : oriTags) {
-				
+		// 아래: 일단 입력받은 태그에 중복값이 없는지 확인
+		// 태그가 있으면 검사하고, 중복된 값이 있으면 리스트에서 제거해준다
+		if(tags.size() > 0) {
+			List<Integer> duplicatedPosition = new ArrayList<Integer>();
+			for(int i=0; i<tags.size()-1; i++) {
+				for(int j=i+1; j<tags.size(); j++) {
+					if(tags.get(i) == tags.get(j)) {
+						duplicatedPosition.add(i);
+					}
+				}
+			}
+			if(duplicatedPosition.size() > 0) {
+				for(int i=duplicatedPosition.size() - 1; i>0; i--) {
+					tags.remove(i);
+				}
+			}
+		}
+		
+		int checkSum = 0;
+		for(int i=0; i<tags.size(); i++) {
+			checkSum = 0;
+			for(int j=0; j<oriTags.size(); j++) {
+				if(!tags.get(i).equals(oriTags.get(i))) {
+					checkSum++;
+				}
+			}
+			if(checkSum == oriTags.size()) {
+				tagsToAdd.add(tags.get(i));
 			}
 		}
 		
