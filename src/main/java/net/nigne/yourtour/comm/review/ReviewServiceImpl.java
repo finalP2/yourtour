@@ -113,21 +113,28 @@ public class ReviewServiceImpl implements AbstractService{
 	}
 
 	@Override
+	@Transactional
 	public void updateBoard(Map<String, Object> map, HttpServletRequest request) throws Exception{
 		reviewDAO.updateBoard(map);
 		
-		reviewDAO.deleteFileList(map);
-		List<Map<String,Object>> list = fileUtils.parseUpdateFileInfo(map, request);
-		Map<String,Object> tempMap = null;
-		for(int i=0, size=list.size(); i<size; i++){
-			tempMap = list.get(i);
-			if(tempMap.get("IS_NEW").equals("Y")){
-				reviewDAO.insertFile(tempMap);
-			}
-			else{
-				reviewDAO.updateFile(tempMap);
+//		- 태그 저장할때
+//		- 오리지날태그, 뉴태그 구분해서 전달.
+//		- 뺄 태그, 그대로인 태그, 추가할 태그 세종류로 구분
+//			- 이미 이 글에 있던 태그면 그냥 두고, 
+//			- 새로 들어온 태그면 추가해 주고,
+//			- 삭제된 태그가 있으면 없애주고..
+		
+		String[] tags = map.get("TAG").toString().trim().split("\\s*,\\s*");
+		String[] oriTags = map.get("oriTAG").toString().trim().split("\\s*,\\s*");
+		String[] tagsToAdd = new String[tags.length];		// 추가할 태그 어레이
+		String[] tagsToRemove = new String[oriTags.length];	// 제거할 태그 어레이. 그냥 둘 태그는 처리하지 않는다.
+		
+		for(String tag : tags) {
+			for(String oriTag : oriTags) {
+				
 			}
 		}
+		
 	}
 
 	@Override

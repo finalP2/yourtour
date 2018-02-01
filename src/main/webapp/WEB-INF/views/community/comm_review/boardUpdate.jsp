@@ -47,7 +47,9 @@
 				</tr>
 				<tr>
 					<td colspan="4" class="view_text">
-						<textarea rows="20" cols="100" id="summernote" name="CONTENT">${map.CONTENT }</textarea>
+						<textarea rows="20" cols="100" id="summernote" name="CONTENT">${map.CONTENT }</textarea><br />
+						태그: <input type="text" name='TAG' value='${map.TAG }'> 태그는 콤마로 구분해주세요<br />
+							<input type="hidden" name='oriTAG' value='${map.TAG }' />
 					</td>
 				</tr>
 			</tbody>
@@ -113,7 +115,7 @@
 		
 		function fn_openBoardList(){
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/comm/review/openBoardList.do' />");
+			comSubmit.setUrl("<c:url value='/comm/review/openBoardList.go' />");
 			comSubmit.submit();
 		}
 		

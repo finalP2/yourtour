@@ -29,23 +29,23 @@ public class CommonController {
 	@Resource(name="commonService")
 	private CommonService commonService;
 	
-	@RequestMapping(value="/common/downloadFile.go")
-	public void downloadFile(CommandMap commandMap, HttpServletResponse response) throws Exception{
-		Map<String,Object> map = commonService.selectFileInfo(commandMap.getMap());
-		String storedFileName = (String)map.get("STORED_FILE_NAME");
-		String originalFileName = (String)map.get("ORIGINAL_FILE_NAME");
-		
-		byte fileByte[] = FileUtils.readFileToByteArray(new File("C:\\dev\\file\\"+storedFileName));
-		
-		response.setContentType("application/octet-stream");
-		response.setContentLength(fileByte.length);
-		response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(originalFileName,"UTF-8")+"\";");
-		response.setHeader("Content-Transfer-Encoding", "binary");
-		response.getOutputStream().write(fileByte);
-		
-		response.getOutputStream().flush();
-		response.getOutputStream().close();
-	}
+//	@RequestMapping(value="/common/downloadFile.go")
+//	public void downloadFile(CommandMap commandMap, HttpServletResponse response) throws Exception{
+//		Map<String,Object> map = commonService.selectFileInfo(commandMap.getMap());
+//		String storedFileName = (String)map.get("STORED_FILE_NAME");
+//		String originalFileName = (String)map.get("ORIGINAL_FILE_NAME");
+//		
+//		byte fileByte[] = FileUtils.readFileToByteArray(new File("C:\\dev\\file\\"+storedFileName));
+//		
+//		response.setContentType("application/octet-stream");
+//		response.setContentLength(fileByte.length);
+//		response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(originalFileName,"UTF-8")+"\";");
+//		response.setHeader("Content-Transfer-Encoding", "binary");
+//		response.getOutputStream().write(fileByte);
+//		
+//		response.getOutputStream().flush();
+//		response.getOutputStream().close();
+//	}
 
 	@RequestMapping(value="/common/GetTempFile.go") // 게시판 작성시 임시 저장파일 다시 받아가기 과정
 	public void getTempFile(CommandMap commandMap, HttpServletResponse response) throws Exception{
@@ -67,8 +67,12 @@ public class CommonController {
 		String storedFileName = (String)map.get("filename");
 		String category = (String)map.get("cate");
 		String articleId = (String)map.get("idx");
-		
-		byte fileByte[] = FileUtils.readFileToByteArray(new File(realFilePath+"\\"+category+"\\"+articleId+"\\"+storedFileName));
+		byte fileByte[] = null;
+		try {
+			fileByte = FileUtils.readFileToByteArray(new File(realFilePath+"\\"+category+"\\"+articleId+"\\"+storedFileName));
+		} catch(Exception e) {
+			fileByte = FileUtils.readFileToByteArray(new File(realFilePath+"\\noimgtoshow.gif"));
+		}
 		
 		response.setContentType("image/jpeg");
 		response.setContentLength(fileByte.length);

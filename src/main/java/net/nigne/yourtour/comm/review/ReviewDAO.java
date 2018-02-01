@@ -75,14 +75,6 @@ public class ReviewDAO extends AbstractDAO{
 		return (List<Map<String, Object>>)selectList("review.selectFileList", map);
 	}
 
-	public void deleteFileList(Map<String, Object> map) throws Exception{
-		update("review.deleteFileList", map);
-	}
-
-	public void updateFile(Map<String, Object> map) throws Exception{
-		update("review.updateFile", map);
-	}
-
 	
 	public void commentUpdateRE_STEP(Map<String,Object> map) {
 		update("review.commentUpdateRE_STEP", map);
