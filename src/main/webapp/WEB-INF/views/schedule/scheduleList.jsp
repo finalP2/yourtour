@@ -13,16 +13,25 @@
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+   
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>일정 리스트</title>
 
 <style>
+a#MOVE_TOP_BTN {
+    position: fixed;
+    right: 8%;
+    bottom: 50px;
+    display: none;
+    z-index: 999;
+}
 /*일정 검색*/
  .panel{
  background-color: #f5f5f5;
  text-align:center;
 
 } 
+
 
 div.panel-heading{
 width: 120px;
@@ -71,7 +80,21 @@ img {
 </style>
 
 <script>
-
+$(function() {
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 500) {
+            $('#MOVE_TOP_BTN').fadeIn();
+        } else {
+            $('#MOVE_TOP_BTN').fadeOut();
+        }
+    });
+    $("#MOVE_TOP_BTN").click(function() {
+        $('html, body').animate({
+            scrollTop : 0
+        }, 400);
+        return false;
+    });
+});
 //일정 검색
 $('#accordion').on('shown.bs.collapse', function () {
      
@@ -230,7 +253,7 @@ function submitSearchForm(){
                 
                 <p><span class="glyphicon glyphicon-search" 
                 style="cursor:pointer;"
-                onclick="location.href='/yourtour/schedule/scheduleDetail.go?no=${scheduleLikeList.NO }'" 
+                onclick="location.href='/yourtour/schedule/scheduleDetail.go?sch_day_no=1&no=${scheduleLikeList.NO }'" 
                 data-toggle="tooltip" title="상세보기"></a></span></p>
                 
                 <p><h4>${scheduleLikeList.THEME } 여행!</h4></p>
@@ -292,7 +315,7 @@ function submitSearchForm(){
                 
                 <p><span class="glyphicon glyphicon-search" 
                 style="cursor:pointer;"
-                onclick="location.href='/yourtour/schedule/scheduleDetail.go?no=${scheduleList.NO }'" 
+                onclick="location.href='/yourtour/schedule/scheduleDetail.go?sch_day_no=1&no=${scheduleList.NO }'" 
                 data-toggle="tooltip" title="상세보기"></a></span></p>
                 
                 <p><h4>${scheduleList.THEME } 여행!</h4></p>
@@ -320,7 +343,7 @@ function submitSearchForm(){
 
 </center>
 <div>
-    <a href="#" class="jcm-top"><img src="../resources/img/arrow-up.png" style="margin-bottom: 40px;width: 40px; float:right"></a>
+    <a id="MOVE_TOP_BTN" href="#"><img src="../resources/sch_img/upup.png" width="60" height="60" /></a>
 </div>
 
 </body>

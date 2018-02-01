@@ -302,13 +302,18 @@ public class ScheduleController {
 	@RequestMapping("scheduleDetail.go")
 	public ModelAndView scheduleDetail(HttpServletRequest request, HttpSession session, CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView();
+		int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
+		commandMap.put("sch_day_no", sch_day_no);
 		commandMap.put("no", Integer.parseInt(request.getParameter("no")));
 		Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
 		 commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
 	   List<Map<String,Object>> commentlist  = scheduleService.commentList(commandMap.getMap());
-	   
-	   mv.addObject("clist", commentlist);
+		List<Map<String,Object>> schDayList = scheduleService.scheduleDay(commandMap.getMap());
+		List<Map<String,Object>> schDetailList = scheduleService.scheduleDetailList(commandMap.getMap());
+		mv.addObject("clist", commentlist);
 		mv.addObject("sch", scheduleOne);
+		mv.addObject("schDayList", schDayList);
+		mv.addObject("schDetailList", schDetailList);
 		
 		mv.setViewName("schedule/scheduleDetail");
 		return mv;

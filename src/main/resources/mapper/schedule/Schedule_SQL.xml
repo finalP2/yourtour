@@ -8,15 +8,19 @@
 			SELECT
 				*
 			FROM
-			    SCH    
+			    SCH 
+			WHERE PRIVATE1 = 0 
+			
 			ORDER BY NO DESC
 		]]>
 	</select>
 	<select id="scheduleSearchList" parameterType="hashmap" resultType="hashmap">
 
 			SELECT * FROM SCH
+			WHERE PRIVATE1 = 0 
+			
 			<if test="season != 'all' or theme != 'all'">
-				where 
+				and
 			</if>
 			<if test="season != 'all'">
         		 SEASON = #{season}

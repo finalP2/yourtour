@@ -99,26 +99,23 @@
 <br/>
 <div id="s_left" style="display:table-row">
 <div style="display:table-cell">
-<c:forEach var="schDayList" items="${schDayList }" varStatus="stat">
-				
-               <a href="scheduleArea.go?sch_day_no=${schDayList.DAY }&sch_no=${sch.NO}&city_no=${cityOne.NO}" >${schDayList.DAY }일차</a>
-             </c:forEach><hr>
+	<c:forEach var="schDayList" items="${schDayList }" varStatus="stat">	
+        <a href="scheduleArea.go?sch_day_no=${schDayList.DAY }&sch_no=${sch.NO}&city_no=${cityOne.NO}" >${schDayList.DAY }일차</a>
+	</c:forEach><hr>
                   ${sch_day_no}일차 일정<br/>
-				<c:if test="${empty schDetailList }">
-                    <b>일정을 추가해주세요.</b><br/><br/>
-                </c:if>
-			<c:if test="${not empty schDetailList }">
-			<c:forEach var="schDetailList" items="${schDetailList }" varStatus="stat">
-				
-                                  ${stat.count}--${schDetailList.NAME}&nbsp;
-                
-             <span class="glyphicon glyphicon-remove"
-             data-toggle="tooltip" title="이 여행지를 일정에서 삭제합니다."
-             style="cursor:pointer;"
-             onclick="location.href='http://localhost:8080/yourtour/schedule/deleteDetail.go?detail_no=${schDetailList.NO}&sch_day_no=${sch_day_no }&sch_no=${sch.NO}&city_no=${cityOne.NO}'"><br/>
-             </span>
-                         <br/>
-		</c:forEach>
+		<c:if test="${empty schDetailList }">
+            <b>일정을 추가해주세요.</b><br/><br/>
+       	</c:if>
+		<c:if test="${not empty schDetailList }">
+	<c:forEach var="schDetailList" items="${schDetailList }" varStatus="stat">	
+                                 ${stat.count}--${schDetailList.NAME}&nbsp;
+            <span class="glyphicon glyphicon-remove"
+            data-toggle="tooltip" title="이 여행지를 일정에서 삭제합니다."
+            style="cursor:pointer;"
+            onclick="location.href='http://localhost:8080/yourtour/schedule/deleteDetail.go?detail_no=${schDetailList.NO}&sch_day_no=${sch_day_no }&sch_no=${sch.NO}&city_no=${cityOne.NO}'"><br/>
+            </span>
+            <br/>
+	</c:forEach>
 </c:if></div></div>
 <div id="contents" style="display:table-row">
 <div style="display:table-cell">
