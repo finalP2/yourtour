@@ -16,10 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.nigne.yourtour.comm.common.service.AbstractService;
 import net.nigne.yourtour.common.util.FileUtils;
+import net.nigne.yourtour.common.util.CommunityUtils;
 
 @Service("reviewService")
 public class ReviewServiceImpl implements AbstractService{
 	Logger log = Logger.getLogger(this.getClass());
+	
+	@Resource(name="communityUtils")
+	private CommunityUtils communityUtils;
 	
 	@Resource(name="fileUtils")
 	private FileUtils fileUtils;
@@ -30,27 +34,19 @@ public class ReviewServiceImpl implements AbstractService{
 	@Override
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
 		
-//		String text = "......";
-//		String textWithoutTag = text.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+		// Html 태그 없애기 루틴 호출. 리스트 넣어주고 리스트로 전달받음
 		List<Map<String, Object>> list = reviewDAO.selectBoardList(map);
-		
-		Iterator<Map<String, Object>> iter = list.iterator();
-		while(iter.hasNext()) {
-			Map<String, Object> tempMap = iter.next(); 
-			String source = tempMap.get("CONTENT").toString();
-			String target = source.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
-			target = target.replaceAll("<", "");
-			System.out.println(target);
-			tempMap.put("CONTENT", target);
-		}
-		
+		list = communityUtils.removingHtmlTagFromList(list, "CONTENT");
+		list = communityUtils.removingHtmlTagFromList(list, "SUBJECT");
+				
 		return list;
 	}
 
 	@Override
 	@Transactional
 	public void insertBoard(Map<String, Object> map, HttpServletRequest request) throws Exception {
-
+		
+		map = communityUtils.removingHtmlTagFromMap(map, "SUBJECT");
 		// 아래: 일단 입력받은 태그에 중복값이 없는지 확인
 		// 태그가 있으면 검사하고, 중복된 값이 있으면 리스트에서 제거해준다
 		List<String> tags = new ArrayList<String>(Arrays.asList(map.get("TAG").toString().trim().split("\\s*,\\s*")));
@@ -100,7 +96,7 @@ public class ReviewServiceImpl implements AbstractService{
 		// 아래: 전체 컨텐츠 내용을 가져와서
 		String source = map.get("CONTENT").toString();
 		// 아래: 파일이름 부분을 검사해서 각각 string[] 에 저장한다, 복사원본(tempFilenames), 타겟(filenames)
-		// 아래: 반복문 안에서 파일 이동까지 진행 ** split 이용할때 ? 등은 정규식 문자라서 백슬래쉬 두개 붙여줘야 함
+		// 아래: 반복문 안에서 파일 이동까지 진행 ** split 이용할때 ?(물음표) 등은 정규식 문자라서 백슬래쉬 두개 붙여줘야 함
 		String[] tempFilenames = source.split("/yourtour/common/GetTempFile.go\\?filename=");
 		String[] filenames = new String[tempFilenames.length];
 		
