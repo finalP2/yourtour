@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -22,9 +23,22 @@ public class AccompanyController {
 	@Resource(name="accompanyService")
 	private AbstractService accompanyService;
 	
+	@RequestMapping(value="/test.go")
+    public ModelAndView test(CommandMap commandMap, HttpSession session) throws Exception{
+    	ModelAndView mv = new ModelAndView("accompanyTest");
+    	    	
+    	if(session.getAttribute("session_m_email") != null)
+    		mv.addObject("email", session.getAttribute("session_m_email").toString());
+    	
+    	return mv;
+    }
+	
 	@RequestMapping(value="/openBoardList.go")
-    public ModelAndView openBoardList(CommandMap commandMap) throws Exception{
+    public ModelAndView openBoardList(CommandMap commandMap, HttpSession session) throws Exception{
     	ModelAndView mv = new ModelAndView("accompanyList");
+    	    	
+    	if(session.getAttribute("session_m_email") != null)
+    		mv.addObject("email", session.getAttribute("session_m_email").toString());
     	
     	return mv;
     }
@@ -46,8 +60,12 @@ public class AccompanyController {
     }
 	
 	@RequestMapping(value="/openBoardWrite.go")
-	public ModelAndView openBoardWrite(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("/accompany/boardWrite");
+	public ModelAndView openBoardWrite(CommandMap commandMap, HttpSession session) throws Exception{
+		ModelAndView mv = new ModelAndView("/community/comm_accompany/boardWrite");
+		
+		if(session.getAttribute("session_m_email") != null) {
+    			mv.addObject("email", session.getAttribute("session_m_email").toString());
+		}
 		
 		return mv;
 	}
@@ -62,9 +80,13 @@ public class AccompanyController {
 	}
 	
 	@RequestMapping(value="/openBoardDetail.go")
-	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("/accompany/boardDetail");
+	public ModelAndView openBoardDetail(CommandMap commandMap, HttpSession session) throws Exception{
+		ModelAndView mv = new ModelAndView("accompanyDetail");
 		
+		if(session.getAttribute("session_m_email") != null) {
+    		mv.addObject("email", session.getAttribute("session_m_email").toString());
+    		mv.addObject("nickname", session.getAttribute("session_m_nickname").toString());	
+		}
 		Map<String,Object> map = accompanyService.selectBoardDetail(commandMap.getMap());
 		mv.addObject("map", map.get("map"));
 		mv.addObject("list", map.get("list"));
@@ -73,8 +95,11 @@ public class AccompanyController {
 	}
 	
 	@RequestMapping(value="/openBoardUpdate.go")
-	public ModelAndView openBoardUpdate(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("/accompany/boardUpdate");
+	public ModelAndView openBoardUpdate(CommandMap commandMap, HttpSession session) throws Exception{
+		ModelAndView mv = new ModelAndView("/community/comm_accompany/boardUpdate");
+		
+		if(session.getAttribute("session_m_email") != null)
+    			mv.addObject("email", session.getAttribute("session_m_email").toString());
 		
 		Map<String,Object> map = accompanyService.selectBoardDetail(commandMap.getMap());
 		mv.addObject("map", map.get("map"));
@@ -99,6 +124,40 @@ public class AccompanyController {
 		
 		accompanyService.deleteBoard(commandMap.getMap());
 		
+		return mv;
+	}
+	
+	// 댓글
+	@RequestMapping(value="/selectCommentList.go")
+	public ModelAndView selectCommentList(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		List<Map<String, Object>> list = accompanyService.selectCommentList(commandMap.getMap());
+		mv.addObject("list", list);
+    	if(list.size() > 0){
+    		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
+    	}
+    	else{
+    		mv.addObject("TOTAL", 0);
+    	}
+    	
+    	return mv;
+    }
+	
+	// 댓글삽입
+	@RequestMapping(value="/commentAdd.go")
+	public ModelAndView commentAdd(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		accompanyService.commentAdd(commandMap.getMap());
+		return mv;
+	}
+	
+	@RequestMapping(value="/commentDelete.go")
+	public ModelAndView commentDelete(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		accompanyService.commentDelete(commandMap.getMap());
 		return mv;
 	}
 }

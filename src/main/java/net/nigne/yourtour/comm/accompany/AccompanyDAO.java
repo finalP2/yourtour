@@ -12,13 +12,47 @@ public class AccompanyDAO extends AbstractDAO{
 
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception{
-		return (List<Map<String, Object>>)selectPagingList("accompany.selectBoardList", map);
+		List<Map<String, Object>> result = (List<Map<String, Object>>)selectPagingList("accompany.selectBoardList", map);
+		return result;
 	}
-
+	
+	
 	public void insertBoard(Map<String, Object> map) throws Exception{
 		insert("accompany.insertBoard", map);
 	}
-
+	// 컨텐트 내용 변경해서 다시 넣기 위한 쿼리 시리즈
+	public String getLastIDX() throws Exception {
+		return selectOne("accompany.getLastIDX").toString();
+	}
+	public void putContent(Map<String, Object> map) throws Exception {
+		update("accompany.putContent", map);
+	}
+	
+	
+	// 태그 넣기 위한 쿼리 시리즈. 태그테이블에 있으면 업데이트 없으면 인서트, 그리고 태그맵 테이블 인서트
+	public void tagInput(String tag) throws Exception {
+		update("accompany.tagInput", tag);
+	}
+	public int getTagId(String tag) throws Exception {
+		return (int) selectOne("accompany.getTagId", tag);
+	}
+	public void tagmapInput(Map<String, Object> map) throws Exception {
+		insert("accompany.tagmapInput", map);
+	}
+	
+	
+	public void removeTag(Map<String, Object> removeTag) {
+		update("accompany.removeTag", removeTag);
+	}
+	public void removeTagmap(Map<String, Object> removeTag) {
+		update("accompany.removeTagmap", removeTag);
+	}
+	public void updateArticleTag(Map<String, Object> map) {
+		update("accompany.updateArticleTag", map);
+	}
+	
+	
+	
 	public void updateHitCnt(Map<String, Object> map) throws Exception{
 		update("accompany.updateHitCnt", map);
 	}
@@ -36,7 +70,10 @@ public class AccompanyDAO extends AbstractDAO{
 		update("accompany.deleteBoard", map);
 	}
 
-	
+	public List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception{
+		List<Map<String, Object>> result = (List<Map<String, Object>>)selectPagingList("accompany.selectCommentList", map);
+		return result;
+	}
 	
 	
 	// 파일 관련해서는 마지막에 전반적으로 손볼것
@@ -49,12 +86,20 @@ public class AccompanyDAO extends AbstractDAO{
 		return (List<Map<String, Object>>)selectList("accompany.selectFileList", map);
 	}
 
-	public void deleteFileList(Map<String, Object> map) throws Exception{
-		update("accompany.deleteFileList", map);
+	
+	public void commentUpdateRE_STEP(Map<String,Object> map) {
+		update("accompany.commentUpdateRE_STEP", map);
+	}
+	public Map<String, Object> commentAdd(Map<String, Object> map) {
+		insert("accompany.commentAdd", map);	
+		return map;
+	}
+	public void commentUpdateREF(Map<String,Object> map) {
+		update("accompany.commentUpdateREF", map);	
 	}
 
-	public void updateFile(Map<String, Object> map) throws Exception{
-		update("accompany.updateFile", map);
+	public void commentDelete(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		update("accompany.commentDelete", map);
 	}
-
 }

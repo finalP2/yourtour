@@ -7,33 +7,32 @@
 		<include refid="common.pagingPre"/> 
 		<![CDATA[
 			SELECT
-				ROW_NUMBER() OVER (ORDER BY IDX DESC) RNUM,
-			    IDX,
-			    WRITER,
-			    SUBJECT,
-			    THEME,
-			    HITCOUNT,
-			    TO_CHAR(WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
-			    TAG
+				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
+			    a.IDX,
+			    b.NICKNAME AS WRITER,
+			    a.SUBJECT,
+			    SUBSTR(TRIM(a.CONTENT), 1, 100) AS CONTENT,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
+			    NVL(a.TAG, '태그가 없습니다') AS TAG,
+			    b.MEMBER_IMG
 			FROM
-			    COMM_ACCOMPANY
+			    COMM_TRAVELREVIEW a, MEMBER b
 			WHERE
-				DEL_FLAG = 'n'
+				a.DEL_FLAG = 'n' AND a.WRITER = b.EMAIL
 		]]>
 		<include refid="common.pagingPost"/> 
 	</select>
 	
 	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
 		<selectKey keyProperty="IDX" resultType="string" order="BEFORE">
-			SELECT COMM_ACCOMPANY_IDX_SEQ.NEXTVAL FROM DUAL
+			SELECT COMM_TRAVELREVIEW_IDX_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		<![CDATA[
-			INSERT INTO COMM_ACCOMPANY
+			INSERT INTO COMM_TRAVELREVIEW
 			(
 				IDX,
 			    WRITER,
 			    SUBJECT,
-			    THEME,
 			    CONTENT,
 			    WRITEDATE,
 			    TAG
@@ -43,17 +42,86 @@
 				#{IDX},
 				#{WRITER},
 				#{SUBJECT},
-				#{THEME},
-				#{CONTENT},
+				'sample',
 			    SYSDATE, 
 			    #{TAG}
 			)
 		]]>
 	</insert>
 	
+	<!-- 컨텐트 내용 변경해서 다시 넣기 위한 쿼리 시리즈 -->
+	<select id="getLastIDX" resultType="string">
+		<![CDATA[
+			SELECT MAX(IDX) FROM COMM_TRAVELREVIEW
+		]]>
+	</select>
+	<update id="putContent" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	COMM_TRAVELREVIEW
+			SET		CONTENT	= #{CONTENT}
+			WHERE	IDX		= #{IDX}
+		]]>
+	</update>
+	
+	<!-- 태그 넣기 위한 쿼리 시리즈. 태그테이블에 있으면 업데이트 없으면 인서트, 그리고 태그맵 테이블 인서트 -->
+	<update id="tagInput" parameterType="string">
+		<![CDATA[
+			MERGE INTO  COMM_TAGS
+      			USING DUAL
+			ON (TAGNAME = #{0})
+			WHEN MATCHED THEN
+				UPDATE SET
+					TAGCOUNT = TAGCOUNT + 1
+				WHERE
+					TAGNAME = #{0}
+			WHEN NOT MATCHED THEN
+				INSERT	(IDX, COMMTYPE, TAGNAME, TAGCOUNT)
+				VALUES	(COMM_TAGS_IDX_SEQ.nextval, 1, #{0}, 1)
+		]]>
+	</update>
+	<select id="getTagId" resultType = "integer" parameterType="string">
+		<![CDATA[
+			SELECT	IDX
+			FROM	COMM_TAGS
+			WHERE	TAGNAME = #{0}
+		]]>
+	</select>
+	<insert id="tagmapInput" parameterType="hashmap">
+		<![CDATA[
+			INSERT INTO COMM_TAGMAP
+				(IDX, COMMTYPE, TAG_ID, ARTICLEID)
+			VALUES
+				(COMM_TAGMAP_IDX_SEQ.nextval, 1, #{TAG_ID}, #{ARTICLEID})
+		]]>
+	</insert>
+	
+	<update id="removeTag" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	COMM_TAGS
+			SET		TAGCOUNT = TAGCOUNT - 1
+			WHERE	TAGNAME = #{TAG} AND COMMTYPE = 1
+		]]>
+	</update>
+	
+	<update id="removeTagmap" parameterType="hashmap">
+		<![CDATA[
+			DELETE FROM	COMM_TAGMAP
+			WHERE		ARTICLEID = #{IDX} 
+					AND TAG_ID = #{TAGID}
+					AND COMMTYPE = 1
+		]]>
+	</update>
+	<update id="updateArticleTag" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	COMM_TRAVELREVIEW
+			SET		TAG = #{TAG}
+			WHERE	IDX = #{IDX}
+		]]>
+	</update>
+	
 	<update id="updateHitCnt" parameterType="hashmap">
 		<![CDATA[
-			UPDATE COMM_ACCOMPANY 
+			UPDATE COMM_TRAVELREVIEW 
 			SET
 				HITCOUNT = NVL(HITCOUNT, 0) + 1
 			WHERE
@@ -65,25 +133,24 @@
 	<select id="selectBoardDetail" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT
-				IDX,
-				WRITER,
-				SUBJECT,
-				THEME,
-				CONTENT,
-				HITCOUNT,
-				WRITEDATE,
-				FILENAME,
-				TAG
+				a.IDX,
+				b.NICKNAME AS WRITER,
+				a.SUBJECT,
+				a.CONTENT,
+				a.HITCOUNT,
+				a.RECOMMENDCOUNT,
+				a.WRITEDATE,
+				a.TAG
 			FROM
-				COMM_ACCOMPANY
+				COMM_TRAVELREVIEW a, MEMBER b
 			WHERE
-				IDX = #{IDX}		
+				IDX = #{IDX}  AND a.WRITER = b.EMAIL
 		]]>
 	</select>
 	
 	<update id="updateBoard" parameterType="hashmap">
 		<![CDATA[
-			UPDATE COMM_ACCOMPANY 
+			UPDATE COMM_TRAVELREVIEW 
 			SET
 				SUBJECT = #{SUBJECT},
 				CONTENT = #{CONTENT}
@@ -94,13 +161,18 @@
 	
 	<update id="deleteBoard" parameterType="hashmap">
 		<![CDATA[
-			UPDATE COMM_ACCOMPANY
+			UPDATE COMM_TRAVELREVIEW
 			SET
 				DEL_FLAG = 'y'
 			WHERE
 				IDX = #{IDX}
 		]]>
 	</update>
+	
+	
+	
+	
+	
 <!-- 	
 	<insert id="insertFile" parameterType="hashmap">
 		<![CDATA[
@@ -126,4 +198,85 @@
 		]]>
 	</update>
  -->
+ 
+ <!-- 댓글부 -->
+ 	<select id="selectCommentList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.REF DESC, a.RE_STEP ASC) RNUM,
+			    a.IDX,
+				b.NICKNAME AS WRITER,
+				b.EMAIL,
+			    a.CONTENT,
+			    a.REF,
+			    a.RE_LEVEL,
+			    a.RE_STEP,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD HH:mm:SS') AS WRITEDATE,
+			    b.MEMBER_IMG
+			FROM
+			    COMM_TRAVELREVIEW_COMMENT a, MEMBER b
+			WHERE
+				ARTICLEID = #{ARTICLEID} AND a.WRITER = b.EMAIL
+		]]>
+		<include refid="common.pagingPost"/> 
+	</select>
+	
+	
+	
+	<update id="commentUpdateRE_STEP" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	COMM_TRAVELREVIEW_COMMENT
+			SET		RE_STEP = #{RE_STEP}+1
+			WHERE	REF = #{REF} AND
+			        RE_STEP >= #{RE_STEP}
+		]]>
+	</update>
+	<insert id="commentAdd" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
+		<selectKey keyProperty="IDX" resultType="string" order="BEFORE">
+			SELECT COMM_TRAVELREVIEW_C_IDX_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		<![CDATA[
+			INSERT INTO COMM_TRAVELREVIEW_COMMENT
+			(
+				IDX,
+			    ARTICLEID,
+			    WRITER,
+			    CONTENT,
+			    WRITEDATE,
+			    REF,
+			    RE_STEP,
+			    RE_LEVEL
+			)
+			VALUES
+			(
+				#{IDX},
+				#{ARTICLEID},
+				#{WRITER},
+				#{CONTENT},
+			    SYSDATE, 
+			    #{REF},
+			    #{RE_STEP},
+			    #{RE_LEVEL}
+			)
+		]]>
+	</insert>
+	<update id="commentUpdateREF">
+		<![CDATA[
+			UPDATE	COMM_TRAVELREVIEW_COMMENT
+			SET		REF = (	SELECT	MAX(IDX)
+			        FROM	COMM_TRAVELREVIEW_COMMENT
+			        )
+			WHERE	IDX = (	SELECT	MAX(IDX)
+			        FROM	COMM_TRAVELREVIEW_COMMENT
+        	)
+		]]>
+	</update>
+	
+	<update id="commentDelete" parameterType="hashmap">
+		<![CDATA[
+			DELETE FROM COMM_TRAVELREVIEW_COMMENT
+			WHERE IDX = #{IDX}
+		]]>
+	</update>
 </mapper>

@@ -48,6 +48,13 @@
 		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
 	</definition>
 	
+	<definition name="accompanyTest" extends="default"> 
+		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/community/template/sidebar.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/community/comm_accompany/boardTest.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
+	</definition>
+	
 	<definition name="accompanyList" extends="default"> 
 		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />
 		<put-attribute name="sidebar" value="/WEB-INF/views/community/template/sidebar.jsp" />

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -6,40 +7,40 @@
 </head>
 <body>
 	<table>
+		<!-- 상단 50, 우측 80 비우기 -->
 		<tr><td height="50"/></tr>
-		<tr><td style="padding-left:20px"><h2>동행 찾기</h2></td></tr>
+		<tr>
+			<td style="padding-left:100px"><h2>여행 후기</h2></td>
+		</tr>
 	</table>
-	<table class="board_list">
-		<colgroup>
-			<col width="50"/>
-			<col width="*"/>
-			<col width="10%"/>
-			<col width="50"/>
-			<col width="50"/>
-			<col width="15%"/>
-			<col width="80"/>
-		</colgroup>
-		<thead>
-			<tr>
-				<th scope="col">글번호</th>
-				<th scope="col">제목</th>
-				<th scope="col">작성자</th>
-				<th scope="col">조회수</th>
-				<th scope="col">추천수</th>
-				<th scope="col">작성일</th>
-				<th scope="col"></th>
-			</tr>
-		</thead>
-		<tbody>
-			
-		</tbody>
+	<table width="100%" border="0">
+		<tr>
+			<td>
+				<table width="100%" border="0">
+					<tr>
+						<td width="10%"></td>
+						<td width="80%">
+							<table class="board_list">
+								<tbody>
+									
+								</tbody>
+							</table>
+						</td>
+						<td width="10%"></td>
+					</tr>
+				</table>
+			</td>
+			<td width="80">
+		</tr>
 	</table>
 	
-	<div id="PAGE_NAVI"></div>
+	<div id="PAGE_NAVI" align="center"></div>
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX"/>
 	
 	<br/>
-	<a href="#this" class="btn" id="write">글쓰기</a>
+	<c:if test="${email != '' && email ne null}">
+		<a href="#this" class="btn" id="write">글쓰기</a>
+ 	</c:if>
 	
 	<%@ include file="/WEB-INF/views/community/include/include-body.jspf" %>
 	<script type="text/javascript">
@@ -60,23 +61,23 @@
 		
 		function fn_openBoardWrite(){
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/comm/review/openBoardWrite.do' />");
+			comSubmit.setUrl("<c:url value='/comm/accompany/openBoardWrite.go' />");
 			comSubmit.submit();
 		}
 		
 		function fn_openBoardDetail(obj){
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/comm/review/openBoardDetail.do' />");
+			comSubmit.setUrl("<c:url value='/comm/accompany/openBoardDetail.go' />");
 			comSubmit.addParam("IDX", obj.parent().find("#IDX").val());
 			comSubmit.submit();
 		}
 		
 		function fn_selectBoardList(pageNo){
 			var comAjax = new ComAjax();
-			comAjax.setUrl("<c:url value='/comm/review/selectBoardList.do' />");
+			comAjax.setUrl("<c:url value='/comm/accompany/selectBoardList.go' />");
 			comAjax.setCallback("fn_selectBoardListCallback");
 			comAjax.addParam("PAGE_INDEX",$("#PAGE_INDEX").val());
-			comAjax.addParam("PAGE_ROW", 15);
+			comAjax.addParam("PAGE_ROW", 10);
 			comAjax.addParam("IDX_FE", $("#IDX_FE").val());
 			comAjax.ajax();
 		}
@@ -96,22 +97,31 @@
 					divId : "PAGE_NAVI",
 					pageIndex : "PAGE_INDEX",
 					totalCount : total,
-					eventName : "fn_selectBoardList"
+					eventName : "fn_selectBoardList",
+					recordCount : 1
 				};
 				gfn_renderPaging(params);
 				
 				var str = "";
+								
 				$.each(data.list, function(key, value){
-					str += "<tr>" + 
-								"<td>" + value.IDX + "</td>" + 
-								"<td class='title'>" +
-									"<a href='#this' name='title'>" + value.SUBJECT + "</a>" +
+					str +=	"<tr>" + 
+								"<td rowspan='3' width='110'>" +
+								"<a href='#this' name='title'><img src=/yourtour/resources/mem_img/"+ value.MEMBER_IMG +" width='100' height='100'></a>" +
+								"<input type='hidden' id='IDX' value=" + value.IDX + ">" + 
+									"</td>" + 
+								"<td height='20' class='title' style='padding:5px;'>" +
+									value.IDX + "&nbsp;||&nbsp;&nbsp;" +
+									"<a href='#this' name='title'><STRONG>" + value.SUBJECT + "</STRONG></a>" +
 									"<input type='hidden' id='IDX' value=" + value.IDX + ">" + 
 								"</td>" +
-								"<td>" + value.WRITER + "</td>" + 
-								"<td>" + value.HITCOUNT + "</td>" +
-								"<td>" + value.RECOMMENDCOUNT + "</td>" + 
-								"<td>" + value.WRITEDATE + "</td>" + 
+								"<td width='30%' height='20' style='padding:5px;'>" + value.WRITEDATE + "&nbsp;||&nbsp;" + value.WRITER + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td colspan='2' style='color:#cccdce;'>" + value.CONTENT + "......</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td height='10' colspan='2' style='padding:0px;'>" + value.TAG + "</td>" +
 							"</tr>";
 				});
 				body.append(str);
