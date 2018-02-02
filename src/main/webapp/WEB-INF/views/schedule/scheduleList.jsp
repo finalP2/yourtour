@@ -123,7 +123,7 @@ $(document).ready(function(){
 });   
 
 function submitSearchForm(){
-	document.getElementById("SearchKeyword").submit();
+   document.getElementById("SearchKeyword").submit();
 }
 </script>
 
@@ -159,33 +159,33 @@ function submitSearchForm(){
                            <br/>
    <form id="SearchKeyword" name="SearchKeyword" action="scheduleSearch.go">
 
-    	<div style="border-style: solid">
-		<div style="padding-top :20px">
-			<input type="radio" name=season value="all" checked="checked" id="r1"><label for="r1"><span></span>전체</label>
-			<input type="radio" name="season" value="봄"id="r2" ><label for="r2"><span></span>봄</label>
-			<input type="radio" name="season" value="여름"id="r3" ><label for="r3"><span></span>여름</label>
-			<input type="radio" name="season" value="가을"id="r3" ><label for="r3"><span></span>가을</label>
-			<input type="radio" name="season" value="겨울"id="r3" ><label for="r3"><span></span>겨울</label>
-		</div>
-		<br>
-		<div >
-			<input type="radio" name="theme" value="all" checked="checked" id="r4"><label for="r4"><span></span>전체</label>
-			<input type="radio" name="theme" value="홀로" id="r5"><label for="r5"><span></span>홀로</label>
-			<input type="radio" name="theme" value="커플" id="r6"><label for="r6"><span></span>커플</label>
-			<input type="radio" name="theme" value="친구"id="r7" ><label for="r7"><span></span>친구</label>
-			<input type="radio" name="theme" value="가족"id="r8" ><label for="r8"><span></span>가족</label>
-		</div>
-		<br>
-		
-		<ul class="menu" >
-		 <li class="menu__item">
-			<a href="javascript: submitSearchForm();" class="menu__link hover1"><span class="menu__label hover1__label">SEARCH</span></a>
-			</li>
-			</ul>
-			</div>
-		</section>
-		<!-- <input type="submit" name="submit" value="검색"> -->
-	</form>
+       <div style="border-style: solid">
+      <div style="padding-top :20px">
+         <input type="radio" name=season value="all" checked="checked" id="r1"><label for="r1"><span></span>전체</label>
+         <input type="radio" name="season" value="봄"id="r2" ><label for="r2"><span></span>봄</label>
+         <input type="radio" name="season" value="여름"id="r3" ><label for="r3"><span></span>여름</label>
+         <input type="radio" name="season" value="가을"id="r3" ><label for="r3"><span></span>가을</label>
+         <input type="radio" name="season" value="겨울"id="r3" ><label for="r3"><span></span>겨울</label>
+      </div>
+      <br>
+      <div >
+         <input type="radio" name="theme" value="all" checked="checked" id="r4"><label for="r4"><span></span>전체</label>
+         <input type="radio" name="theme" value="홀로" id="r5"><label for="r5"><span></span>홀로</label>
+         <input type="radio" name="theme" value="커플" id="r6"><label for="r6"><span></span>커플</label>
+         <input type="radio" name="theme" value="친구"id="r7" ><label for="r7"><span></span>친구</label>
+         <input type="radio" name="theme" value="가족"id="r8" ><label for="r8"><span></span>가족</label>
+      </div>
+      <br>
+      
+      <ul class="menu" >
+       <li class="menu__item">
+         <a href="javascript: submitSearchForm();" class="menu__link hover1"><span class="menu__label hover1__label">SEARCH</span></a>
+         </li>
+         </ul>
+         </div>
+      </section>
+      <!-- <input type="submit" name="submit" value="검색"> -->
+   </form>
                <br/>
              </div>
                  <div class="modal-footer">
@@ -253,7 +253,7 @@ function submitSearchForm(){
                 
                 <p><span class="glyphicon glyphicon-search" 
                 style="cursor:pointer;"
-                onclick="location.href='/yourtour/schedule/scheduleDetail.go?sch_day_no=1&no=${scheduleLikeList.NO }'" 
+                onclick="location.href='/yourtour/schedule/scheduleDetail.go?sch_day_no=1&no=${scheduleLikeList.NO }&sch_cate=1'" 
                 data-toggle="tooltip" title="상세보기"></a></span></p>
                 
                 <p><h4>${scheduleLikeList.THEME } 여행!</h4></p>
@@ -298,6 +298,7 @@ function submitSearchForm(){
    <c:forEach var="scheduleList" items="${scheduleList }" varStatus="stat">
     <li class="col-md-3">
         <b>
+        
          <font size="4" color="#266eb7">
          <c:if test="${fn:length(scheduleList.NAME) gt 13 }">
          <c:out value="${fn:substring(scheduleList.NAME, 0, 13) }" />..
@@ -315,7 +316,7 @@ function submitSearchForm(){
                 
                 <p><span class="glyphicon glyphicon-search" 
                 style="cursor:pointer;"
-                onclick="location.href='/yourtour/schedule/scheduleDetail.go?sch_day_no=1&no=${scheduleList.NO }'" 
+                onclick="location.href='/yourtour/schedule/scheduleDetail.go?sch_day_no=1&no=${scheduleList.NO }&sch_cate=1'" 
                 data-toggle="tooltip" title="상세보기"></a></span></p>
                 
                 <p><h4>${scheduleList.THEME } 여행!</h4></p>

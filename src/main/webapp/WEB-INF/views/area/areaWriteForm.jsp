@@ -98,11 +98,33 @@ traverseFiles(this.files);
                     <input type="radio" name="city_name" value="멘체스터">멘체스터
                     <input type="radio" name="city_name" value="요크">요크 
                     <input type="radio" name="city_name" value="에딘버러">에딘버러-->
-                    <input type="radio" name="city_name" value="밀라노" checked="checked">밀라노
+                    	이탈리아<br/>
+                    <input type="radio" name="city_name" value="밀라노">밀라노
                      <input type="radio" name="city_name" value="로마">로마
                      <input type="radio" name="city_name" value="나폴리">나폴리
                      <input type="radio" name="city_name" value="베로나">베로나
                      <input type="radio" name="city_name" value="베니스">베니스 
+                     <br/>
+                     	스위스 <br/>
+                     	<input type="radio" name="city_name" value="루체른">루체른
+                     <input type="radio" name="city_name" value="취리히">취리히
+                     <input type="radio" name="city_name" value="프라하">프라하
+                      <br/>
+                      	포르투갈|스페인<br/>
+                      	<input type="radio" name="city_name" value="마드리드">마드리드
+                     <input type="radio" name="city_name" value="바르셀로나">바르셀로나
+                     <input type="radio" name="city_name" value="리스본">리스본
+                     <input type="radio" name="city_name" value="그라나다">그라나다
+                      	<br/>
+                      	크로아티아<br/>
+                      	<input type="radio" name="city_name" value="자그레브">자그레브
+                     <input type="radio" name="city_name" value="두브로브니크">두브로브니크
+                     <br/>
+                      	러시아<br/>
+                      	<input type="radio" name="city_name" value="블라디보스토크">블라디보스토크
+                     <input type="radio" name="city_name" value="모스크바">모스크바
+                     <input type="radio" name="city_name" value="상트페테르부르크">상트페테르부르크
+						
 
                     
                     <br/><br/>

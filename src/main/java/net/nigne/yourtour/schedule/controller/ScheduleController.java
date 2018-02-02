@@ -308,95 +308,170 @@ public class ScheduleController {
 	   }
 	
 	@RequestMapping("scheduleDetail.go")
-	public ModelAndView scheduleDetail(HttpServletRequest request, HttpSession session, CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView();
-		int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
-		commandMap.put("sch_day_no", sch_day_no);
-		commandMap.put("no", Integer.parseInt(request.getParameter("no")));
-		Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
-		 commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
-	   List<Map<String,Object>> commentlist  = scheduleService.commentList(commandMap.getMap());
-		List<Map<String,Object>> schDayList = scheduleService.scheduleDay(commandMap.getMap());
-		List<Map<String,Object>> schDetailList = scheduleService.scheduleDetailList(commandMap.getMap());
-		mv.addObject("clist", commentlist);
-		mv.addObject("sch", scheduleOne);
-		mv.addObject("schDayList", schDayList);
-		mv.addObject("schDetailList", schDetailList);
-		
-		mv.setViewName("schedule/scheduleDetail");
-		return mv;
-	}
-	
-	@RequestMapping("scheduleLike.go")
-	   public ModelAndView scheduleLike(HttpServletRequest request,HttpSession session, CommandMap commandMap ) throws Exception{
-			ModelAndView mv = new ModelAndView();
-			commandMap.put("no", Integer.parseInt(request.getParameter("no")));
-			Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
-		    String email = (String) session.getAttribute("session_m_email");
-		    
-		   int like = Integer.parseInt(scheduleOne.get("LIKE1").toString());
-		   commandMap.put("email", email);
-		   commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
-		   Map<String,Object> scheduleChk = scheduleService.scheduleLikeChk(commandMap.getMap());
-		   System.out.println("scheduleChk= "+scheduleChk);
-		   System.out.println("empty= "+scheduleChk.isEmpty());
-		   System.out.println("string= "+ scheduleChk.toString());
-		   String empty = "{map=null}";
-		  
-		    if(scheduleChk.toString().equals(empty)) {
-		    	System.out.println("like="+like);
-		    	commandMap.put("like1", like+1);
-
-		    scheduleService.likeinsert(commandMap.getMap());
-		    scheduleService.likeupdate(commandMap.getMap());
-		    
-		    mv.addObject("sch",scheduleOne);
-		    mv.addObject("msg","true");
-			mv.setViewName("schedule/scheduleDetail");
-			return mv;
-		    }
-		    else if(scheduleChk.isEmpty()==false) {
-		    	mv.addObject("sch",scheduleOne);
-		    	mv.addObject("msg", "failure");
-		    	mv.setViewName("schedule/scheduleDetail");
-		    	return mv;
-		    }
-		   mv.setViewName("schedule/scheduleDetail");
-		   return mv;
+	   public ModelAndView scheduleDetail(HttpServletRequest request, HttpSession session, CommandMap commandMap) throws Exception{
+	      ModelAndView mv = new ModelAndView();
+	      
+	         int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
+	         int sch_cate = Integer.parseInt(request.getParameter("sch_cate"));
+	         String email = (String) session.getAttribute("session_m_email");
+	         commandMap.put("sch_day_no", sch_day_no);
+	         commandMap.put("no", Integer.parseInt(request.getParameter("no")));
+	         Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
+	          commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
+	          commandMap.put("email", email);
+	         Map<String,Object> scheduleChk = scheduleService.scheduleLikeChk(commandMap.getMap());
+	         String empty = "{map=null}";
+	         if(scheduleChk.toString().equals(empty)) {
+	            mv.addObject("msg","true");
+	         
+	         }
+	         else if(scheduleChk.isEmpty()==false) {
+	             mv.addObject("msg", "failure");   
+	          }
+	        //일정 상세표일때
+	          if(sch_cate == 1) {
+	            List<Map<String,Object>> schDayList = scheduleService.scheduleDay(commandMap.getMap());
+	             List<Map<String,Object>> schDetailList = scheduleService.scheduleDetailList(commandMap.getMap());
+	             
+	            mv.addObject("schDayList", schDayList);
+	           mv.addObject("schDetailList", schDetailList);
+	          }
+	          
+	        //코멘트 일때
+	           if(sch_cate == 2){
+	            List<Map<String,Object>> commentlist = scheduleService.commentList(commandMap.getMap());
+	            
+	            mv.addObject("clist", commentlist);
+	         }
+	           
+	         mv.addObject("sch", scheduleOne);
+	         mv.addObject("sch_cate", sch_cate);
+	         
+	         
+	         mv.setViewName("schedule/scheduleDetail");
+	         return mv;
 	   }
 	   
+	   @RequestMapping("scheduleLike.go")
+	      public ModelAndView scheduleLike(HttpServletRequest request,HttpSession session, CommandMap commandMap ) throws Exception{
+	         ModelAndView mv = new ModelAndView();
+	         
+	         int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
+	         System.out.println("sch_day_no"+sch_day_no);
+	          int sch_cate = Integer.parseInt(request.getParameter("sch_cate"));
+	          int no = Integer.parseInt(request.getParameter("no"));
+	         
+	         commandMap.put("no", Integer.parseInt(request.getParameter("no")));
+	         Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
+	          String email = (String) session.getAttribute("session_m_email");
+	          
+	          commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
+	           
+	           //일정 상세표일때
+	             if(sch_cate == 1) {
+	               List<Map<String,Object>> schDayList = scheduleService.scheduleDay(commandMap.getMap());
+	                List<Map<String,Object>> schDetailList = scheduleService.scheduleDetailList(commandMap.getMap());
+	                
+	               mv.addObject("schDayList", schDayList);
+	              mv.addObject("schDetailList", schDetailList);
+	             }
+	             
+	           //코멘트 일때
+	              if(sch_cate == 2){
+	               List<Map<String,Object>> commentlist = scheduleService.commentList(commandMap.getMap());
+	               
+	               mv.addObject("clist", commentlist);
+	            }
+	              
+	            mv.addObject("sch", scheduleOne);
+	            mv.addObject("sch_cate", sch_cate);
+	          
+	          
+	          
+	         int like = Integer.parseInt(scheduleOne.get("LIKE1").toString());
+	         commandMap.put("email", email);
+	         commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
+	         Map<String,Object> scheduleChk = scheduleService.scheduleLikeChk(commandMap.getMap());
+	         System.out.println("scheduleChk= "+scheduleChk);
+	         System.out.println("empty= "+scheduleChk.isEmpty());
+	         System.out.println("string= "+ scheduleChk.toString());
+	         String empty = "{map=null}";
+	        
+	          if(scheduleChk.toString().equals(empty)) {
+	             System.out.println("like="+like);
+	             commandMap.put("like1", like+1);
+
+	          scheduleService.likeinsert(commandMap.getMap());
+	          scheduleService.likeupdate(commandMap.getMap());
+	          
+	          mv.addObject("sch",scheduleOne);
+	          mv.addObject("msg","true");
+	          
+	          mv.setViewName("schedule/scheduleDetail");
+	            return mv;
+	         
+	          }
+	          else if(scheduleChk.isEmpty()==false) {
+	             mv.addObject("sch",scheduleOne);
+	             mv.addObject("msg", "failure");
+	             mv.setViewName("schedule/scheduleDetail");
+	               return mv;
+	             
+	          }
+	          mv.setViewName("schedule/scheduleDetail");
+	            return mv;
+	         
+	      }
+	      
+	   
+	      @RequestMapping("scheduleCommentWrite.go")
+	      public ModelAndView scheduleCommentWrite(HttpServletRequest request,HttpSession session, CommandMap commandMap ) throws Exception{
+	            
+	         ModelAndView mv = new ModelAndView();
+	         
+	         int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
+	         int sch_cate = Integer.parseInt(request.getParameter("sch_cate"));
+	         int no = Integer.parseInt(request.getParameter("no"));
+	               
+	         String email = (String) session.getAttribute("session_m_email");
+	         commandMap.put("no", Integer.parseInt(request.getParameter("no")));
+	         Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
+	         commandMap.put("email", email);
+	         commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
+	          scheduleService.scheduleCommentWrite(commandMap.getMap());
+	          List<Map<String,Object>> commentlist  = scheduleService.commentList(commandMap.getMap());
+	          mv.addObject("clist", commentlist);
+	          mv.addObject("sch",scheduleOne );
+	         mv.setViewName("schedule/scheduleDetail");
+	         
+	         return new ModelAndView("redirect:scheduleDetail.go?sch_day_no="+sch_day_no+"&no="+no+"&sch_cate="+sch_cate+"");
+	         
+	         
+	      }
+	      @RequestMapping("commentDelete.go")
+	      public ModelAndView commentDelete(HttpServletRequest request,HttpSession session, CommandMap commandMap) throws Exception{
+	         ModelAndView mv = new ModelAndView();
+	         
+	         int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
+	         int sch_cate = Integer.parseInt(request.getParameter("sch_cate"));
+	         int no = Integer.parseInt(request.getParameter("no"));
+	         int c_no = Integer.parseInt(request.getParameter("c_no"));
+	         
+	         commandMap.put("c_no", Integer.parseInt(request.getParameter("c_no")));
+	         scheduleService.commentDelete(commandMap.getMap());
+	         commandMap.put("no", Integer.parseInt(request.getParameter("no")));
+	         Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
+	         commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
+	         List<Map<String,Object>> commentlist  = scheduleService.commentList(commandMap.getMap());
+	         mv.addObject("clist", commentlist);
+	         mv.addObject("sch",scheduleOne );
+
+	         
+	         return new ModelAndView("redirect:scheduleDetail.go?sch_day_no="+sch_day_no+"&sch_cate="+sch_cate+"&c_no="+c_no+"&no="+no+"");
+	      }
+	   
+	   
 	
-	   @RequestMapping("scheduleCommentWrite.go")
-	   public ModelAndView scheduleCommentWrite(HttpServletRequest request,HttpSession session, CommandMap commandMap ) throws Exception{
-		      
-		   ModelAndView mv = new ModelAndView();
-		   String email = (String) session.getAttribute("session_m_email");
-		   commandMap.put("no", Integer.parseInt(request.getParameter("no")));
-		   Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
-		   commandMap.put("email", email);
-		   commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
-		    scheduleService.scheduleCommentWrite(commandMap.getMap());
-		    List<Map<String,Object>> commentlist  = scheduleService.commentList(commandMap.getMap());
-		    mv.addObject("clist", commentlist);
-		    mv.addObject("sch",scheduleOne );
-			mv.setViewName("schedule/scheduleDetail");
-			return mv;
-		    
-	   }
-	   @RequestMapping("commentDelete.go")
-	   public ModelAndView commentDelete(HttpServletRequest request,HttpSession session, CommandMap commandMap) throws Exception{
-		   ModelAndView mv = new ModelAndView();
-		   commandMap.put("c_no", Integer.parseInt(request.getParameter("c_no")));
-		   scheduleService.commentDelete(commandMap.getMap());
-		   commandMap.put("no", Integer.parseInt(request.getParameter("no")));
-		   Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
-		   commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
-		   List<Map<String,Object>> commentlist  = scheduleService.commentList(commandMap.getMap());
-		   mv.addObject("clist", commentlist);
-		   mv.addObject("sch",scheduleOne );
-		   mv.setViewName("schedule/scheduleDetail");
-		   return mv;
-	   }
 	
 	
 }
