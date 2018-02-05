@@ -105,24 +105,55 @@
 				var str = "";
 								
 				$.each(data.list, function(key, value){
-					str +=	"<tr>" + 
-								"<td rowspan='3' width='110'>" +
-								"<a href='#this' name='title'><img src=/yourtour/resources/mem_img/"+ value.MEMBER_IMG +" width='100' height='100'></a>" +
-								"<input type='hidden' id='IDX' value=" + value.IDX + ">" + 
-									"</td>" + 
-								"<td height='20' class='title' style='padding:5px;'>" +
-									value.IDX + "&nbsp;||&nbsp;&nbsp;" +
-									"<a href='#this' name='title'><STRONG>" + value.SUBJECT + "</STRONG></a>" +
+					str +="<tr>"+
+								"<td class='narrow' style='font-weight:bold; color:red;''>"+
+									"모집중"+
+								"</td>"+
+								"<td class='narrow'>"+
+									"글번호 :"+
+								"</td>"+
+								"<td class='narrow'>"+
+									value.IDX+
+								"</td>"+
+								"<td class='narrow'>"+
+									"작성자 :"+
+								"</td>"+
+								"<td class='narrow'>"+
+									value.WRITER+
+								"</td>"+
+							"</tr>"+
+							"<tr>"+
+								"<td rowspan='2' class='narrow' width='90'>"+
+									"<a href='#this' name='title'><img src='/yourtour/resources/mem_img/"+value.MEMBER_IMG+"' width='80' height='80'/></a>"+
 									"<input type='hidden' id='IDX' value=" + value.IDX + ">" + 
-								"</td>" +
-								"<td width='30%' height='20' style='padding:5px;'>" + value.WRITEDATE + "&nbsp;||&nbsp;" + value.WRITER + "</td>" +
-							"</tr>" +
-							"<tr>" +
-								"<td colspan='2' style='color:#cccdce;'>" + value.CONTENT + "......</td>" +
-							"</tr>" +
-							"<tr>" +
-								"<td height='10' colspan='2' style='padding:0px;'>" + value.TAG + "</td>" +
+								"</td>"+
+								"<td class='narrow'>"+
+									"등록일 :"+
+								"</td>"+
+								"<td class='narrow'>"+
+									value.WRITEDATE+
+								"</td>"+
+								"<td class='narrow'>"+
+									"테마 :"+
+								"</td>"+
+								"<td class='narrow'>"+
+									value.THEME+
+								"</td>"+
+							"</tr>"+
+							"<tr>"+
+								"<td class='narrow'>"+
+									"글제목 :"+
+								"</td>"+
+								"<td colspan='3' class='narrow' height='60' style='text-align:left;'>"+
+									"<a href='#this' name='title'><STRONG>" + value.SUBJECT + "</STRONG></a>" +
+								"<input type='hidden' id='IDX' value=" + value.IDX + ">" +
+								"</td>"+
+							"</tr>"+
+							"<tr>"+
+								"<td colspan='5' height='2' style='padding:0px;background-color:gray;' />"+
 							"</tr>";
+
+
 				});
 				body.append(str);
 				

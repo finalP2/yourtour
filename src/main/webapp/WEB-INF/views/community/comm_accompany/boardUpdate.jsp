@@ -48,8 +48,8 @@
 				<tr>
 					<td colspan="4" class="view_text">
 						<textarea rows="20" cols="100" id="summernote" name="CONTENT">${map.CONTENT }</textarea><br />
-						태그: <input type="text" name='TAG' value='${map.TAG }'> 태그는 콤마로 구분해주세요<br />
-							<input type="hidden" name='oriTAG' value='${map.TAG }' />
+						테마: <input type="text" name='THEME' value='${map.THEME }'> 테마는 콤마로 구분해주세요<br />
+							<input type="hidden" name='oriTHEME' value='${map.THEME }' />
 					</td>
 				</tr>
 			</tbody>

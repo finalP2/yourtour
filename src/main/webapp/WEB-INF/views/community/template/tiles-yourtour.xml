@@ -61,6 +61,13 @@
 		<put-attribute name="body" value="/WEB-INF/views/community/comm_accompany/boardList.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
 	</definition>
+	
+	<definition name="accompanyDetail" extends="default"> 
+		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/community/template/sidebar.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/community/comm_accompany/boardDetail.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/community/template/footer.jsp" />
+	</definition>
 
 	<definition name="lossList" extends="default"> 
 		<put-attribute name="header" value="/WEB-INF/views/community/template/header.jsp" />

@@ -10,7 +10,7 @@
 		<!-- 상단 50, 우측 80 비우기 -->
 		<tr><td height="50"/></tr>
 		<tr>
-			<td style="padding-left:100px"><h2>여행 후기</h2></td>
+			<td style="padding-left:100px"><h2>동행 찾기</h2></td>
 		</tr>
 	</table>
 	<table width="100%" border="0">
@@ -45,7 +45,7 @@
 										<td colspan="3">${map.SUBJECT }</td>
 									</tr>
 									<tr>
-										<td colspan="3" style="color:#abacad; font-size:0.5em;">태그: ${map.TAG }</td>
+										<td colspan="3" style="color:#abacad; font-size:0.5em;">태그: ${map.THEME }</td>
 									</tr>
 									<tr>
 										<td colspan="4">${map.CONTENT }</td>

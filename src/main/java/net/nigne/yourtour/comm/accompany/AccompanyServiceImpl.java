@@ -36,7 +36,6 @@ public class AccompanyServiceImpl implements AbstractService{
 		
 		// Html 태그 없애기 루틴 호출. 리스트 넣어주고 리스트로 전달받음
 		List<Map<String, Object>> list = accompanyDAO.selectBoardList(map);
-		list = communityUtils.removingHtmlTagFromList(list, "CONTENT");
 		list = communityUtils.removingHtmlTagFromList(list, "SUBJECT");
 				
 		return list;
@@ -49,7 +48,7 @@ public class AccompanyServiceImpl implements AbstractService{
 		map = communityUtils.removingHtmlTagFromMap(map, "SUBJECT");
 		// 아래: 일단 입력받은 태그에 중복값이 없는지 확인
 		// 태그가 있으면 검사하고, 중복된 값이 있으면 리스트에서 제거해준다
-		List<String> tags = new ArrayList<String>(Arrays.asList(map.get("TAG").toString().trim().split("\\s*,\\s*")));
+		List<String> tags = new ArrayList<String>(Arrays.asList(map.get("THEME").toString().trim().split("\\s*,\\s*")));
 		if(tags.size() > 0 && !tags.get(0).toString().trim().isEmpty()) {	// isEmpty 안하고 "" 이걸로 비교했더니 안되네;;;;
 //			System.out.println(",,");
 //			System.out.println("map.get(\"TAG\") : "+map.get("TAG").toString());
@@ -78,7 +77,7 @@ public class AccompanyServiceImpl implements AbstractService{
 			}
 			// 마지막 콤마만 제거
 			concatTag = concatTag.substring(0, concatTag.lastIndexOf(","));
-			map.put("TAG", concatTag);
+			map.put("THEME", concatTag);
 			
 //			System.out.println("final concatTag : "+concatTag);
 //			System.out.println("map.get(\"TAG\") : "+map.get("TAG").toString());
@@ -188,8 +187,8 @@ public class AccompanyServiceImpl implements AbstractService{
 //			- 새로 들어온 태그면 추가해 주고,
 //			- 삭제된 태그가 있으면 없애주고..
 		
-		List<String> tags = new ArrayList<String>(Arrays.asList(map.get("TAG").toString().trim().split("\\s*,\\s*")));
-		List<String> oriTags = new ArrayList<String>(Arrays.asList(map.get("oriTAG").toString().trim().split("\\s*,\\s*")));
+		List<String> tags = new ArrayList<String>(Arrays.asList(map.get("THEME").toString().trim().split("\\s*,\\s*")));
+		List<String> oriTags = new ArrayList<String>(Arrays.asList(map.get("oriTHEME").toString().trim().split("\\s*,\\s*")));
 		List<String> tagsToAdd = new ArrayList<String>();		// 추가할 태그 리스트
 		List<String> tagsToRemove = new ArrayList<String>();	// 제거할 태그 리스트. 그냥 둘 태그는 처리하지 않는다.
 		
@@ -214,7 +213,7 @@ public class AccompanyServiceImpl implements AbstractService{
 				concatTag = concatTag.concat(tags.get(i).toString()+",");
 			}
 			concatTag = concatTag.substring(0, concatTag.lastIndexOf(","));
-			map.put("TAG", concatTag);
+			map.put("THEME", concatTag);
 			// 태그 중복검사 및 map 에 데이터 정리완료
 			
 			// 아래: 새로 들어온 태그에 추가된게 있는지, 삭제된게 있는지 검사하는 루틴
@@ -260,7 +259,7 @@ public class AccompanyServiceImpl implements AbstractService{
 					accompanyDAO.removeTag(removeMap);
 					accompanyDAO.removeTagmap(removeMap);			
 				}
-				map.put("TAG", "");
+				map.put("THEME", "");
 				accompanyDAO.updateArticleTag(map);
 			}
 		}		

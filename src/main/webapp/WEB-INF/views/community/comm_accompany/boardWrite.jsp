@@ -30,7 +30,7 @@
 				<tr>
 					<td colspan="2" class="view_text">
 						<textarea rows="20" cols="100" title="내용" id="summernote" name="CONTENT"></textarea><br />
-						태그: <input type="text" name='TAG' value=''> 태그는 콤마로 구분해주세요<br />
+						테마: <input type="text" name='THEME' value=''> 테마는 콤마로 구분해주세요<br />
 					</td>
 				</tr>
 			</tbody>

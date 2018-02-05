@@ -11,12 +11,11 @@
 			    a.IDX,
 			    b.NICKNAME AS WRITER,
 			    a.SUBJECT,
-			    SUBSTR(TRIM(a.CONTENT), 1, 100) AS CONTENT,
 			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
-			    NVL(a.TAG, '태그가 없습니다') AS TAG,
+			    NVL(a.THEME, '테마가 없습니다') AS THEME,
 			    b.MEMBER_IMG
 			FROM
-			    COMM_TRAVELREVIEW a, MEMBER b
+			    COMM_ACCOMPANY a, MEMBER b
 			WHERE
 				a.DEL_FLAG = 'n' AND a.WRITER = b.EMAIL
 		]]>
@@ -25,17 +24,17 @@
 	
 	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
 		<selectKey keyProperty="IDX" resultType="string" order="BEFORE">
-			SELECT COMM_TRAVELREVIEW_IDX_SEQ.NEXTVAL FROM DUAL
+			SELECT COMM_ACCOMPANY_IDX_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		<![CDATA[
-			INSERT INTO COMM_TRAVELREVIEW
+			INSERT INTO COMM_ACCOMPANY
 			(
 				IDX,
 			    WRITER,
 			    SUBJECT,
 			    CONTENT,
 			    WRITEDATE,
-			    TAG
+			    THEME
 			)
 			VALUES
 			(
@@ -44,7 +43,7 @@
 				#{SUBJECT},
 				'sample',
 			    SYSDATE, 
-			    #{TAG}
+			    #{THEME}
 			)
 		]]>
 	</insert>
@@ -52,12 +51,12 @@
 	<!-- 컨텐트 내용 변경해서 다시 넣기 위한 쿼리 시리즈 -->
 	<select id="getLastIDX" resultType="string">
 		<![CDATA[
-			SELECT MAX(IDX) FROM COMM_TRAVELREVIEW
+			SELECT MAX(IDX) FROM COMM_ACCOMPANY
 		]]>
 	</select>
 	<update id="putContent" parameterType="hashmap">
 		<![CDATA[
-			UPDATE	COMM_TRAVELREVIEW
+			UPDATE	COMM_ACCOMPANY
 			SET		CONTENT	= #{CONTENT}
 			WHERE	IDX		= #{IDX}
 		]]>
@@ -113,7 +112,7 @@
 	</update>
 	<update id="updateArticleTag" parameterType="hashmap">
 		<![CDATA[
-			UPDATE	COMM_TRAVELREVIEW
+			UPDATE	COMM_ACCOMPANY
 			SET		TAG = #{TAG}
 			WHERE	IDX = #{IDX}
 		]]>
@@ -121,7 +120,7 @@
 	
 	<update id="updateHitCnt" parameterType="hashmap">
 		<![CDATA[
-			UPDATE COMM_TRAVELREVIEW 
+			UPDATE COMM_ACCOMPANY 
 			SET
 				HITCOUNT = NVL(HITCOUNT, 0) + 1
 			WHERE
@@ -138,11 +137,10 @@
 				a.SUBJECT,
 				a.CONTENT,
 				a.HITCOUNT,
-				a.RECOMMENDCOUNT,
 				a.WRITEDATE,
-				a.TAG
+				a.THEME
 			FROM
-				COMM_TRAVELREVIEW a, MEMBER b
+				COMM_ACCOMPANY a, MEMBER b
 			WHERE
 				IDX = #{IDX}  AND a.WRITER = b.EMAIL
 		]]>
@@ -150,7 +148,7 @@
 	
 	<update id="updateBoard" parameterType="hashmap">
 		<![CDATA[
-			UPDATE COMM_TRAVELREVIEW 
+			UPDATE COMM_ACCOMPANY 
 			SET
 				SUBJECT = #{SUBJECT},
 				CONTENT = #{CONTENT}
@@ -161,7 +159,7 @@
 	
 	<update id="deleteBoard" parameterType="hashmap">
 		<![CDATA[
-			UPDATE COMM_TRAVELREVIEW
+			UPDATE COMM_ACCOMPANY
 			SET
 				DEL_FLAG = 'y'
 			WHERE
@@ -173,32 +171,6 @@
 	
 	
 	
-<!-- 	
-	<insert id="insertFile" parameterType="hashmap">
-		<![CDATA[
-			
-		]]>
-	</insert>
-	
-	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-			
-		]]>
-	</select>
-	
-	<update id="deleteFileList" parameterType="hashmap">
-		<![CDATA[
-			
-		]]>
-	</update>
-	
-	<update id="updateFile" parameterType="hashmap">
-		<![CDATA[
-			
-		]]>
-	</update>
- -->
- 
  <!-- 댓글부 -->
  	<select id="selectCommentList" parameterType="hashmap" resultType="hashmap">
 		<include refid="common.pagingPre"/> 
@@ -215,7 +187,7 @@
 			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD HH:mm:SS') AS WRITEDATE,
 			    b.MEMBER_IMG
 			FROM
-			    COMM_TRAVELREVIEW_COMMENT a, MEMBER b
+			    COMM_ACCOMPANY_COMMENT a, MEMBER b
 			WHERE
 				ARTICLEID = #{ARTICLEID} AND a.WRITER = b.EMAIL
 		]]>
@@ -226,7 +198,7 @@
 	
 	<update id="commentUpdateRE_STEP" parameterType="hashmap">
 		<![CDATA[
-			UPDATE	COMM_TRAVELREVIEW_COMMENT
+			UPDATE	COMM_ACCOMPANY_COMMENT
 			SET		RE_STEP = #{RE_STEP}+1
 			WHERE	REF = #{REF} AND
 			        RE_STEP >= #{RE_STEP}
@@ -234,10 +206,10 @@
 	</update>
 	<insert id="commentAdd" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
 		<selectKey keyProperty="IDX" resultType="string" order="BEFORE">
-			SELECT COMM_TRAVELREVIEW_C_IDX_SEQ.NEXTVAL FROM DUAL
+			SELECT COMM_ACCOMPANY_COMMENT_IDX_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		<![CDATA[
-			INSERT INTO COMM_TRAVELREVIEW_COMMENT
+			INSERT INTO COMM_ACCOMPANY_COMMENT
 			(
 				IDX,
 			    ARTICLEID,
@@ -263,19 +235,19 @@
 	</insert>
 	<update id="commentUpdateREF">
 		<![CDATA[
-			UPDATE	COMM_TRAVELREVIEW_COMMENT
+			UPDATE	COMM_ACCOMPANY_COMMENT
 			SET		REF = (	SELECT	MAX(IDX)
-			        FROM	COMM_TRAVELREVIEW_COMMENT
+			        FROM	COMM_ACCOMPANY_COMMENT
 			        )
 			WHERE	IDX = (	SELECT	MAX(IDX)
-			        FROM	COMM_TRAVELREVIEW_COMMENT
+			        FROM	COMM_ACCOMPANY_COMMENT
         	)
 		]]>
 	</update>
 	
 	<update id="commentDelete" parameterType="hashmap">
 		<![CDATA[
-			DELETE FROM COMM_TRAVELREVIEW_COMMENT
+			DELETE FROM COMM_ACCOMPANY_COMMENT
 			WHERE IDX = #{IDX}
 		]]>
 	</update>

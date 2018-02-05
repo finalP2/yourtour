@@ -45,7 +45,7 @@
 										<td colspan="3">${map.SUBJECT }</td>
 									</tr>
 									<tr>
-										<td colspan="3" style="color:#abacad; font-size:0.5em;">태그: ${map.TAG }</td>
+										<td colspan="3" style="color:#abacad; font-size:0.5em;">테마: ${map.THEME }</td>
 									</tr>
 									<tr>
 										<td colspan="4">${map.CONTENT }</td>
