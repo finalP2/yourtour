@@ -200,6 +200,14 @@
  -->
  
  <!-- 댓글부 -->
+ 	<select id="commentCount" parameterType="hashmap" resultType="integer">
+ 		<![CDATA[
+ 			SELECT	COUNT(*)
+ 			FROM	COMM_TRAVELREVIEW_COMMENT
+ 			WHERE	ARTICLEID = #{IDX} 				
+ 		]]>
+ 	</select>
+ 
  	<select id="selectCommentList" parameterType="hashmap" resultType="hashmap">
 		<include refid="common.pagingPre"/> 
 		<![CDATA[

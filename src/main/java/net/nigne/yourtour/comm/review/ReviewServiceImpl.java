@@ -38,6 +38,12 @@ public class ReviewServiceImpl implements AbstractService{
 		List<Map<String, Object>> list = reviewDAO.selectBoardList(map);
 		list = communityUtils.removingHtmlTagFromList(list, "CONTENT");
 		list = communityUtils.removingHtmlTagFromList(list, "SUBJECT");
+		
+		Iterator<Map<String, Object>> it = list.iterator();
+		while(it.hasNext()) {
+			Map<String, Object> tempMap = it.next();
+			tempMap.put("CCOUNT", reviewDAO.commentCount(tempMap));
+		}
 				
 		return list;
 	}

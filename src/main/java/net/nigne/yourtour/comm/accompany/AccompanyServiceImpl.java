@@ -38,6 +38,12 @@ public class AccompanyServiceImpl implements AbstractService{
 		List<Map<String, Object>> list = accompanyDAO.selectBoardList(map);
 		list = communityUtils.removingHtmlTagFromList(list, "SUBJECT");
 				
+		Iterator<Map<String, Object>> it = list.iterator();
+		while(it.hasNext()) {
+			Map<String, Object> tempMap = it.next();
+			tempMap.put("CCOUNT", accompanyDAO.commentCount(tempMap));
+		}
+		
 		return list;
 	}
 

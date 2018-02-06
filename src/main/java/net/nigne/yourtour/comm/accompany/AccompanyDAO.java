@@ -102,4 +102,8 @@ public class AccompanyDAO extends AbstractDAO{
 		// TODO Auto-generated method stub
 		update("accompany.commentDelete", map);
 	}
+	// 글 리스트에 표시하려고 댓글 갯수만 가져오기
+	public int commentCount(Map<String, Object> map) {
+		return (int) selectOne("accompany.commentCount", map);
+	}
 }

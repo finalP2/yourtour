@@ -145,7 +145,7 @@
 									"글제목 :"+
 								"</td>"+
 								"<td colspan='3' class='narrow' height='60' style='text-align:left;'>"+
-									"<a href='#this' name='title'><STRONG>" + value.SUBJECT + "</STRONG></a>" +
+									"<a href='#this' name='title'><STRONG>" + value.SUBJECT + " ("+ value.CCOUNT +")</STRONG></a>" +
 								"<input type='hidden' id='IDX' value=" + value.IDX + ">" +
 								"</td>"+
 							"</tr>"+
