@@ -112,7 +112,11 @@
 									"</td>" + 
 								"<td height='20' class='title' style='padding:5px;'>" +
 									value.IDX + "&nbsp;||&nbsp;&nbsp;" +
-									"<a href='#this' name='title'><STRONG>" + value.SUBJECT + " ("+ value.CCOUNT +")</STRONG></a>" +
+									"<a href='#this' name='title'><STRONG>" + value.SUBJECT;
+					if(value.CCOUNT*1 > 0){
+						str += " (댓글: "+ value.CCOUNT +")";
+					}				
+					str +=		"</STRONG></a>" +
 									"<input type='hidden' id='IDX' value=" + value.IDX + ">" + 
 								"</td>" +
 								"<td width='30%' height='20' style='padding:5px;'>" + value.WRITEDATE + "&nbsp;||&nbsp;" + value.WRITER + "</td>" +

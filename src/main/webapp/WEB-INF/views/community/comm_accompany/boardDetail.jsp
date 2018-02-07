@@ -10,7 +10,7 @@
 		<!-- 상단 50, 우측 80 비우기 -->
 		<tr><td height="50"/></tr>
 		<tr>
-			<td style="padding-left:100px"><h2>여행 후기</h2></td>
+			<td style="padding-left:100px"><h2>동행 찾기</h2></td>
 		</tr>
 	</table>
 	<table width="100%" border="0">
@@ -288,7 +288,12 @@
 						str +=			"</td>";
 					}
 					
-					str +=		"<td colspan='2'>" +
+					str +=		"<td colspan='2'";
+					console.log(value.ZZIM);
+					if(value.ZZIM == 'y'){
+						str +=	" style='background-color:red;'";
+					}
+					str += ">" +
 									value.CONTENT + "&nbsp;&nbsp;";
 					if('${email}')				
 						str +=		"<a href='javascript:toggleReplyForm("+value.IDX+");'><img src='/yourtour/img/comment.gif' width='20'>[답글달기]</a>" + "&nbsp;";

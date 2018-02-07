@@ -106,4 +106,7 @@ public class AccompanyDAO extends AbstractDAO{
 	public int commentCount(Map<String, Object> map) {
 		return (int) selectOne("accompany.commentCount", map);
 	}
+	public int zzimCount(Map<String, Object> map) {
+		return (int) selectOne("accompany.zzimCount", map);
+	}
 }

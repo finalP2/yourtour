@@ -11,6 +11,7 @@
 			    a.IDX,
 			    b.NICKNAME AS WRITER,
 			    a.SUBJECT,
+			    a.ZZIM_STATE,
 			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
 			    NVL(a.THEME, '테마가 없습니다') AS THEME,
 			    b.MEMBER_IMG
@@ -138,6 +139,8 @@
 				a.CONTENT,
 				a.HITCOUNT,
 				a.WRITEDATE,
+				a.ZZIM_STATE,
+				a.DDAY,
 				a.THEME
 			FROM
 				COMM_ACCOMPANY a, MEMBER b
@@ -169,7 +172,14 @@
 	
 	
 	
-	
+<!-- 찜카운트 -->	
+	<select id="zzimCount" parameterType="hashmap" resultType="integer">
+ 		<![CDATA[
+ 			SELECT	COUNT(*)
+ 			FROM	COMM_ZZIM
+ 			WHERE	BOARD = 'accompany' AND ARTICLEID = #{IDX} 				
+ 		]]>
+ 	</select>
 	
  <!-- 댓글부 -->
  	<select id="commentCount" parameterType="hashmap" resultType="integer">
@@ -189,6 +199,7 @@
 				b.NICKNAME AS WRITER,
 				b.EMAIL,
 			    a.CONTENT,
+			    a.ZZIM,
 			    a.REF,
 			    a.RE_LEVEL,
 			    a.RE_STEP,

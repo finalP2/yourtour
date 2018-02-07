@@ -10,7 +10,7 @@
 		<!-- 상단 50, 우측 80 비우기 -->
 		<tr><td height="50"/></tr>
 		<tr>
-			<td style="padding-left:100px"><h2>여행 후기</h2></td>
+			<td style="padding-left:100px"><h2>동행 찾기</h2></td>
 		</tr>
 	</table>
 	<table width="100%" border="0">
@@ -20,6 +20,30 @@
 					<tr>
 						<td width="10%"></td>
 						<td width="80%">
+							<form name="searchfrm1">
+							<table width="100%">
+								<tr>
+									<td>
+									내가 쓴 글
+									&nbsp;&nbsp;||&nbsp;&nbsp;
+									내가 찜한 글
+									&nbsp;&nbsp;||&nbsp;&nbsp;
+									찜받은 내 글
+									&nbsp;&nbsp;||&nbsp;&nbsp;
+									찜 인기순
+									</td>
+									<td align="right">
+										<select name="searchType">
+											<option>제목</option>
+											<option>내용</option>
+											<option>테마</option>
+										</select>
+										<input type="text" name="searchKeyword">
+										<input type="submit" value="검색">
+									</td>
+								</tr>
+							</table>
+							</form>
 							<table class="board_list">
 								<tbody>
 									
@@ -35,8 +59,22 @@
 	</table>
 	
 	<div id="PAGE_NAVI" align="center"></div>
-	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX"/>
-	
+	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX"/><br/>
+	<form name="searchfrm2">
+		<table width="100%">
+			<tr>
+				<td align="center">
+					<select name="searchType">
+						<option>제목</option>
+						<option>내용</option>
+						<option>테마</option>
+					</select>
+					<input type="text" name="searchKeyword">
+					<input type="submit" value="검색">
+				</td>
+			</tr>
+		</table>
+		</form>
 	<br/>
 	<c:if test="${email != '' && email ne null}">
 		<a href="#this" class="btn" id="write">글쓰기</a>
@@ -105,11 +143,13 @@
 				var str = "";
 								
 				$.each(data.list, function(key, value){
-					str +="<tr>"+
-								"<td class='narrow' style='font-weight:bold; color:red;''>"+
-									"모집중"+
-								"</td>"+
-								"<td class='narrow'>"+
+					str +="<tr>";	
+					if(value.ZZIM_STATE == 0){
+						str += "<td class='narrow' style='font-weight:bold; color:red;'>모집중</td>";
+					}else {
+						str += "<td class='narrow' style='font-weight:bold; color:black;'>모집종료</td>";
+					}				
+					str +=		"<td class='narrow'>"+
 									"글번호 :"+
 								"</td>"+
 								"<td class='narrow'>"+
@@ -145,7 +185,14 @@
 									"글제목 :"+
 								"</td>"+
 								"<td colspan='3' class='narrow' height='60' style='text-align:left;'>"+
-									"<a href='#this' name='title'><STRONG>" + value.SUBJECT + " ("+ value.CCOUNT +")</STRONG></a>" +
+								"<a href='#this' name='title'><STRONG>" + value.SUBJECT;
+					if(value.CCOUNT*1 > 0){
+						str += " (댓글: "+ value.CCOUNT +")";
+					}	
+					if(value.ZCOUNT*1 > 0){
+						str += " (찜: "+ value.ZCOUNT +")";
+					}	
+					str +=		"</STRONG></a>" +
 								"<input type='hidden' id='IDX' value=" + value.IDX + ">" +
 								"</td>"+
 							"</tr>"+

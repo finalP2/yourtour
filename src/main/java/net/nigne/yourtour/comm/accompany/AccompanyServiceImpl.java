@@ -33,7 +33,8 @@ public class AccompanyServiceImpl implements AbstractService{
 	
 	@Override
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
-		
+		long startTime = System.currentTimeMillis();
+		System.out.println("시작: "+startTime);
 		// Html 태그 없애기 루틴 호출. 리스트 넣어주고 리스트로 전달받음
 		List<Map<String, Object>> list = accompanyDAO.selectBoardList(map);
 		list = communityUtils.removingHtmlTagFromList(list, "SUBJECT");
@@ -42,8 +43,11 @@ public class AccompanyServiceImpl implements AbstractService{
 		while(it.hasNext()) {
 			Map<String, Object> tempMap = it.next();
 			tempMap.put("CCOUNT", accompanyDAO.commentCount(tempMap));
+			tempMap.put("ZCOUNT", accompanyDAO.zzimCount(tempMap));
 		}
-		
+		long endTime = System.currentTimeMillis();
+		System.out.println("끝: "+endTime);
+		System.out.println("차이: "+(endTime-startTime));
 		return list;
 	}
 
