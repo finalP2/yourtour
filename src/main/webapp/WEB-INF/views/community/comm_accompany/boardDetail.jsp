@@ -103,9 +103,9 @@
 										<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 										<input type="hidden" id="ARTICLEID" name="ARTICLEID" value="${map.IDX }" />
 									</td>
-									<td width="25%" align="right">
+									<td width="25%" align="right" id="commentListType">
 										<c:if test="${email != '' && email ne null}">
-											<a href="javascript:fn_selectZzimCommentList($('#PAGE_INDEX'))" class="btn" >찜글보기</a>
+											<a href="javascript:fn_selectZzimCommentList($('#PAGE_INDEX'));toggleCommentListType(1);"  class="btn" >찜글보기</a>
 											<a href="#comment_input" class="btn" >댓글작성</a>
 										</c:if>
 									</td>
@@ -287,6 +287,7 @@
 		}
 		
 		function fn_selectCommentListCallback(data){ // 받은 json 으로 댓글 쇼잉 처리
+			console.log(data.zzimFlag);
 			var total = data.TOTAL;
 			var body = $(".comment_list>tbody");
 			body.empty();
@@ -302,13 +303,23 @@
 				body.append(str);
 			}
 			else{
-				var params = {
-					divId : "COMMENT_NAVI",
-					pageIndex : "PAGE_INDEX",
-					totalCount : total,
-					eventName : "fn_selectCommentList",
-					recordCount : 15
-				};
+				if(data.zzimFlag){
+					var params = {
+						divId : "COMMENT_NAVI",
+						pageIndex : "PAGE_INDEX",
+						totalCount : total,
+						eventName : "fn_selectZzimCommentList",
+						recordCount : 15
+					};
+				}else{
+					var params = {
+						divId : "COMMENT_NAVI",
+						pageIndex : "PAGE_INDEX",
+						totalCount : total,
+						eventName : "fn_selectCommentList",
+						recordCount : 15
+					};
+				}
 				gfn_renderPaging(params);
 				params.divId = "COMMENT_NAVI2";
 				gfn_renderPaging(params);
@@ -393,7 +404,7 @@
 				commentReplyDiv.style.display = 'none';
 			}else{
 				commentReplyDiv.style.display = '';
-				focus
+				focus();
 			}
 		}
 		
@@ -403,8 +414,25 @@
 				commentReplyDiv.style.display = 'none';
 			}else{
 				commentReplyDiv.style.display = '';
-				focus
+				focus();
 			}
+		}
+		
+		function toggleCommentListType(flag){
+			var str = "";
+			$("#commentListType").empty();
+			if(flag == 0){
+				str +=	"<c:if test='${email != \'\' && email ne null}'>"+
+							"<a href='javascript:fn_selectZzimCommentList($(\"#PAGE_INDEX\"));toggleCommentListType(1);'  class='btn' >찜글보기</a>"+
+							"<a href='#comment_input' class='btn' >댓글작성</a>"+
+						"</c:if>";				
+			}else{
+				str +=	"<c:if test='${email != \'\' && email ne null}'>"+
+							"<a href='javascript:fn_selectCommentList($(\"#PAGE_INDEX\"));toggleCommentListType(0);'  class='btn' >일반댓글</a>"+
+							"<a href='#comment_input' class='btn' >댓글작성</a>"+
+						"</c:if>";
+			}
+			$("#commentListType").append(str);
 		}
 
 

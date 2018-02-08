@@ -134,13 +134,17 @@ public class AccompanyController {
 		
 		List<Map<String, Object>> list = accompanyService.selectCommentList(commandMap.getMap());
 		mv.addObject("list", list);
-    	if(list.size() > 0){
-    		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
-    	}
-    	else{
-    		mv.addObject("TOTAL", 0);
-    	}
-    	
+	    	if(list.size() > 0){
+	    		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
+	    	}else{
+	    		mv.addObject("TOTAL", 0);
+	    	}
+	    	
+	    	if(commandMap.getMap().containsKey("ZZIMLIST")) {
+	    		mv.addObject("zzimFlag", true);
+	    	}else {
+	    		mv.addObject("zzimFlag", false);
+	    	}
     	return mv;
     }
 	
