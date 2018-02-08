@@ -185,7 +185,16 @@ public class AreaController {
 		mav.addObject("areaImgModel", areaImgModel);
 /*		mav.addObject("areaReviewList", areaReviewList);
 		mav.addObject("revCount", revCount);*/
-
+		System.out.println("area_no="+no);
+		commandMap.put("area_no", no);
+		Map<String, Object> a_map = areaService.searchMap(commandMap.getMap());
+		float at = Float.parseFloat(a_map.get("LAT").toString());
+		float ng = Float.parseFloat(a_map.get("LNG").toString());
+		System.out.println("at="+at);
+		System.out.println("ng="+ng);
+		mav.addObject("at",at);
+		mav.addObject("ng",ng);
+		
 		if(request.getParameter("keyword").equals("info")) {
 			mav.setViewName("area/areaDetail");
 			return mav;
@@ -216,7 +225,16 @@ public class AreaController {
 		mav.addObject("areaImgModel", areaImgModel);
 /*		mav.addObject("areaReviewList", areaReviewList);
 		mav.addObject("revCount", revCount);*/
-
+		
+		commandMap.put("area_no", no);
+		Map<String, Object> a_map = areaService.searchMap(commandMap.getMap());
+		float at = Float.parseFloat(a_map.get("LAT").toString());
+		float ng = Float.parseFloat(a_map.get("LNG").toString());
+		System.out.println("at="+at);
+		System.out.println("ng="+ng);
+		mav.addObject("at",at);
+		mav.addObject("ng",ng);
+		
 		if(request.getParameter("keyword").equals("info")) {
 			mav.setViewName("area/areaDetail2");
 			return mav;

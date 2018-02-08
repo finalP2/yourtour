@@ -128,7 +128,7 @@
              <span class="glyphicon glyphicon-search"
              data-toggle="tooltip" title="여행지 정보를 보려면 클릭하세요."
              style="cursor:pointer;"
-             onclick="window.open('http://localhost:8080/yourtour/area/areaDetail.go?no=${areaList.NO }&keyword=info','여행지 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
+             onclick="window.open('http://localhost:8080/yourtour/area/areaDetail2.go?no=${areaList.NO }&keyword=info','여행지 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
              </span>
              
              <br/>

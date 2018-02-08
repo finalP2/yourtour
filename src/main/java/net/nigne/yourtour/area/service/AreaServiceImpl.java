@@ -78,4 +78,10 @@ Logger log = Logger.getLogger(this.getClass());
 	public void areaMainImgModify(Map<String, Object> map) throws Exception {
 		areaDAO.areaMainImgModify(map);
 	}
+	
+	@Override
+	public Map<String, Object> searchMap(Map<String, Object> map) throws Exception {
+		Map<String, Object> tempMap = areaDAO.searchMap(map);
+		return tempMap;
+	}
 }

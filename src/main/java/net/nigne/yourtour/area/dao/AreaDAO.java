@@ -65,5 +65,10 @@ public class AreaDAO extends AbstractDAO{
 		update("area.areaMainImgModify", map);
 		
 	}
+
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> searchMap(Map<String, Object> map) {
+		return (Map<String, Object>) selectOne("area.searchMap", map);
+	}
 	
 }

@@ -168,5 +168,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE NO = #{no}
 	</update>
 	
+	<select id="searchMap" resultType="hashmap" parameterType="hashmap">
+		select * from AREA_MAP 
+		WHERE AREA_NO= #{area_no}
+	</select>
+	
 	
 </mapper>

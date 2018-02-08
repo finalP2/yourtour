@@ -31,18 +31,15 @@
 
 <style>
 
-/*지도 로드뷰*/
-#container {overflow:hidden;height:300px;position:relative;}
-#btnRoadview,  #btnMap {position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;box-shadow: 0 1px 1px rgba(0,0,0,.04);z-index:1;cursor:pointer;}
-#btnRoadview:hover,  #btnMap:hover{background-color: #fcfcfc;border: 1px solid #c1c1c1;}
-#container.view_map #mapWrapper {z-index: 10;}
-#container.view_map #btnMap {display: none;}
-#container.view_roadview #mapWrapper {z-index: 0;}
-#container.view_roadview #btnRoadview {display: none;}
-/*지도 로드뷰 끝*/
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+
 </style>
 
 <script type="text/javascript">
+
 
 //게시글 삭제 스크립트
 function areaDelete(){
@@ -63,18 +60,28 @@ function areaReviewDelete(no){
 }
 
 </script>
+
 </head>
 <body>
+<script>
+function initMap() {
+   	var at = ${at}
+   	var ng = ${ng}
+       var uluru = {lat: at, lng: ng};
+       var map = new google.maps.Map(document.getElementById('map'), {
+         zoom: 14,
+         center: uluru
+         });
+       var marker = new google.maps.Marker({
+           position: uluru,
+           map: map
+         });
+       }
+ </script>
 
-<script src="<c:url value="resources/assets/js/jquery.min.js" />"></script>
-<script src="<c:url value="resources/assets/js/popper.min.js" />"></script>
-<script src="<c:url value="resources/assets/js/bootstrap.min.js" />"></script>
-<script src="<c:url value="resources/assets/js/owl.carousel.min.js" />"></script>
-<script src="<c:url value="resources/assets/js/bootstrap-datepicker.js" />"></script>
-<script src="<c:url value="resources/assets/js/jquery.waypoints.min.js" />"></script>
-<script src="<c:url value="resources/assets/js/jquery.easing.1.3.js" />"></script>
-<script src="<c:url value="resources/assets/js/select2.min.js" />"></script>
-<script src="<c:url value="resources/assets/js/main.js" />"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsYawDeNCfjwnKdxLZjT8SmRA8UG3pYa0&callback=initMap"
+    async defer></script>
+
 
 <nav class="navbar navbar-expand-lg navbar-dark probootstrap_navbar scrolled sleep awake"
 		id="probootstrap-navbar">
@@ -180,23 +187,16 @@ function areaReviewDelete(no){
 <!-- 지도 들어가야함 -->
 <tr><td>
 
-  <div class="panel-heading"><b><font size="3">#지도</font></b></div>
 
-<div id="container" class="view_map">
-    <div id="mapWrapper" style="width:100%;height:300px;position:relative;">
-        <div id="map" style="width:100%;height:100%"></div> <!-- 지도를 표시할 div 입니다 -->
-      
-    </div>
-</div>
-
+        <div id="map" style="position: relative; overflow: hidden;" align="center"></div>  
 <!-- 지도 -->
-
+</td></tr></table>
 
 
 
 
 <!-- 리뷰 -->
-<table border="0" width="70%">
+<table border="0" width="70%" align="center">
   <tr>
       <td><b>REVIEW</b>&nbsp;${revCount }</td>
   </tr>

@@ -40,9 +40,8 @@
 
 <style>
        #map {
-       	left: 50%;
         height: 700px;
-        width: 45%;
+        width: 90%;
        }
 
  </style>
