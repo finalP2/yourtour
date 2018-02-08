@@ -6,10 +6,113 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>여행지 리스트</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Free Bootstrap 4 Theme by ProBootstrap.com">
+<meta name="keywords"
+	content="free website templates, free bootstrap themes, free template, free bootstrap, free website template">
+
+<title>YOURTOUR &mdash; STATEMENT OF SCHEDULE</title>
+
+<link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,700" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap/bootstrap.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/css/animate.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/fonts/ionicons/css/ionicons.min.css">
+	
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/css/owl.carousel.min.css">
+
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/fonts/flaticon/font/flaticon.css">
+
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/fonts/fontawesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap-datepicker.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/css/select2.css">
+
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/css/helpers.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/assets/css/NewFile.css">
 
 </head>
 <body>
+
+<script src="<c:url value="resources/assets/js/jquery.min.js" />"></script>
+
+	<script src="<c:url value="resources/assets/js/popper.min.js" />"></script>
+	<script src="<c:url value="resources/assets/js/bootstrap.min.js" />"></script>
+	<script src="<c:url value="resources/assets/js/owl.carousel.min.js" />"></script>
+
+	<script
+		src="<c:url value="resources/assets/js/bootstrap-datepicker.js" />"></script>
+	<script
+		src="<c:url value="resources/assets/js/jquery.waypoints.min.js" />"></script>
+	<script
+		src="<c:url value="resources/assets/js/jquery.easing.1.3.js" />"></script>
+
+	<script src="<c:url value="resources/assets/js/select2.min.js" />"></script>
+
+	<script src="<c:url value="resources/assets/js/main.js" />"></script>
+
+
+	<nav
+		class="navbar navbar-expand-lg navbar-dark probootstrap_navbar scrolled sleep awake"
+		id="probootstrap-navbar">
+	<div class="container">
+		<a class="navbar-brand" href="/yourtour/">로고넣기</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#probootstrap-menu" aria-controls="probootstrap-menu"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span><i class="ion-navicon"></i></span>
+		</button>
+		<div class="collapse navbar-collapse" id="probootstrap-menu">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item active"><a class="nav-link"
+					href="/yourtour/">Home</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="/yourtour/member/joinForm.go">JOIN</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="/yourtour/member/loginpage.go">LOGIN</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="/yourtour/member/login.go">My page</a></li>
+			</ul>
+		</div>
+	</div>
+	</nav>
+	<!-- END nav -->
+	
+	<section class="probootstrap-cover overflow-hidden relative"
+		style="background-image: url('../resources/assets/images/bg_1.jpg');"
+		data-stellar-background-ratio="0.5" id="section-home">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md">
+				<h2
+					class="heading mb-2 display-4 font-light probootstrap-animate fadeInUp probootstrap-animated">AREA LIST</h2>
+			</div>
+
+		</div>
+	</div>
+	</section>
+	<!-- END section -->
+	
+	
+	<section class="probootstrap_section bg-light" id="section-contact">
+
+ 	<!-- 여백 -->
+<!--	<div class="container" align="center"><h2>LOG-IN</h2>
+		<div class="row justify-content-center mb-5"></div>
+	</div>
+	 -->
+
+    
 <table width="100%" border="0" align="center">
 	<tr>
 		<td colspan="3">
@@ -20,72 +123,6 @@
 	</tr>
 </table>
 
-<%-- <!-- 관련 여행일정 보기 -->
-			
-<div id="scheduleList" class="modal fade" role="dialog">
-<div class="modal-dialog" style="width:80%;">
-	<!-- Modal content-->
-				<form action="/gokkiri/schedule/scheduleList.go">
-				<div class="modal-content">
-					<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title"><b><font color="#266eb7">＜${param.keyword }＞</font>&nbsp;</b>관련 여행일정 보기</h4>
-					</div>
-				
-					<div class="modal-body" style="padding-left: 0px; padding-right: 35px;">
-					
-					<table width="100%" align="center"><tr><td>
-					<input type="hidden" name="currentPage" value="1">
-					<input type="hidden" name="keyword" value="${param.keyword }" />
-					<ul class="thumbnails" id="hover-cap-4col">
-					<c:forEach var="scheduleList" items="${scheduleList }" varStatus="stat">
-					<c:if test="${stat.index lt 8 }">
-					
-				    <li class="col-md-3">
-				   		<font size="2" color="#266eb7"><b>no.&nbsp;${scheduleList.s_no}</font><br/>
-				   		<font size="4" color="#266eb7">
-				   		<c:if test="${fn:length(scheduleList.s_name) gt 13 }">
-							<c:out value="${fn:substring(scheduleList.s_name, 0, 13) }" />..
-						</c:if>
-						<c:if test="${fn:length(scheduleList.s_name) le 13 }">
-							${scheduleList.s_name }
-						</c:if>
-				   		</b></font>
-				        <div class="thumbnail">
-				            <div class="caption">
-				                <p><h5>≪&nbsp;${scheduleList.s_start_date }박 ${scheduleList.s_start_date + 1 }일 일정&nbsp;≫</h5></p>
-				                <p></p>
-				                <p>작성자 : ${scheduleList.m_email }</p>
-				                <p><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;${scheduleList.s_hit }</p>
-				                
-				                <p><a href="/gokkiri/schedule/scheduleDetail.go?s_no=${scheduleList.s_no }&s_cate=0" data-toggle="tooltip" title="상세보기"><img src="/gokkiri/resources/img/view.png" width="25" /></a></p>
-				                
-				                <p><h4>${scheduleList.s_detail_memo } 출발~</h4></p>
-				            </div>
-				            <!-- a_img_sav 컬럼을 s_together 컬럼명으로 바꿔서 불러옴↓↓↓ -->
-				            <img src="/gokkiri/resources/area_img/${scheduleList.s_together }" alt="ALT NAME" class="img-responsive"  style="max-width: 100%; height: 100%;" >
-				        </div>
-					</li>
-					
-					</c:if>
-					</c:forEach>
-					</ul>
-					</td></tr>
-					
-					<tr><td>
-					</td></tr>
-					</table>
-			</div>
-			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary">더보기</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">나가기</button>
-			</div>
-		</div>
-		</form>
-</div>
-</div>
- 			
-			<!-- 관련 여행일정 보기 끝 --> --%>
 
 <table width="100%" border="0" align="center">
 	<tr>
@@ -171,6 +208,6 @@
 	</c:if>
 </tbody>
 </table>
-
+</section>
 </body>
 </html>

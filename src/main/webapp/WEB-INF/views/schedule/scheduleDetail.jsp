@@ -18,6 +18,64 @@
 
 <style>
 
+/*일정 검색*/
+ .panel{
+ background-color: #f5f5f5;
+ text-align:center;
+
+} 
+
+div.panel-heading{ 
+width: 120px;
+height: 50px;
+display: inline-block;
+}
+
+div.panel-body{
+width: 120px;
+height: 50px;
+display: inline-block;
+}
+
+.jumbotron{
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;
+width: 100%;
+height: 100%;
+}
+
+.panel{
+background: rgba(0,0,0, 0.1);
+}
+
+.panel2 {
+width: 180px;
+float: left;
+}
+
+/*일정내용*/
+.list-group-item-center{
+text-align:center;
+}
+
+/*사이드 스크롤 리스트*/
+.table-fixed thead {
+  width: 97%;
+}
+.table-fixed tbody {
+  height: 130px;
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
+/*사이드 스크롤 리스트 끝*/
 
 /*지도*/
 .label {margin-bottom: 96px;}
@@ -38,8 +96,85 @@ img {
     border-radius: 3px;
 }
 
-</style>
+/*등록하기 버튼 */
+.button {
+  padding: 10px 10px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #f4511e;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+.button:hover {background-color: #cc441a}
+.button:active {
+  background-color: #cc441a;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
 
+/*목록 버튼 */
+.listButton {
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
+  width: 80px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+.listButton span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.listButton span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+.listButton:hover span {
+  padding-right: 25px;
+}
+.listButton:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+</style>
+<script>
+
+//일정 상세정보
+$('#accordion').on('shown.bs.collapse', function () {
+     
+     var panel = $(this).find('.in');
+     
+     $('html, body').animate({
+           scrollTop: panel.offset().top
+     }, 500);
+     
+   });
+
+//댓글 삭제 스크립트
+function schCommentDelete(s_co_no){
+   if(confirm("댓글을 삭제하시겠습니까?") == true){
+      location.href='schCommentDelete.go?s_no=${param.s_no }&s_co_no='+s_co_no;
+   }else{
+      return;
+   }
+}
+</script>
 
 </head>
 <body>
@@ -88,7 +223,7 @@ img {
         <c:choose>
           <c:when test = "${msg == 'failure' }">
                     <div style="color: red">
-                           이미 좋아요 하셨습니다.
+                        	이미 좋아요 하셨습니다.
                     </div>
 
          </c:when>
@@ -142,7 +277,7 @@ img {
                         <div class="modal-body">
                            <br/>
                            
-                                 일정을 삭제하시겠습니까?<br/>
+                        		   일정을 삭제하시겠습니까?<br/>
                            (*원작성자의 일정이 삭제되면 공유한 친구의 일정도 동시삭제됩니다.)
                            <br/><br/><br/>
                            <input type="submit" class="btn btn-primary odom-submit" value="확인" 
@@ -164,11 +299,11 @@ img {
                            <br/>
                            
                            
-                                 좋아요 하시겠습니까?
-                                 <br/><br/><br/>
+                          		 좋아요 하시겠습니까?
+                           		<br/><br/><br/>
                            
-                              <input type="button" class="btn btn-primary odom-submit" value="확인" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleLike.go?sch_day_no=1&sch_cate=1&no=${sch.NO}'"/>
-                              <button type="button" class="btn btn-default" data-dismiss="modal">취소하기</button>
+	                           <input type="button" class="btn btn-primary odom-submit" value="확인" onclick="location.href='http://localhost:8080/yourtour/schedule/scheduleLike.go?sch_day_no=1&sch_cate=1&no=${sch.NO}'"/>
+	                           <button type="button" class="btn btn-default" data-dismiss="modal">취소하기</button>
                        
                            
                            </div>
@@ -181,25 +316,23 @@ img {
             </div>
          <!-- 찜하기/해제 모달 끝 -->
 
-<thead><tr><th><b><font color="gray" size="3">#지도</font></b></th></tr></thead>
+
+<thead><tr><th><b><font color="gray" size="3">#지도</font></b></th></tr>
 <tbody>
 <tr><td>
-
+ <table class="table table-fixed">
 <div id="map" style="width:400px;height:200px;"></div>
 <!-- 지도 -->
-
-<tr><td>
-
-<div class="panel panel-default">
-  <table class="table table-fixed">
+<!-- <tr>
+  
     <thead>
       <tr>
-        <th class="col-xs-12" style="text-align:center;"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+        <th class="col-xs-12" text-align="center";><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
         &nbsp;여행지 리스트(일정순)</th>
       </tr>
     </thead>
-    <tbody>
-      <c:forEach var="mapList" items="${mapList }" varStatus="stat">
+    <tbody> -->
+      <%-- <c:forEach var="mapList" items="${mapList }" varStatus="stat">
          <tr>
            <td class="col-xs-3">
                 <font color="#266eb7">
@@ -219,13 +352,14 @@ img {
                ${mapList.a_name }
            </td>
          </tr>
-      </c:forEach>
-    </tbody>
+      </c:forEach> --%>
+ 
   </table>
-</div>
-
+</tr></tbody>
 
 <!-- 일정표/댓글 버튼 -->
+
+
 <ul class="nav nav-tabs nav-justified" >
     
    <li><a href="scheduleDetail.go?sch_day_no=1&no=${sch.NO }&sch_cate=1"><b>일정표</b>&nbsp;<span class="glyphicon glyphicon-th-large"></span></a></li>
@@ -234,55 +368,70 @@ img {
 
 <!-- 스케쥴 상세보기 -->
 <c:if test="${sch_cate == 1 }">
-      
-         <c:forEach var="scheduleDetailList" items="${scheduleDetailList }" varStatus="stat">
+      	
+
             
-            <div class="list-group">
-              <div class="list-group-item active"><h2 id="sec${stat.count }">DAY ${stat.count }</h2></div>
-             <c:forEach var="day" items="${scheduleDetailList}" varStatus="stat2">
+            <div class="list-group" >
+
+             
+               <c:forEach var="schDayList" items="${schDayList}" varStatus="stat2">
+               <div class="list-group-item list-group-item-success">
+              
+              <h2 id="sec${stat2.count }">DAY ${stat2.count }</h2></div>
+                  <c:forEach var="schDetailList" items="${schDetailList }" varStatus="stat">
+                  
+             <c:if test="${schDetailList.SCH_DAY_NO ==stat2.count}">
                 <div class="list-group-item">
-                   <img src="/gokkiri/resources/area_img/${day.s_together }" width="200" height="120">
-                   &nbsp;&nbsp;&nbsp;<font size="5" color="#266eb7"><b>${stat2.count }. ${a.NAME }&nbsp;&nbsp;
+                   <img src="/yourtour/resources/area_img/${schDetailList.MAIN_IMG }" width="200" height="120">
+                   &nbsp;&nbsp;&nbsp;<font size="5" color="#3b9342"><b>${schDetailList.DETAIL_TURN }. ${schDetailList.NAME}&nbsp;&nbsp;
                    <span class="glyphicon glyphicon-info-sign" 
                          style="cursor:pointer;"
-                               onclick="window.open('http://localhost:8080/gokkiri/area/areaDetail.go?a_no=${day.a_no}&keyword=info','여행지 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
+                               onclick="window.open('http://localhost:8080/yourtour/area/areaDetail2.go?no=${schDetailList.NO }&keyword=info','여행지 정보','width=550, height=500, toolbar=no, menubar=no, scrollbars=yes,status=no, resizable=yes');return false;">
                    </span>
-                   </b></font>
+                   </b></font></div>
+                
+
+              
+                <div class="list-group-item">
+                   <b><font color="gray">&nbsp;· 여행지 : </font></b>&nbsp;&nbsp;${schDetailList.NAME }
                 </div>
                 
+                <%-- <c:if test="${schDetailList.MAIN_IMG != null }">
                 <div class="list-group-item">
-                   <b><font color="gray">&nbsp;· 주소 : </font></b>&nbsp;&nbsp;${a.ADDRESS }
+                   <b><img src="/yourtour/resources/area_img/${schDetailList.MAIN_IMG }" width="300" height="200" />
+                </div>
+                </c:if> --%>
+                
+                <div class="list-group-item">
+                   <b><font color="gray">&nbsp;· 주소 : </font></b>&nbsp;&nbsp;${schDetailList.ADDRESS }
                 </div>
                 
-                <c:if test="${a.TEL != null }">
+                <c:if test="${schDetailList.TEL != null }">
                 <div class="list-group-item">
-                   <b><font color="gray">&nbsp;· 전화번호 : </font></b>&nbsp;&nbsp;${a.TEL }
+                   <b><font color="gray">&nbsp;· 전화번호 : </font></b>&nbsp;&nbsp;${schDetailList.TEL }
                 </div>
                 </c:if>
                 
-                <c:if test="${a.WAY != null }">
+                <c:if test="${schDetailList.WAY != null }">
                 <div class="list-group-item">
-                   <b><font color="gray">&nbsp;· 가는방법 : </font></b>&nbsp;&nbsp;${a.WAY }
+                   <b><font color="gray">&nbsp;· 가는방법 : </font></b>&nbsp;&nbsp;${schDetailList.WAY }
                 </div>
                 </c:if>
                 
-                <c:if test="${s.MEMO != null }">
-                <div class="list-group-item">
-                   <b><font color="gray">&nbsp;· 메모 : </font></b>&nbsp;&nbsp;${s.MEMO }<br/>
-                </div>
-                </c:if>
                 
-               <c:if test="${fn:length(scheduleDayList) gt stat2.count}">
+                
+               <c:if test="${fn:length(schDayList) gt stat2.count}">
                <div class="list-group-item-center">
                   <br/><img src="/gokkiri/resources/img/arrow.png" width="50" height="20" /><br/><br/>
                </div>
                </c:if>
+               </c:if>
               </c:forEach>
-         </div>
+    
          
-         <br/><br/>
-         
-          </c:forEach>
+         <br/><br/></c:forEach></div>
+    
+  
 
 </c:if>
 
@@ -298,15 +447,15 @@ img {
       </tr>
       <tr>
       <td align="right">
-         <form name="cForm" class="form-horizontal" action="scheduleCommentWrite.go" enctype="multipart/form-data">
+      	<form name="cForm" class="form-horizontal" action="scheduleCommentWrite.go" enctype="multipart/form-data">
             <input type="hidden" name="no" value="${sch.NO }" />
             <input type="hidden" name="email" value="${member.EMAIL }" />
             <input type="hidden" name="sch_day_no" value="1" />
             <input type="hidden" name="sch_cate" value="2" />
             <textarea class="form-control" rows="5" name="content"></textarea>
             <br/>
-               <input type="submit" value="등록하기"/>
-         </form>
+            	<input type="submit" value="등록하기"/>
+      	</form>
       </td>
       </tr>
     
@@ -349,9 +498,8 @@ img {
 </c:if>
 
 </div><!--/right-->
-
-
 </div><!--/container-->
+</table>
    
 </body>
 </html>

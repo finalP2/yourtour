@@ -27,7 +27,7 @@ function windowclose(){
 function check(){
 	
 	if(nameChkForm.nickname.value==""){
-		alert("닉네입음 입력해 주세요.");
+		alert("닉네임을 입력해 주세요.");
 		nameChkForm.nickname.focus();
 		return false;
 	}

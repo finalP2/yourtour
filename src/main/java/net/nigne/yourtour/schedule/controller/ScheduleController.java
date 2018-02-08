@@ -313,11 +313,12 @@ public class ScheduleController {
 	      
 	         int sch_day_no = Integer.parseInt(request.getParameter("sch_day_no"));
 	         int sch_cate = Integer.parseInt(request.getParameter("sch_cate"));
+	         int no = Integer.parseInt(request.getParameter("no"));
 	         String email = (String) session.getAttribute("session_m_email");
 	         commandMap.put("sch_day_no", sch_day_no);
-	         commandMap.put("no", Integer.parseInt(request.getParameter("no")));
+	         commandMap.put("no", no);
 	         Map<String,Object> scheduleOne = scheduleService.scheduleSelectOne(commandMap.getMap());
-	          commandMap.put("sch_no", Integer.parseInt(scheduleOne.get("NO").toString()));
+	         commandMap.put("sch_no", no);
 	          commandMap.put("email", email);
 	         Map<String,Object> scheduleChk = scheduleService.scheduleLikeChk(commandMap.getMap());
 	         String empty = "{map=null}";

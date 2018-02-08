@@ -194,6 +194,37 @@ public class AreaController {
 			return mav;
 		}
 	}
+	@RequestMapping("areaDetail2.go")
+	public ModelAndView areaDetail2(HttpServletRequest request, CommandMap commandMap) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		int no = Integer.parseInt(request.getParameter("no"));
+		String keyword = request.getParameter("keyword");
+		commandMap.put("no", no);
+		
+		Map<String,Object> areaModel = areaService.areaDetail(commandMap.getMap());
+		List<Map<String,Object>> areaImgModel = areaService.area_imgList(commandMap.getMap());
+		System.out.println("img="+ areaImgModel.toString());
+/*		List<Map<String,Object>>  areaReviewList = areaService.areaReviewList(no);
+		List<ScheduleModel> scheduleList = scheduleService.scheduleSearchList(keyword);
+		
+		int revCount = areaService.revCount(no);*/
+		
+		/*mav.addObject("scheduleList", scheduleList);*/
+		mav.addObject("areaModel", areaModel);
+		mav.addObject("areaImgModel", areaImgModel);
+/*		mav.addObject("areaReviewList", areaReviewList);
+		mav.addObject("revCount", revCount);*/
+
+		if(request.getParameter("keyword").equals("info")) {
+			mav.setViewName("area/areaDetail2");
+			return mav;
+		} else {
+			mav.setViewName("area/areaDetail2");
+			return mav;
+		}
+	}
 
 	//������ �� �����ϱ�
 	@RequestMapping("areaDelete.go")
