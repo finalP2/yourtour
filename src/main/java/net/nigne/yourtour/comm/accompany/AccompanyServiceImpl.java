@@ -296,6 +296,13 @@ public class AccompanyServiceImpl implements AbstractService{
 		
 		if(Integer.parseInt(map.get("REF").toString()) == -1)
 			accompanyDAO.commentUpdateREF(map);
+		
+		// 다시 최근글 셀렉트 해서, zzim 이 y 이면 zzim 에 인서트
+		Map<String, Object> lastComment = accompanyDAO.getLatestComment(map);
+		if(lastComment.get("ZZIM").toString().equals("y")) {
+			lastComment.put("COMMENTID", lastComment.get("IDX").toString());
+			accompanyDAO.addZzim(lastComment);
+		}
 	}
 	
 	public void commentDelete(Map<String, Object> map) throws Exception{

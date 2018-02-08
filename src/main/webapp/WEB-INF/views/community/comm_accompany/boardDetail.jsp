@@ -50,12 +50,38 @@
 									<tr>
 										<td colspan="4">${map.CONTENT }</td>
 									</tr>
-									
+									<c:if test="${email != '' && email ne null && nickname != map.WRITER}">
+										<tr>
+											<td align="center" colspan="4">
+													<a href='javascript:toggleZzimForm("zzimBlock")' class="btn" >찜하기</a>
+											</td>
+										</tr>
+										<tr id="zzimBlock" style="display:none;">
+											<td colspan="4">
+												<form action="" name="addZzimForm"></form>
+													<table width="100%">
+															<tr>
+																<td colspan="2">
+																	 <textarea name="zzim_input" id="zzim_input" rows="5" cols="60" class="comment_input"></textarea>
+							
+																</td>
+																<td class="common_input_btn_text">
+																	<a href="javascript:fn_zzimAdd('${email}', ${map.IDX})" id="cwrite" name="cwrite">찜댓글 남기기</a>
+																	<!--  fn_commentAdd(작성자, 글내용ID값, 글IDX, 부모REF, 부모RE_STEP, 부모RE_LEVEL) -->
+																</td>
+															</tr>
+													</table>
+												</form>
+											</td>
+										</tr>
+									</c:if>
 								</tbody>
 							</table>
 							<br />
 							<a href="#this" class="btn" id="list">목록으로</a>
+							<c:if test="${nickname == map.WRITER}">
 							<a href="#this"	class="btn" id="update">수정하기</a>
+							</c:if>
 							<br /><br /><br /><br />
 						</td>
 						<td width="10%"></td>
@@ -66,19 +92,20 @@
 							<!-- 댓글파트 시작 -->
 							<table width="100%" class="board_view">
 								<tr>
-									<td width="15%" id="cBlockTitle" style="font-size:1.2em;">
+									<td width="25%" id="cBlockTitle" style="font-size:1.2em;">
 										<!-- 숫자 넣어야 해서 스크립트로 여기 넣어줌 -->
 										<!-- 
 										<strong>댓글 ( ${map.TOTAL_COUNT } )</strong>
 										 -->
 									</td>
-									<td width="70%" align="center">
+									<td width="50%" align="center">
 										<div id="COMMENT_NAVI" align="center"></div>
 										<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 										<input type="hidden" id="ARTICLEID" name="ARTICLEID" value="${map.IDX }" />
 									</td>
-									<td width="15%" align="right">
+									<td width="25%" align="right">
 										<c:if test="${email != '' && email ne null}">
+											<a href="javascript:fn_selectZzimCommentList($('#PAGE_INDEX'))" class="btn" >찜글보기</a>
 											<a href="#comment_input" class="btn" >댓글작성</a>
 										</c:if>
 									</td>
@@ -173,7 +200,22 @@
 			             "ARTICLEID="+articleid+"&"+
 			             "REF="+ref+"&"+
 			             "RE_STEP="+re_step+"&"+
-			             "RE_LEVEL="+re_level;
+			             "RE_LEVEL="+re_level+"&"+
+			             "ZZIM=n";
+			console.log(params);
+			new ajax.xhr.Request('commentAdd.go', params, addResult, 'POST', false);
+		}
+		function fn_zzimAdd(writer, articleid){
+			// checkup data start
+			console.log(writer, articleid);
+			// checkup data end
+			var content = $("#zzim_input").val();
+			
+			var params = "WRITER="+encodeURIComponent(writer)+"&"+
+			             "CONTENT="+encodeURIComponent(content)+"&"+
+			             "ARTICLEID="+articleid+"&"+
+			             "REF=-1&RE_STEP=0&RE_LEVEL=0&ZZIM=y";
+			             
 			console.log(params);
 			new ajax.xhr.Request('commentAdd.go', params, addResult, 'POST', false);
 		}
@@ -233,6 +275,16 @@
 			comAjax.addParam("PAGE_ROW", 15);		// PAGE_ROW 하고, 20여줄 밑에 recordCount 하고는 값을 맞춰줘야 한다.
 			comAjax.ajax();
 		}
+		function fn_selectZzimCommentList(pageNo){ //댓글리스트 json 으로 요청
+			var comAjax = new ComAjax();
+			comAjax.setUrl("<c:url value='/comm/accompany/selectCommentList.go' />");
+			comAjax.setCallback("fn_selectCommentListCallback");
+			comAjax.addParam("PAGE_INDEX",$("#PAGE_INDEX").val());
+			comAjax.addParam("ARTICLEID",$("#ARTICLEID").val());
+			comAjax.addParam("PAGE_ROW", 15);		// PAGE_ROW 하고, 20여줄 밑에 recordCount 하고는 값을 맞춰줘야 한다.
+			comAjax.addParam("ZZIMLIST", 'y');
+			comAjax.ajax();
+		}
 		
 		function fn_selectCommentListCallback(data){ // 받은 json 으로 댓글 쇼잉 처리
 			var total = data.TOTAL;
@@ -289,9 +341,8 @@
 					}
 					
 					str +=		"<td colspan='2'";
-					console.log(value.ZZIM);
 					if(value.ZZIM == 'y'){
-						str +=	" style='background-color:red;'";
+						str +=	" style='background-color:#f1f2de;'";
 					}
 					str += ">" +
 									value.CONTENT + "&nbsp;&nbsp;";
@@ -336,9 +387,18 @@
 				
 			}
 
-
 		function toggleReplyForm(cidx) {
 			var commentReplyDiv = document.getElementById(cidx+'commentReply');
+			if(commentReplyDiv.style.display == ''){
+				commentReplyDiv.style.display = 'none';
+			}else{
+				commentReplyDiv.style.display = '';
+				focus
+			}
+		}
+		
+		function toggleZzimForm(id) {
+			var commentReplyDiv = document.getElementById(id);
 			if(commentReplyDiv.style.display == ''){
 				commentReplyDiv.style.display = 'none';
 			}else{

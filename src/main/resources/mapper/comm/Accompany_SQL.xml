@@ -212,6 +212,28 @@
 		]]>
 		<include refid="common.pagingPost"/> 
 	</select>
+	<select id="selectZzimCommentList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.REF DESC, a.RE_STEP ASC) RNUM,
+			    a.IDX,
+				b.NICKNAME AS WRITER,
+				b.EMAIL,
+			    a.CONTENT,
+			    a.ZZIM,
+			    a.REF,
+			    a.RE_LEVEL,
+			    a.RE_STEP,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD HH:mm:SS') AS WRITEDATE,
+			    b.MEMBER_IMG
+			FROM
+			    COMM_ACCOMPANY_COMMENT a, MEMBER b
+			WHERE
+				ARTICLEID = #{ARTICLEID} AND a.WRITER = b.EMAIL AND a.ZZIM = 'y'
+		]]>
+		<include refid="common.pagingPost"/> 
+	</select>
 	
 	
 	
@@ -237,7 +259,8 @@
 			    WRITEDATE,
 			    REF,
 			    RE_STEP,
-			    RE_LEVEL
+			    RE_LEVEL,
+			    ZZIM
 			)
 			VALUES
 			(
@@ -248,7 +271,38 @@
 			    SYSDATE, 
 			    #{REF},
 			    #{RE_STEP},
-			    #{RE_LEVEL}
+			    #{RE_LEVEL},
+			    #{ZZIM}
+			)
+		]]>
+	</insert>
+	<select id="getLatestComment" resultType="hashmap">
+		<![CDATA[
+			SELECT		* 
+			FROM		COMM_ACCOMPANY_COMMENT
+			WHERE		IDX = (	SELECT	MAX(IDX) FROM	COMM_ACCOMPANY_COMMENT)
+			ORDER BY	IDX DESC
+		]]>
+	</select>
+	<insert id="addZzim" parameterType="hashmap">
+		<![CDATA[
+			INSERT INTO COMM_ZZIM
+			(
+				idx,
+				board,
+				articleid,
+				zzim_mem,
+				zzim_date,
+				commentid
+			)
+			VALUES
+			(
+				COMM_ZZIM_IDX_SEQ.NEXTVAL,
+				'accompany',
+				#{ARTICLEID},
+				#{WRITER},
+				sysdate,
+				#{COMMENTID}
 			)
 		]]>
 	</insert>

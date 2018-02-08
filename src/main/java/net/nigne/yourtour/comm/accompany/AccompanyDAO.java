@@ -70,21 +70,18 @@ public class AccompanyDAO extends AbstractDAO{
 		update("accompany.deleteBoard", map);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception{
-		List<Map<String, Object>> result = (List<Map<String, Object>>)selectPagingList("accompany.selectCommentList", map);
+		List<Map<String, Object>> result = null;
+		if(!map.containsKey("ZZIMLIST")) {
+			result = (List<Map<String, Object>>)selectPagingList("accompany.selectCommentList", map);
+		}else if(map.get("ZZIMLIST").toString().equals("y")) {
+			result = (List<Map<String, Object>>)selectPagingList("accompany.selectZzimCommentList", map);
+		}		
 		return result;
 	}
 	
 	
-	// 파일 관련해서는 마지막에 전반적으로 손볼것
-	public void insertFile(Map<String, Object> map) throws Exception{
-		insert("accompany.insertFile", map);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> selectFileList(Map<String, Object> map) throws Exception{
-		return (List<Map<String, Object>>)selectList("accompany.selectFileList", map);
-	}
 
 	
 	public void commentUpdateRE_STEP(Map<String,Object> map) {
@@ -108,5 +105,12 @@ public class AccompanyDAO extends AbstractDAO{
 	}
 	public int zzimCount(Map<String, Object> map) {
 		return (int) selectOne("accompany.zzimCount", map);
+	}
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> getLatestComment(Map<String, Object> map){
+		return (Map<String, Object>) selectOne("accompany.getLatestComment", map);
+	}
+	public void addZzim(Map<String, Object> map) {
+		insert("accompany.addZzim", map);	
 	}
 }
