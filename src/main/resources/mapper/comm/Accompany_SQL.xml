@@ -22,6 +22,49 @@
 		]]>
 		<include refid="common.pagingPost"/> 
 	</select>
+	<select id="searchBoardList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
+			    a.IDX,
+			    b.NICKNAME AS WRITER,
+			    a.SUBJECT,
+			    a.ZZIM_STATE,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
+			    NVL(a.THEME, '테마가 없습니다') AS THEME,
+			    b.MEMBER_IMG
+			FROM
+			    COMM_ACCOMPANY a, MEMBER b
+			WHERE
+					a.DEL_FLAG = 'n'
+				AND	a.WRITER = b.EMAIL
+				AND a.${searchType} LIKE '%'||#{searchKeyword}||'%'
+		]]>
+		<include refid="common.pagingPost"/> 
+	</select>
+	<select id="searchTagBoardList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
+			    a.IDX,
+			    b.NICKNAME AS WRITER,
+			    a.SUBJECT,
+			    a.ZZIM_STATE,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
+			    NVL(a.THEME, '테마가 없습니다') AS THEME,
+			    b.MEMBER_IMG
+			FROM
+			    COMM_ACCOMPANY a, MEMBER b
+			WHERE
+					a.DEL_FLAG = 'n'
+				AND	a.WRITER = b.EMAIL
+				AND a.${searchType} LIKE '%'||#{searchKeyword}||'%'
+		]]>
+		<include refid="common.pagingPost"/> 
+	</select>
+	
 	
 	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
 		<selectKey keyProperty="IDX" resultType="string" order="BEFORE">

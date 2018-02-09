@@ -24,22 +24,26 @@
 							<table width="100%">
 								<tr>
 									<td>
-									내가 쓴 글
+									<a href="javascript:fn_selectBoardList(1)">기본 리스트</a>
+									<c:if test="${email != '' && email ne null}">
+										&nbsp;&nbsp;||&nbsp;&nbsp;
+										<a href="javascript:fn_selectBoardList(1)">내가 쓴 글</a>
+										&nbsp;&nbsp;||&nbsp;&nbsp;
+										<a href="javascript:fn_selectBoardList(1)">내가 찜한 글</a>
+									</c:if>
 									&nbsp;&nbsp;||&nbsp;&nbsp;
-									내가 찜한 글
-									&nbsp;&nbsp;||&nbsp;&nbsp;
-									찜받은 내 글
-									&nbsp;&nbsp;||&nbsp;&nbsp;
-									찜 인기순
+									<a href="javascript:fn_selectBoardList(1)">찜 인기순</a>
 									</td>
 									<td align="right">
-										<select name="searchType">
-											<option>제목</option>
-											<option>내용</option>
-											<option>테마</option>
+										<select name="searchType" id="searchType"
+										onchange="javascript:$('#searchType2').val($('#searchType option:selected').val()).attr('selected', 'selected');">
+											<option value="SUBJECT">제목</option>
+											<option value="CONTENT">내용</option>
+											<option value="TAG">테마</option>
 										</select>
-										<input type="text" name="searchKeyword">
-										<input type="submit" value="검색">
+										<input type="text" id="searchKeyword" name="searchKeyword"
+										onchange="javascript:$('#searchKeyword2').val($('#searchKeyword').val());">
+										<input type="button" value="검색" onclick="javascript:fn_selectBoardList(1)">
 									</td>
 								</tr>
 							</table>
@@ -64,13 +68,15 @@
 		<table width="100%">
 			<tr>
 				<td align="center">
-					<select name="searchType">
-						<option>제목</option>
-						<option>내용</option>
-						<option>테마</option>
+					<select name="searchType2" id="searchType2" 
+					onchange="javascript:$('#searchType').val($('#searchType2 option:selected').val()).attr('selected', 'selected');">					
+						<option value="SUBJECT">제목</option>
+						<option value="CONTENT">내용</option>
+						<option value="TAG">테마</option>
 					</select>
-					<input type="text" name="searchKeyword">
-					<input type="submit" value="검색">
+					<input type="text" name="searchKeyword2" id="searchKeyword2" 
+					onchange="javascript:$('#searchKeyword').val($('#searchKeyword2').val());">
+					<input type="button" value="검색" onclick="javascript:fn_selectBoardList(1)">
 				</td>
 			</tr>
 		</table>
@@ -117,6 +123,10 @@
 			comAjax.addParam("PAGE_INDEX",$("#PAGE_INDEX").val());
 			comAjax.addParam("PAGE_ROW", 10);
 			comAjax.addParam("IDX_FE", $("#IDX_FE").val());
+			if($("#searchKeyword").val()){
+				comAjax.addParam("searchType", $("#searchType").val());
+				comAjax.addParam("searchKeyword", $("#searchKeyword").val());
+			}			
 			comAjax.ajax();
 		}
 		

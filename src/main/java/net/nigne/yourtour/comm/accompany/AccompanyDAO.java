@@ -13,7 +13,24 @@ public class AccompanyDAO extends AbstractDAO{
 
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception{
-		List<Map<String, Object>> result = (List<Map<String, Object>>)selectPagingList("accompany.selectBoardList", map);
+		List<Map<String, Object>> result = null;
+		if(map.containsKey("searchType")) {
+			if(map.get("searchType").toString().equals("TAG")) {
+				String keyword = map.get("searchKeyword").toString();
+				String[] keywords = keyword.split(",");
+				Map<String, Object> tagSource = new HashMap<String, Object>();
+				
+				tagSource.put("COUNT", keywords.length);
+				for(int i=0; i<keywords.length;i++) {
+					tagSource.put("+i+", keywords[i]);
+				}
+				result = (List<Map<String, Object>>)selectPagingList("accompany.searchTagBoardList", tagSource);
+			}else {
+				result = (List<Map<String, Object>>)selectPagingList("accompany.searchBoardList", map);
+			}
+		}else {
+			result = (List<Map<String, Object>>)selectPagingList("accompany.selectBoardList", map);
+		}
 		return result;
 	}
 	
