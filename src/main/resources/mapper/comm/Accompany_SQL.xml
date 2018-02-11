@@ -78,7 +78,8 @@
 			    SUBJECT,
 			    CONTENT,
 			    WRITEDATE,
-			    THEME
+			    THEME,
+			    DDAY
 			)
 			VALUES
 			(
@@ -87,7 +88,8 @@
 				#{SUBJECT},
 				'sample',
 			    SYSDATE, 
-			    #{THEME}
+			    #{THEME},
+			    SYSDATE
 			)
 		]]>
 	</insert>
