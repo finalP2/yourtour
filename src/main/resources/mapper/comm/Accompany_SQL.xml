@@ -52,15 +52,34 @@
 			    b.NICKNAME AS WRITER,
 			    a.SUBJECT,
 			    a.ZZIM_STATE,
-			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
-			    NVL(a.THEME, '테마가 없습니다') AS THEME,
+			    a.WRITEDATE,
+			    a.THEME,
 			    b.MEMBER_IMG
 			FROM
-			    COMM_ACCOMPANY a, MEMBER b
+			    (
+				<foreach collection="tags" item="item" open="'" close="'" separator="INTERSECT">
+		            SELECT 
+		                  c.IDX,
+		                  c.WRITER,
+		                  c.SUBJECT,
+		                  c.ZZIM_STATE,
+		                  TO_CHAR(c.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
+		                  NVL(c.THEME, '테마가 없습니다') AS THEME,
+		                  c.HITCOUNT,
+		                  c.DEL_FLAG,
+		                  c.DDAY
+		            FROM COMM_ACCOMPANY c, COMM_TAGMAP d
+		            WHERE   c.IDX = d.ARTICLEID
+		              AND d.COMMTYPE = 2
+		              AND d.TAG_ID = (SELECT idx
+		                   FROM  COMM_TAGS
+		                   WHERE  TAGNAME=#{item})
+                 </foreach>
+                   
+          ) a, MEMBER b
 			WHERE
 					a.DEL_FLAG = 'n'
-				AND	a.WRITER = b.EMAIL
-				AND a.${searchType} LIKE '%'||#{searchKeyword}||'%'
+         	 AND	a.WRITER = b.EMAIL;
 		]]>
 		<include refid="common.pagingPost"/> 
 	</select>
@@ -136,7 +155,7 @@
 			INSERT INTO COMM_TAGMAP
 				(IDX, COMMTYPE, TAG_ID, ARTICLEID)
 			VALUES
-				(COMM_TAGMAP_IDX_SEQ.nextval, 1, #{TAG_ID}, #{ARTICLEID})
+				(COMM_TAGMAP_IDX_SEQ.nextval, 2, #{TAG_ID}, #{ARTICLEID})
 		]]>
 	</insert>
 	
@@ -144,7 +163,7 @@
 		<![CDATA[
 			UPDATE	COMM_TAGS
 			SET		TAGCOUNT = TAGCOUNT - 1
-			WHERE	TAGNAME = #{TAG} AND COMMTYPE = 1
+			WHERE	TAGNAME = #{TAG} AND COMMTYPE = 2
 		]]>
 	</update>
 	
@@ -153,7 +172,7 @@
 			DELETE FROM	COMM_TAGMAP
 			WHERE		ARTICLEID = #{IDX} 
 					AND TAG_ID = #{TAGID}
-					AND COMMTYPE = 1
+					AND COMMTYPE = 2
 		]]>
 	</update>
 	<update id="updateArticleTag" parameterType="hashmap">

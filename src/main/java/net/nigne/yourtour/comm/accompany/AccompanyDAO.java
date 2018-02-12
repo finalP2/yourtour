@@ -1,5 +1,6 @@
 package net.nigne.yourtour.comm.accompany;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +19,18 @@ public class AccompanyDAO extends AbstractDAO{
 			if(map.get("searchType").toString().equals("TAG")) {
 				String keyword = map.get("searchKeyword").toString();
 				String[] keywords = keyword.split(",");
-				Map<String, Object> tagSource = new HashMap<String, Object>();
+				List<String> tagSource = new ArrayList<String>();
 				
-				tagSource.put("COUNT", keywords.length);
 				for(int i=0; i<keywords.length;i++) {
-					tagSource.put("+i+", keywords[i]);
+					tagSource.add(keywords[i]);
 				}
-				result = (List<Map<String, Object>>)selectPagingList("accompany.searchTagBoardList", tagSource);
+				map.put("tags", tagSource);
+//				System.out.println("tagSource.get(\"COUNT\") : "+tagSource.get("COUNT"));
+//				System.out.println("tagSource.get(\"0\") : "+tagSource.get("0"));
+//				System.out.println("tagSource.get(\"1\") : "+tagSource.get("1"));
+//				System.out.println("tagSource.get(\"2\") : "+tagSource.get("2"));
+				
+				result = (List<Map<String, Object>>)selectPagingList("accompany.searchTagBoardList", map);
 			}else {
 				result = (List<Map<String, Object>>)selectPagingList("accompany.searchBoardList", map);
 			}
