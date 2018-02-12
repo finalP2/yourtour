@@ -86,12 +86,15 @@ traverseFiles(this.files);
                     <input type="radio" name="city_name" value="니스">니스 
                     <input type="radio" name="city_name" value="안시">안시 
                     <input type="radio" name="city_name" value="마르세유">마르세유  -->
-                    <input type="radio" name="city_name" value="베를린">베를린
-                    <input type="radio" name="city_name" value="함부르크">함부르크
-                    <input type="radio" name="city_name" value="뮌헨">뮌헨
-                    <input type="radio" name="city_name" value="뉘렌베르크">뉘렌베르크
+                    <input type="radio" name="city_name" value="자그레브">크로아티아-자그레브
+                    <input type="radio" name="city_name" value="두브로보니크">크로아티아-두브로보니크
+
                     <br/><br/>
-                  
+                    	러시아
+                    	<br/>
+                  	<input type="radio" name="city_name" value="블라디보스토크">블라디보스토크
+                    <input type="radio" name="city_name" value="모스크바">모스크바 
+                    <input type="radio" name="city_name" value="상트페테르부르크">상트페테르부르크 
                     <button type="button" class="btn btn-default btn-lg" onclick="searchMap()">
   			        <span class="glyphicon glyphicon-search" aria-hidden="true">주소검색</span>
 		            </button>
