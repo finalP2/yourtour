@@ -57,7 +57,7 @@
 			    b.MEMBER_IMG
 			FROM
 			    (
-				<foreach collection="tags" item="item" open="'" close="'" separator="INTERSECT">
+				<foreach collection="tags" item="item" open="(" close=")" separator="INTERSECT">
 		            SELECT 
 		                  c.IDX,
 		                  c.WRITER,
@@ -73,7 +73,7 @@
 		              AND d.COMMTYPE = 2
 		              AND d.TAG_ID = (SELECT idx
 		                   FROM  COMM_TAGS
-		                   WHERE  TAGNAME=#{item})
+		                   WHERE  TAGNAME= #{item} )
                  </foreach>
                    
           ) a, MEMBER b

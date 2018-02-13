@@ -26,9 +26,9 @@ public class AccompanyDAO extends AbstractDAO{
 				}
 				map.put("tags", tagSource);
 //				System.out.println("tagSource.get(\"COUNT\") : "+tagSource.get("COUNT"));
-//				System.out.println("tagSource.get(\"0\") : "+tagSource.get("0"));
-//				System.out.println("tagSource.get(\"1\") : "+tagSource.get("1"));
-//				System.out.println("tagSource.get(\"2\") : "+tagSource.get("2"));
+				System.out.println("tagSource.get(\"0\") : "+tagSource.get(0));
+				System.out.println("tagSource.get(\"1\") : "+tagSource.get(1));
+				System.out.println("tagSource.get(\"2\") : "+tagSource.get(2));
 				
 				result = (List<Map<String, Object>>)selectPagingList("accompany.searchTagBoardList", map);
 			}else {
