@@ -44,10 +44,18 @@ public class AccompanyController {
     }
 	
 	@RequestMapping(value="/selectBoardList.go")
-    public ModelAndView selectBoardList(CommandMap commandMap) throws Exception{
+    public ModelAndView selectBoardList(CommandMap commandMap, HttpSession session) throws Exception{
     	ModelAndView mv = new ModelAndView("jsonView");
     	
-    	List<Map<String,Object>> list = accompanyService.selectBoardList(commandMap.getMap());
+    	Map<String, Object> map = commandMap.getMap();
+    	String email = session.getAttribute("session_m_email").toString();
+    	if(map.containsKey("MY_ARTICLE")){
+			map.put("MY_ARTICLE", email);
+    	}
+    	if(map.containsKey("MY_ZZIM")){
+			map.put("MY_ZZIM", email);
+    	}
+    	List<Map<String,Object>> list = accompanyService.selectBoardList(map);
     	mv.addObject("list", list);
     	if(list.size() > 0){
     		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));

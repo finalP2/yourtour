@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Repository;
 
@@ -26,14 +27,18 @@ public class AccompanyDAO extends AbstractDAO{
 				}
 				map.put("tags", tagSource);
 //				System.out.println("tagSource.get(\"COUNT\") : "+tagSource.get("COUNT"));
-				System.out.println("tagSource.get(\"0\") : "+tagSource.get(0));
-				System.out.println("tagSource.get(\"1\") : "+tagSource.get(1));
-				System.out.println("tagSource.get(\"2\") : "+tagSource.get(2));
+				System.out.println("map.get(\"tags\").get(0) : "+((List<String>)map.get("tags")).get(0));
+				System.out.println("map.get(\"tags\").get(1) : "+((List<String>)map.get("tags")).get(1));
+				System.out.println("map.get(\"tags\").get(2) : "+((List<String>)map.get("tags")).get(2));
 				
 				result = (List<Map<String, Object>>)selectPagingList("accompany.searchTagBoardList", map);
 			}else {
 				result = (List<Map<String, Object>>)selectPagingList("accompany.searchBoardList", map);
 			}
+		}else if(map.containsKey("MY_ARTICLE")){
+			result = (List<Map<String, Object>>)selectPagingList("accompany.selectMyArticle", map);
+		}else if(map.containsKey("MY_ZZIM")){
+			result = (List<Map<String, Object>>)selectPagingList("accompany.selectMyZzimList", map);
 		}else {
 			result = (List<Map<String, Object>>)selectPagingList("accompany.selectBoardList", map);
 		}

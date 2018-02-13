@@ -27,9 +27,9 @@
 									<a href="javascript:fn_selectBoardList(1)">기본 리스트</a>
 									<c:if test="${email != '' && email ne null}">
 										&nbsp;&nbsp;||&nbsp;&nbsp;
-										<a href="javascript:fn_selectBoardList(1)">내가 쓴 글</a>
+										<a href="javascript:fn_selectMyArticle(1)">내가 쓴 글</a>
 										&nbsp;&nbsp;||&nbsp;&nbsp;
-										<a href="javascript:fn_selectBoardList(1)">내가 찜한 글</a>
+										<a href="javascript:fn_selectMyZzimList(1)">내가 찜한 글</a>
 									</c:if>
 									&nbsp;&nbsp;||&nbsp;&nbsp;
 									<a href="javascript:fn_selectBoardList(1)">찜 인기순</a>
@@ -127,6 +127,28 @@
 				comAjax.addParam("searchType", $("#searchType").val());
 				comAjax.addParam("searchKeyword", $("#searchKeyword").val());
 			}			
+			comAjax.ajax();
+		}
+		
+		function fn_selectMyArticle(pageNo){
+			var comAjax = new ComAjax();
+			comAjax.setUrl("<c:url value='/comm/accompany/selectBoardList.go' />");
+			comAjax.setCallback("fn_selectBoardListCallback");
+			comAjax.addParam("PAGE_INDEX",$("#PAGE_INDEX").val());
+			comAjax.addParam("PAGE_ROW", 10);
+			comAjax.addParam("IDX_FE", $("#IDX_FE").val());
+			comAjax.addParam("MY_ARTICLE", 1);
+			comAjax.ajax();
+		}
+		
+		function fn_selectMyZzimList(pageNo){
+			var comAjax = new ComAjax();
+			comAjax.setUrl("<c:url value='/comm/accompany/selectBoardList.go' />");
+			comAjax.setCallback("fn_selectBoardListCallback");
+			comAjax.addParam("PAGE_INDEX",$("#PAGE_INDEX").val());
+			comAjax.addParam("PAGE_ROW", 10);
+			comAjax.addParam("IDX_FE", $("#IDX_FE").val());
+			comAjax.addParam("MY_ZZIM", 1);
 			comAjax.ajax();
 		}
 		

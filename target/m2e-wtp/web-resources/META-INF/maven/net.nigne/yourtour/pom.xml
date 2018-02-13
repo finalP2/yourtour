@@ -37,13 +37,13 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-		
+		<!-- 
 		<repository>
 		     <id>oracle</id>
 		     <name>ORACLE JDBC Repository</name>
 		     <url>http://mesir.googlecode.com/svn/trunk/mavenrepo</url>
 		</repository> 
-		
+		 -->
 		<repository>
 			<id>codelds</id>
 			<name>ORACLE JDBC Repository</name>

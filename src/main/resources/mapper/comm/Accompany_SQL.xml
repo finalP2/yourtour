@@ -22,6 +22,44 @@
 		]]>
 		<include refid="common.pagingPost"/> 
 	</select>
+	<select id="selectMyArticle" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
+			    a.IDX,
+			    b.NICKNAME AS WRITER,
+			    a.SUBJECT,
+			    a.ZZIM_STATE,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
+			    NVL(a.THEME, '테마가 없습니다') AS THEME,
+			    b.MEMBER_IMG
+			FROM
+			    COMM_ACCOMPANY a, MEMBER b
+			WHERE
+				a.DEL_FLAG = 'n' AND a.WRITER = b.EMAIL AND a.WRITER = #{MY_ARTICLE}
+		]]>
+		<include refid="common.pagingPost"/> 
+	</select>
+	<select id="selectMyZzimList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
+			    a.IDX,
+			    b.NICKNAME AS WRITER,
+			    a.SUBJECT,
+			    a.ZZIM_STATE,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
+			    NVL(a.THEME, '테마가 없습니다') AS THEME,
+			    b.MEMBER_IMG
+			FROM
+			    COMM_ACCOMPANY a, MEMBER b
+			WHERE
+				a.DEL_FLAG = 'n' AND a.WRITER = b.EMAIL AND a.WRITER = #{MY_ARTICLE}
+		]]>
+		<include refid="common.pagingPost"/> 
+	</select>
 	<select id="searchBoardList" parameterType="hashmap" resultType="hashmap">
 		<include refid="common.pagingPre"/> 
 		<![CDATA[
@@ -73,10 +111,9 @@
 		              AND d.COMMTYPE = 2
 		              AND d.TAG_ID = (SELECT idx
 		                   FROM  COMM_TAGS
-		                   WHERE  TAGNAME= #{item} )
+		                   WHERE  TAGNAME= #{item,jdbcType=VARCHAR} )
                  </foreach>
-                   
-          ) a, MEMBER b
+				 ) a, MEMBER b
 			WHERE
 					a.DEL_FLAG = 'n'
          	 AND	a.WRITER = b.EMAIL;
