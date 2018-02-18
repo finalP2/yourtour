@@ -425,4 +425,37 @@
 			WHERE IDX = #{IDX}
 		]]>
 	</update>
+	
+	
+	
+	<!-- 제대로된 searchTagBoardList 만들기 전까지 쓸 쿼리 -->
+	<select id="selectArticleIdxByTag" resultType="hashmap" parameterType="hashmap">
+		<![CDATA[
+			SELECT	a.ARTICLEID as IDX
+			FROM	COMM_TAGMAP a, COMM_TAGS b
+			WHERE	a.TAG_ID = b.IDX
+				AND	b.COMMTYPE = 2
+				AND	b.TAGNAME = #{TAGNAME}
+		]]>
+	</select>
+	<select id="selectTagBoardList" resultType="hashmap" parameterType="list">
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
+			    a.IDX,
+			    b.NICKNAME AS WRITER,
+			    a.SUBJECT,
+			    a.ZZIM_STATE,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
+			    NVL(a.THEME, '테마가 없습니다') AS THEME,
+			    b.MEMBER_IMG
+			FROM
+			    COMM_ACCOMPANY a, MEMBER b
+			WHERE
+				a.IDX IN
+				<foreach collection="list" item="item" open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+		]]>
+	</select>
 </mapper>

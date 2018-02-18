@@ -48,12 +48,15 @@ public class AccompanyController {
     	ModelAndView mv = new ModelAndView("jsonView");
     	
     	Map<String, Object> map = commandMap.getMap();
-    	String email = session.getAttribute("session_m_email").toString();
-    	if(map.containsKey("MY_ARTICLE")){
-			map.put("MY_ARTICLE", email);
-    	}
-    	if(map.containsKey("MY_ZZIM")){
-			map.put("MY_ZZIM", email);
+    	if(session.getAttribute("session_m_email") != null ) {
+    		String email = session.getAttribute("session_m_email").toString();
+    	
+	    	if(map.containsKey("MY_ARTICLE")){
+				map.put("MY_ARTICLE", email);
+	    	}
+	    	if(map.containsKey("MY_ZZIM")){
+				map.put("MY_ZZIM", email);
+	    	}
     	}
     	List<Map<String,Object>> list = accompanyService.selectBoardList(map);
     	mv.addObject("list", list);
