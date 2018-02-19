@@ -22,6 +22,65 @@
 		]]>
 		<include refid="common.pagingPost"/> 
 	</select>
+	<select id="searchBoardList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
+			    a.IDX,
+			    b.NICKNAME AS WRITER,
+			    a.SUBJECT,
+			    SUBSTR(TRIM(a.CONTENT), 1, 100) AS CONTENT,
+			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
+			    NVL(a.TAG, '태그가 없습니다') AS TAG,
+			    b.MEMBER_IMG
+			FROM
+			    COMM_TRAVELREVIEW a, MEMBER b
+			WHERE
+					a.DEL_FLAG = 'n'
+				AND	a.WRITER = b.EMAIL
+				AND a.${searchType} LIKE '%'||#{searchKeyword}||'%'
+		]]>
+		<include refid="common.pagingPost"/> 
+	</select>
+	<select id="searchTagBoardList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
+			    a.IDX,
+			    b.NICKNAME AS WRITER,
+			    a.SUBJECT,
+			    a.CONTENT,
+			    a.WRITEDATE,
+			    a.TAG,
+			    b.MEMBER_IMG
+			FROM
+				(
+			    <foreach collection="tags" index="index" item="obj" open="(" close=")" separator="INTERSECT">
+			    (				
+		            SELECT 
+						    c.IDX,
+						    c.WRITER,
+						    c.SUBJECT,
+						    SUBSTR(TRIM(c.CONTENT), 1, 100) AS CONTENT,
+						    TO_CHAR(c.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
+						    NVL(c.TAG, '태그가 없습니다') AS TAG,
+						    c.DEL_FLAG
+		            FROM COMM_TRAVELREVIEW c, COMM_TAGMAP d
+		            WHERE   c.IDX = d.ARTICLEID
+		              AND d.COMMTYPE = 1
+		              AND d.TAG_ID = (SELECT idx
+		                   FROM  COMM_TAGS
+		                   WHERE  TAGNAME= #{obj} AND COMMTYPE=1)
+		         )
+                 </foreach>
+				 ) a, MEMBER b
+			WHERE
+					a.DEL_FLAG = 'n'
+         	 AND	a.WRITER = b.EMAIL
+		<include refid="common.pagingPost"/> 
+	</select>
+	
 	
 	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
 		<selectKey keyProperty="IDX" resultType="string" order="BEFORE">
@@ -68,12 +127,12 @@
 		<![CDATA[
 			MERGE INTO  COMM_TAGS
       			USING DUAL
-			ON (TAGNAME = #{0})
+			ON (TAGNAME = #{0} AND COMMTYPE = 1)
 			WHEN MATCHED THEN
 				UPDATE SET
 					TAGCOUNT = TAGCOUNT + 1
 				WHERE
-					TAGNAME = #{0}
+					TAGNAME = #{0} AND COMMTYPE = 1
 			WHEN NOT MATCHED THEN
 				INSERT	(IDX, COMMTYPE, TAGNAME, TAGCOUNT)
 				VALUES	(COMM_TAGS_IDX_SEQ.nextval, 1, #{0}, 1)
@@ -83,7 +142,7 @@
 		<![CDATA[
 			SELECT	IDX
 			FROM	COMM_TAGS
-			WHERE	TAGNAME = #{0}
+			WHERE	TAGNAME = #{0} AND COMMTYPE = 1
 		]]>
 	</select>
 	<insert id="tagmapInput" parameterType="hashmap">

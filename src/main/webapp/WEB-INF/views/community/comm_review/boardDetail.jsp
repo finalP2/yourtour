@@ -55,7 +55,9 @@
 							</table>
 							<br />
 							<a href="#this" class="btn" id="list">목록으로</a>
+							<c:if test="${nickname == map.WRITER}">
 							<a href="#this"	class="btn" id="update">수정하기</a>
+							</c:if>
 							<br /><br /><br /><br />
 						</td>
 						<td width="10%"></td>

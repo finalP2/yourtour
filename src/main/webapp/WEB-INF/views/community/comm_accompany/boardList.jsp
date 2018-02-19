@@ -39,7 +39,7 @@
 										onchange="javascript:$('#searchType2').val($('#searchType option:selected').val()).attr('selected', 'selected');">
 											<option value="SUBJECT">제목</option>
 											<option value="CONTENT">내용</option>
-											<option value="TAG">테마</option>
+											<option value="TAG">태그</option>
 										</select>
 										<input type="text" id="searchKeyword" name="searchKeyword"
 										onchange="javascript:$('#searchKeyword2').val($('#searchKeyword').val());">
@@ -72,7 +72,7 @@
 					onchange="javascript:$('#searchType').val($('#searchType2 option:selected').val()).attr('selected', 'selected');">					
 						<option value="SUBJECT">제목</option>
 						<option value="CONTENT">내용</option>
-						<option value="TAG">테마</option>
+						<option value="TAG">태그</option>
 					</select>
 					<input type="text" name="searchKeyword2" id="searchKeyword2" 
 					onchange="javascript:$('#searchKeyword').val($('#searchKeyword2').val());">

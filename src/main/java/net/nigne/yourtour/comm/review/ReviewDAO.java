@@ -1,5 +1,6 @@
 package net.nigne.yourtour.comm.review;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,26 @@ public class ReviewDAO extends AbstractDAO{
 
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception{
-		List<Map<String, Object>> result = (List<Map<String, Object>>)selectPagingList("review.selectBoardList", map);
+		List<Map<String, Object>> result = null;
+		if(map.containsKey("searchType")) {
+			if(map.get("searchType").toString().equals("TAG")) {
+				String keyword = map.get("searchKeyword").toString();
+				String[] keywords = keyword.split("\\s*,\\s*");
+				List<String> tagSource = new ArrayList<String>();
+
+				//searchTagBoardList 쓰려고 만들었던 코드
+				for(int i=0; i<keywords.length;i++) {
+					tagSource.add(keywords[i]);
+				}
+				map.put("tags", tagSource);
+
+				result = (List<Map<String, Object>>)selectPagingList("review.searchTagBoardList", map);
+			}else {
+				result = (List<Map<String, Object>>)selectPagingList("review.searchBoardList", map);
+			}
+		}else {
+			result = (List<Map<String, Object>>)selectPagingList("review.selectBoardList", map);
+		}
 		return result;
 	}
 	

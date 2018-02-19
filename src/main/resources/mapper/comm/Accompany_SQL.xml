@@ -56,7 +56,7 @@
 			FROM
 			    COMM_ACCOMPANY a, MEMBER b
 			WHERE
-				a.DEL_FLAG = 'n' AND a.WRITER = b.EMAIL AND a.WRITER = #{MY_ARTICLE}
+				a.DEL_FLAG = 'n' AND a.WRITER = b.EMAIL AND a.WRITER = #{MY_ZZIM}
 		]]>
 		<include refid="common.pagingPost"/> 
 	</select>
@@ -83,7 +83,6 @@
 	</select>
 	<select id="searchTagBoardList" parameterType="hashmap" resultType="hashmap">
 		<include refid="common.pagingPre"/> 
-		<![CDATA[
 			SELECT
 				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
 			    a.IDX,
@@ -94,8 +93,9 @@
 			    a.THEME,
 			    b.MEMBER_IMG
 			FROM
-			    (
-				<foreach collection="tags" item="item" open="(" close=")" separator="INTERSECT">
+				(
+			    <foreach collection="tags" index="index" item="obj" open="(" close=")" separator="INTERSECT">
+			    (				
 		            SELECT 
 		                  c.IDX,
 		                  c.WRITER,
@@ -111,13 +111,13 @@
 		              AND d.COMMTYPE = 2
 		              AND d.TAG_ID = (SELECT idx
 		                   FROM  COMM_TAGS
-		                   WHERE  TAGNAME= #{item,jdbcType=VARCHAR} )
+		                   WHERE  TAGNAME= #{obj} AND COMMTYPE=2)
+		         )
                  </foreach>
 				 ) a, MEMBER b
 			WHERE
 					a.DEL_FLAG = 'n'
-         	 AND	a.WRITER = b.EMAIL;
-		]]>
+         	 AND	a.WRITER = b.EMAIL
 		<include refid="common.pagingPost"/> 
 	</select>
 	
@@ -169,22 +169,22 @@
 		<![CDATA[
 			MERGE INTO  COMM_TAGS
       			USING DUAL
-			ON (TAGNAME = #{0})
+			ON (TAGNAME = #{0} AND COMMTYPE = 2)
 			WHEN MATCHED THEN
 				UPDATE SET
 					TAGCOUNT = TAGCOUNT + 1
 				WHERE
-					TAGNAME = #{0}
+					TAGNAME = #{0} AND COMMTYPE = 2
 			WHEN NOT MATCHED THEN
 				INSERT	(IDX, COMMTYPE, TAGNAME, TAGCOUNT)
-				VALUES	(COMM_TAGS_IDX_SEQ.nextval, 1, #{0}, 1)
+				VALUES	(COMM_TAGS_IDX_SEQ.nextval, 2, #{0}, 1)
 		]]>
 	</update>
 	<select id="getTagId" resultType = "integer" parameterType="string">
 		<![CDATA[
 			SELECT	IDX
 			FROM	COMM_TAGS
-			WHERE	TAGNAME = #{0}
+			WHERE	TAGNAME = #{0} AND COMMTYPE = 2
 		]]>
 	</select>
 	<insert id="tagmapInput" parameterType="hashmap">
@@ -425,37 +425,4 @@
 			WHERE IDX = #{IDX}
 		]]>
 	</update>
-	
-	
-	
-	<!-- 제대로된 searchTagBoardList 만들기 전까지 쓸 쿼리 -->
-	<select id="selectArticleIdxByTag" resultType="hashmap" parameterType="hashmap">
-		<![CDATA[
-			SELECT	a.ARTICLEID as IDX
-			FROM	COMM_TAGMAP a, COMM_TAGS b
-			WHERE	a.TAG_ID = b.IDX
-				AND	b.COMMTYPE = 2
-				AND	b.TAGNAME = #{TAGNAME}
-		]]>
-	</select>
-	<select id="selectTagBoardList" resultType="hashmap" parameterType="list">
-		<![CDATA[
-			SELECT
-				ROW_NUMBER() OVER (ORDER BY a.IDX DESC) RNUM,
-			    a.IDX,
-			    b.NICKNAME AS WRITER,
-			    a.SUBJECT,
-			    a.ZZIM_STATE,
-			    TO_CHAR(a.WRITEDATE, 'YYYY.MM.DD') AS WRITEDATE,
-			    NVL(a.THEME, '테마가 없습니다') AS THEME,
-			    b.MEMBER_IMG
-			FROM
-			    COMM_ACCOMPANY a, MEMBER b
-			WHERE
-				a.IDX IN
-				<foreach collection="list" item="item" open="(" close=")" separator=",">
-					#{item}
-				</foreach>
-		]]>
-	</select>
 </mapper>

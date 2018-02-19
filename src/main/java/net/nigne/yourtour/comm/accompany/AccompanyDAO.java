@@ -1,10 +1,9 @@
 package net.nigne.yourtour.comm.accompany;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpSession;
+
 
 import org.springframework.stereotype.Repository;
 
@@ -19,18 +18,15 @@ public class AccompanyDAO extends AbstractDAO{
 		if(map.containsKey("searchType")) {
 			if(map.get("searchType").toString().equals("TAG")) {
 				String keyword = map.get("searchKeyword").toString();
-				String[] keywords = keyword.split(",");
+				String[] keywords = keyword.split("\\s*,\\s*");
 				List<String> tagSource = new ArrayList<String>();
-				
+
+				//searchTagBoardList 쓰려고 만들었던 코드
 				for(int i=0; i<keywords.length;i++) {
 					tagSource.add(keywords[i]);
 				}
 				map.put("tags", tagSource);
-//				System.out.println("tagSource.get(\"COUNT\") : "+tagSource.get("COUNT"));
-				System.out.println("map.get(\"tags\").get(0) : "+((List<String>)map.get("tags")).get(0));
-				System.out.println("map.get(\"tags\").get(1) : "+((List<String>)map.get("tags")).get(1));
-				System.out.println("map.get(\"tags\").get(2) : "+((List<String>)map.get("tags")).get(2));
-				
+
 				result = (List<Map<String, Object>>)selectPagingList("accompany.searchTagBoardList", map);
 			}else {
 				result = (List<Map<String, Object>>)selectPagingList("accompany.searchBoardList", map);
